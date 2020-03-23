@@ -6,7 +6,9 @@
 		"noEmitOnError": true,
 		"esModuleInterop": true,
 		"importHelpers": true,
-		"declaration": false,
+		"emitDeclarationOnly": true,
+		"declaration": true,
+		"declarationDir": "dist/typings",
 		"lib": ["es5", "es6", "dom"]
 	},
 	"target": "ESNext",

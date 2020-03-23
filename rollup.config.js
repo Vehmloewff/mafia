@@ -8,6 +8,7 @@ import svelte from 'rollup-plugin-svelte';
 import livereload from 'rollup-plugin-livereload';
 
 import pkg from './package.json';
+import builtinModules from 'builtin-modules';
 
 const building = process.env.NODE_ENV === 'production';
 const testing = process.env.NODE_ENV === 'test';
@@ -38,12 +39,13 @@ const serverPlugins = [resolve(), ...plugins];
 
 const watch = {};
 
-const build = [
+const build = () => [
 	{
 		input: `src/index.ts`,
 		output: { file: pkg.main, format: 'cjs' },
 		plugins: serverPlugins,
 		watch,
+		external: builtinModules,
 	},
 	{
 		input: `src/client/index.ts`,
@@ -53,13 +55,18 @@ const build = [
 	},
 ];
 
-const dev = build;
-dev[0].plugins = [...dev[0].plugins, run()];
-dev[1].plugins = [...dev[1].plugins, livereload()];
+const dev = () => {
+	const dev = build();
+	dev[0].plugins = [...dev[0].plugins, run()];
+	dev[1].plugins = [...dev[1].plugins, livereload()];
 
-const test = {
+	return dev;
+};
+
+const test = () => ({
 	input: `@tests`,
 	output: { file: pkg.main, format: 'cjs' },
+	external: builtinModules,
 	plugins: [
 		globFiles({
 			key: `@tests`,
@@ -71,6 +78,7 @@ const test = {
 			exitOnFail: !watching,
 		}),
 	],
-};
+	watch,
+});
 
-export default building ? build : testing ? test : dev;
+export default building ? build() : testing ? test() : dev();

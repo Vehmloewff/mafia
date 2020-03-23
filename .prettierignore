@@ -6,6 +6,8 @@ LICENSE
 /dist
 /typings
 
+public/bundle.*
+
 **/*.png
 **/*.ico
 **/*.map

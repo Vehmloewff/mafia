@@ -40,6 +40,7 @@
 		"@rollup/plugin-sucrase": "^3.0.0",
 		"@types/trouter": "^3.1.0",
 		"acorn": "^7.1.1",
+		"builtin-modules": "^3.1.0",
 		"prettier": "^1.19.1",
 		"rollup": "^1.32.0",
 		"rollup-plugin-command": "^1.1.2",
