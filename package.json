@@ -1,0 +1,51 @@
+{
+	"name": "todo",
+	"version": "0.0.0",
+	"description": "TODO: Add description",
+	"keywords": [
+		"todo"
+	],
+	"homepage": "https://github.com/Vehmloewff/todo",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Vehmloewff/todo"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Vehmloewff",
+		"url": "https://github.com/Vehmloewff"
+	},
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"typings": "typings/index.d.ts",
+	"files": [
+		"dist",
+		"typings"
+	],
+	"scripts": {
+		"build": "tsc && rollup --environment=NODE_ENV:production -c",
+		"clean": "rm -rf dist typings",
+		"lint": "prettier --write \"./**\"",
+		"lint:test": "prettier --check \"./**\"",
+		"prepublishOnly": "npm run clean && npm run build",
+		"test": "rollup --environment=NODE_ENV:test -c",
+		"test:bland": "rollup --environment=NODE_ENV:test,BLAND_TESTS -c",
+		"preversion": "npm run test && npm run lint:test && npm run build"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^11.0.2",
+		"@rollup/plugin-node-resolve": "^7.1.1",
+		"@rollup/plugin-sucrase": "^3.0.0",
+		"acorn": "^7.1.1",
+		"prettier": "^1.19.1",
+		"rollup": "^1.32.0",
+		"rollup-plugin-command": "^1.1.2",
+		"rollup-plugin-glob-files": "^2.0.2",
+		"rollup-plugin-svelte": "^5.1.1",
+		"svelte": "^3.20.1",
+		"tslib": "^1.11.1",
+		"typescript": "^3.8.3",
+		"zip-tap": "^1.0.6",
+		"zip-tap-reporter": "^2.0.1"
+	}
+}

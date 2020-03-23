@@ -1,0 +1,88 @@
+import { chooseRandArrItem, getPronoun, makeListString, makeNounPlural } from '../utils';
+
+export interface NarratorOptions {
+	hurt: string[];
+	healed: string[];
+	arrested: string[];
+	characterGenders: Map<string, 'male' | 'female'>;
+	waysHurt: string[];
+	waysHealed: string[];
+	waysHurtAndHealed: string[];
+	reasonsArrested: string[];
+}
+
+interface Roles {
+	hurt: string[];
+	healed: string[];
+	hurtAndHealed: string[];
+	arrested: string[];
+}
+
+export default (options: NarratorOptions) => {
+	// Get all the characters
+	const characters: string[] = Array.from(options.characterGenders.keys()); //[];
+	// [...options.hurt, ...options.healed, ...options.arrested].forEach(character => {
+	// 	if (characters.indexOf(character) === -1) characters.push(character);
+	// });
+
+	// Assign to each character a role
+	const roles: Roles = {
+		hurt: [],
+		healed: [],
+		hurtAndHealed: [],
+		arrested: [],
+	};
+	characters.forEach(character => {
+		let isHurt = false;
+		let isHealed = false;
+		let isHurtAndHealed = false;
+		let isArrested = false;
+
+		if (options.hurt.indexOf(character) !== -1) isHurt = true;
+		if (options.healed.indexOf(character) !== -1) isHealed = true;
+		if (isHurt && isHealed) {
+			isHurtAndHealed = true;
+			isHurt = false;
+			isHealed = false;
+		}
+		if (options.arrested.indexOf(character) !== -1) isArrested = true;
+
+		if (isHurt) roles.hurt.push(character);
+		if (isHealed) roles.healed.push(character);
+		if (isHurtAndHealed) roles.hurtAndHealed.push(character);
+		if (isArrested) roles.arrested.push(character);
+	});
+
+	// Create the sections
+	const map = (instances: string[]) => (character: string) =>
+		chooseRandArrItem(instances)
+			.replace(/\$NAMES/g, makeNounPlural(character))
+			.replace(/\$NAME/g, character)
+			.replace(/\$HE/g, getPronoun(options.characterGenders.get(character), 'he'))
+			.replace(/\$HIM/g, getPronoun(options.characterGenders.get(character), 'him'))
+			.replace(/\$HIS/g, getPronoun(options.characterGenders.get(character), 'his'));
+
+	const hurt = roles.hurt.map(map(options.waysHurt)).join('  ');
+	const healed = roles.healed.map(map(options.waysHealed)).join('  ');
+	const hurtAndHealed = roles.hurtAndHealed.map(map(options.waysHurtAndHealed)).join('  ');
+	const arrested = roles.arrested.map(map(options.reasonsArrested)).join('  ');
+
+	// Generate the story
+	let story = `Last night, `;
+	if (hurt.length) story += `${hurt}  `;
+	if (hurtAndHealed.length) story += `${hurtAndHealed}  `;
+	if (healed.length) {
+		if (hurt.length)
+			story += `\n\nThe reason why there was no doctor around to help ${makeListString(options.hurt)} was because ${healed}  `;
+		else if (hurtAndHealed.length) story += `\n\nMeanwhile, ${healed}`;
+		else story += healed;
+	}
+	if (!hurt.length && options.healed.length >= 2) story += `  Wow, the doctors were really on the ball that night.`;
+	if (arrested.length)
+		story += `\n\nThe next morning, ${arrested}\n\n${makeListString(options.arrested)}, what do you have to say for ${
+			options.arrested.length === 1 ? 'yourself' : 'yourselves'
+		}?`;
+
+	// Return
+	return story;
+};
