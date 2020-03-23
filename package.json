@@ -38,6 +38,7 @@
 		"@rollup/plugin-node-resolve": "^7.1.1",
 		"@rollup/plugin-run": "^1.2.0",
 		"@rollup/plugin-sucrase": "^3.0.0",
+		"@types/trouter": "^3.1.0",
 		"acorn": "^7.1.1",
 		"prettier": "^1.19.1",
 		"rollup": "^1.32.0",
@@ -50,5 +51,8 @@
 		"typescript": "^3.8.3",
 		"zip-tap": "^1.0.6",
 		"zip-tap-reporter": "^2.0.1"
+	},
+	"dependencies": {
+		"polka": "^0.5.2"
 	}
 }

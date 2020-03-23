@@ -6,13 +6,11 @@
 		"noEmitOnError": true,
 		"esModuleInterop": true,
 		"importHelpers": true,
-		"declaration": true,
-		"declarationDir": "typings",
-		"emitDeclarationOnly": true,
+		"declaration": false,
 		"lib": ["es5", "es6", "dom"]
 	},
 	"target": "ESNext",
 	"module": "ES6",
-	"include": ["src"],
+	"include": ["src", "typings"],
 	"exclude": ["node_modules"]
 }
