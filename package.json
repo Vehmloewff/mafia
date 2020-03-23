@@ -24,6 +24,7 @@
 	],
 	"scripts": {
 		"build": "tsc && rollup --environment=NODE_ENV:production -c",
+		"dev": "rollup --environment=NODE_ENV:development -cw",
 		"clean": "rm -rf dist typings",
 		"lint": "prettier --write \"./**\"",
 		"lint:test": "prettier --check \"./**\"",
@@ -35,6 +36,7 @@
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^11.0.2",
 		"@rollup/plugin-node-resolve": "^7.1.1",
+		"@rollup/plugin-run": "^1.2.0",
 		"@rollup/plugin-sucrase": "^3.0.0",
 		"@types/trouter": "^3.1.0",
 		"acorn": "^7.1.1",
@@ -42,6 +44,7 @@
 		"rollup": "^1.32.0",
 		"rollup-plugin-command": "^1.1.2",
 		"rollup-plugin-glob-files": "^2.0.2",
+		"rollup-plugin-livereload": "^1.1.0",
 		"rollup-plugin-svelte": "^5.1.1",
 		"svelte": "^3.20.1",
 		"tslib": "^1.11.1",
