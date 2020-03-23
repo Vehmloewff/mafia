@@ -1,9 +1,11 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
+import run from '@rollup/plugin-run';
 import globFiles from 'rollup-plugin-glob-files';
 import command from 'rollup-plugin-command';
 import svelte from 'rollup-plugin-svelte';
+import livereload from 'rollup-plugin-livereload';
 
 import pkg from './package.json';
 
@@ -13,36 +15,47 @@ const watching = process.env.ROLLUP_WATCH;
 const plainTests = process.env.BLAND_TESTS;
 
 const plugins = [
-	svelte({
-		emitCss: true,
-		css: css => css.write('public/main.css'),
-		dev: !building,
-	}),
-	resolve({
-		browser: !testing,
-		dedupe: ['svelte'],
-	}),
 	commonjs(),
 	sucrase({
 		transforms: ['typescript'],
 	}),
 ];
 
+const clientPlugins = [
+	svelte({
+		emitCss: true,
+		css: css => css.write('public/bundle.css'),
+		dev: !building,
+	}),
+	resolve({
+		browser: !testing,
+		dedupe: ['svelte'],
+	}),
+	...plugins,
+];
+
+const serverPlugins = [resolve(), ...plugins];
+
 const watch = {};
 
-const build = {
-	input: `src/index.ts`,
-	output: { file: pkg.main, format: 'iife' },
-	plugins,
-	watch,
-};
+const build = [
+	{
+		input: `src/index.ts`,
+		output: { file: pkg.main, format: 'cjs' },
+		plugins: serverPlugins,
+		watch,
+	},
+	{
+		input: `src/client/index.ts`,
+		output: { file: `public/bundle.js`, format: 'iife' },
+		plugins: clientPlugins,
+		watch,
+	},
+];
 
-const dev = {
-	input: `src/index.ts`,
-	output: { file: pkg.main, format: 'iife' },
-	plugins,
-	watch,
-};
+const dev = build;
+dev[0].plugins = [...dev[0].plugins, run()];
+dev[1].plugins = [...dev[1].plugins, livereload()];
 
 const test = {
 	input: `@tests`,
