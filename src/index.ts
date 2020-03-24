@@ -30,7 +30,7 @@ app.get('/:file', (req, res) => {
 			}
 		});
 	};
-	result(req.params.file); // Error: this needs to be updated in `typings/polka.d.ts`
+	result((req as any).params.file);
 });
 
 app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
