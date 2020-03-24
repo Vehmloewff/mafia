@@ -19,15 +19,14 @@ interface Roles {
 	arrested: string[];
 }
 
+const hurtLinks = [`There was another sad story that took place that night.  Just five minuites later,`];
 const healedLinks = [`There was also another doctor wasting his time.  You see,`];
+const hurtAndHealedLinks = [`At the exact same time,`];
 const arrestedLinks = [`Another Sheriff was following up another lead.  At half past five,`];
 
 export default (options: NarratorOptions) => {
 	// Get all the characters
-	const characters: string[] = Array.from(options.characterGenders.keys()); //[];
-	// [...options.hurt, ...options.healed, ...options.arrested].forEach(character => {
-	// 	if (characters.indexOf(character) === -1) characters.push(character);
-	// });
+	const characters: string[] = Array.from(options.characterGenders.keys());
 
 	// Assign to each character a role
 	const roles: Roles = {
@@ -68,9 +67,9 @@ export default (options: NarratorOptions) => {
 				.replace(/\$HIS/g, getPronoun(options.characterGenders.get(character), 'his'))
 		);
 
-	const hurt = roles.hurt.map(map(options.waysHurt)).join('  ');
+	const hurt = roles.hurt.map(map(options.waysHurt)).join(`\n\n${chooseRandArrItem(hurtLinks)} `);
 	const healed = roles.healed.map(map(options.waysHealed)).join(`\n\n${chooseRandArrItem(healedLinks)} `);
-	const hurtAndHealed = roles.hurtAndHealed.map(map(options.waysHurtAndHealed)).join('  ');
+	const hurtAndHealed = roles.hurtAndHealed.map(map(options.waysHurtAndHealed)).join(`\n\n${chooseRandArrItem(hurtAndHealedLinks)} `);
 	const arrested = roles.arrested.map(map(options.reasonsArrested)).join(`\n\n${chooseRandArrItem(arrestedLinks)} `);
 
 	// Generate the story

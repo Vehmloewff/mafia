@@ -68,13 +68,15 @@ describe(`narrator`, it => {
 		console.log(
 			`-------\n` +
 				narrator({
-					hurt: [`Jack`, `Grace`],
-					healed: [`Grace`, `Margot`, `Claire`],
+					hurt: [`Jack`, `Joe`, `Grace`, `Bud`],
+					healed: [`Grace`, `Margot`, `Claire`, `Bud`],
 					arrested: [`Justin`, `James`],
 					...defaults,
 					characterGenders: new Map([
 						['Jack', 'male'],
+						['Joe', 'male'],
 						['Grace', 'female'],
+						['Bud', 'male'],
 						['Margot', 'female'],
 						['Claire', 'female'],
 						['Justin', 'male'],

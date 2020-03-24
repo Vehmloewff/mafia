@@ -9,7 +9,7 @@ export const hurtAndHealedLines = [
 ];
 
 export const justHealedLines = [
-	`$NAME was making popcorn.  Just as $NAME was about to finish, $HE accidently burned $HIS little pinky finger.  $HE cried out, 'Doctor! Docter!' and the doc came running at top speed to put a Mickey Mouse bandaid on $NAMES finger.`,
+	`$NAME was making popcorn.  Just as $NAME was about to finish, $HE accidently burned $HIS little pinky finger.  $HE cried out, 'Doctor! Docter!' and the doc came running at top speed to slap a Mickey Mouse bandaid on $NAMES finger.`,
 ];
 
 export const reasonsArrested = [

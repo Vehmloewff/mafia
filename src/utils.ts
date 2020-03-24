@@ -21,6 +21,8 @@ export const makeNounPlural = (noun: string): string => {
 };
 
 export const makeListString = (items: string[]): string => {
+	if (items.length <= 1) return items.join();
+
 	const newItems = Array.from(items);
 	const last = newItems.pop();
 	return `${newItems.join(', ')}${newItems.length < 2 ? '' : ','} and ${last}`;
