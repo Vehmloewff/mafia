@@ -6,6 +6,25 @@ export const chooseRandArrItem = <T>(arr: T[]): T => {
 	return arr[getRandInteger(0, arr.length)];
 };
 
+export const repeat = (n: number, cb: (index: number) => void) => {
+	for (let index = 0; index <= n; index++) {
+		cb(index);
+	}
+};
+
+export const shuffleArray = <T>(arr: T[], n?: number): T[] => {
+	const newArr: T[] = [];
+
+	repeat(n || arr.length, () => {
+		const randomNumber = getRandInteger(0, arr.length - 1);
+		newArr.push(arr[randomNumber]);
+
+		arr.splice(randomNumber, 1);
+	});
+
+	return newArr;
+};
+
 const pronounMap = {
 	he: 'she',
 	him: 'her',
