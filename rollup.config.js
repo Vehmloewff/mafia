@@ -66,7 +66,7 @@ const dev = () => {
 const test = () => ({
 	input: `@tests`,
 	output: { file: pkg.main, format: 'cjs' },
-	external: builtinModules,
+	external: builtinModules.concat('zip-tap'),
 	plugins: [
 		globFiles({
 			key: `@tests`,

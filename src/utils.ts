@@ -21,5 +21,20 @@ export const makeNounPlural = (noun: string): string => {
 };
 
 export const makeListString = (items: string[]): string => {
-	return items.join(', ');
+	const newItems = Array.from(items);
+	const last = newItems.pop();
+	return `${newItems.join(', ')}${newItems.length < 2 ? '' : ','} and ${last}`;
+};
+
+export const capitalizeSentenceLeads = (lines: string): string => {
+	let newSentence = ``;
+
+	const lastChar = () => newSentence.trim()[newSentence.trim().length - 1];
+
+	lines.split('').forEach(char => {
+		if (lastChar() === `.`) newSentence += char.toUpperCase();
+		else newSentence += char;
+	});
+
+	return newSentence;
 };

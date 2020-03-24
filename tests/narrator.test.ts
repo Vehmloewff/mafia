@@ -1,73 +1,84 @@
 import { describe } from 'zip-tap';
 import narrator from '../src/narrator/index';
-import { justHurtLines, justHealedLines, hurtAndHealedLines, reasonsArrested } from '../src/narrator/lines';
+import { justHurtLines, justHealedLines, hurtAndHealedLines, reasonsArrested, openers } from '../src/narrator/lines';
 
 describe(`narrator`, it => {
-	it(`it should generate a nice story`, expect => {
-		console.log(
-			narrator({
-				hurt: [`Bill`],
-				healed: [`Jack`],
-				arrested: [`Jill`],
-				waysHurt: [justHurtLines[0]],
-				waysHealed: [justHealedLines[0]],
-				waysHurtAndHealed: [hurtAndHealedLines[0]],
-				reasonsArrested: [reasonsArrested[0]],
-				characterGenders: new Map([
-					[`Bill`, 'male'],
-					['Jack', 'male'],
-					['Jill', 'female'],
-				]),
-			})
-		);
+	const defaults = {
+		waysHurt: [justHurtLines[0]],
+		waysHealed: [justHealedLines[0]],
+		waysHurtAndHealed: [hurtAndHealedLines[0]],
+		reasonsArrested: [reasonsArrested[0]],
+		openers: [openers[0]],
+	};
+
+	// it(`it should generate a nice story`, expect => {
+	// 	console.log(
+	// 		narrator({
+	// 			hurt: [`Bill`],
+	// 			healed: [`Jack`],
+	// 			arrested: [`Jill`],
+	// 			...defaults,
+	// 			characterGenders: new Map([
+	// 				[`Bill`, 'male'],
+	// 				['Jack', 'male'],
+	// 				['Jill', 'female'],
+	// 			]),
+	// 		})
+	// 	);
+	// 	console.log(
+	// 		`-------\n` +
+	// 			narrator({
+	// 				hurt: [`Bill`],
+	// 				healed: [`Bill`, `Jack`],
+	// 				arrested: [`Jill`],
+	// 				...defaults,
+	// 				characterGenders: new Map([
+	// 					[`Bill`, 'male'],
+	// 					['Jack', 'male'],
+	// 					['Jill', 'female'],
+	// 				]),
+	// 			})
+	// 	);
+	// 	console.log(
+	// 		`-------\n` +
+	// 			narrator({
+	// 				hurt: [],
+	// 				healed: [`Jack`],
+	// 				arrested: [`Jill`],
+	// 				...defaults,
+	// 				characterGenders: new Map([
+	// 					['Jack', 'male'],
+	// 					['Jill', 'female'],
+	// 				]),
+	// 			})
+	// 	);
+	// 	console.log(
+	// 		`-------\n` +
+	// 			narrator({
+	// 				hurt: [],
+	// 				healed: [],
+	// 				arrested: [`Jill`],
+	// 				...defaults,
+	// 				characterGenders: new Map([['Jill', 'female']]),
+	// 			})
+	// 	);
+	// });
+
+	it(`should generate a nice story with many roles`, expect => {
 		console.log(
 			`-------\n` +
 				narrator({
-					hurt: [`Bill`],
-					healed: [`Bill`, `Jack`],
-					arrested: [`Jill`],
-					waysHurt: [justHurtLines[0]],
-					waysHealed: [justHealedLines[0]],
-					waysHurtAndHealed: [hurtAndHealedLines[0]],
-					reasonsArrested: [reasonsArrested[0]],
+					hurt: [`Jack`, `Grace`],
+					healed: [`Grace`, `Margot`, `Claire`],
+					arrested: [`Justin`, `James`],
+					...defaults,
 					characterGenders: new Map([
-						[`Bill`, 'male'],
 						['Jack', 'male'],
-						['Jill', 'female'],
-					]),
-				})
-		);
-		console.log(
-			`-------\n` +
-				narrator({
-					hurt: [],
-					healed: [`Jack`],
-					arrested: [`Jill`],
-					waysHurt: [justHurtLines[0]],
-					waysHealed: [justHealedLines[0]],
-					waysHurtAndHealed: [hurtAndHealedLines[0]],
-					reasonsArrested: [reasonsArrested[0]],
-					characterGenders: new Map([
-						[`Bill`, 'male'],
-						['Jack', 'male'],
-						['Jill', 'female'],
-					]),
-				})
-		);
-		console.log(
-			`-------\n` +
-				narrator({
-					hurt: [],
-					healed: [],
-					arrested: [`Jill`],
-					waysHurt: [justHurtLines[0]],
-					waysHealed: [justHealedLines[0]],
-					waysHurtAndHealed: [hurtAndHealedLines[0]],
-					reasonsArrested: [reasonsArrested[0]],
-					characterGenders: new Map([
-						[`Bill`, 'male'],
-						['Jack', 'male'],
-						['Jill', 'female'],
+						['Grace', 'female'],
+						['Margot', 'female'],
+						['Claire', 'female'],
+						['Justin', 'male'],
+						['James', 'male'],
 					]),
 				})
 		);
