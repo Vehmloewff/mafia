@@ -6,7 +6,7 @@ describe(`Actions`, it => {
 		const options: Options = {
 			onClientAdded: (data: { id: string }) => {
 				expect(data).toMatchObject({ id: 'hello' });
-				return data.id + '-id';
+				return { id: data.id + '-id' };
 			},
 		};
 		const action = messageHandler(options);

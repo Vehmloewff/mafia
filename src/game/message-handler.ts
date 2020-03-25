@@ -1,5 +1,5 @@
 export interface Options {
-	onClientAdded: (data: unknown) => string;
+	onClientAdded: (data: unknown) => { id: string; shouldCallAfter?: boolean };
 	afterClientAdded?: (id: string) => void;
 }
 
@@ -48,10 +48,10 @@ export default function messageHandler(options: Options) {
 
 	// http side
 	function addClient(client: any, data: any) {
-		const id = options.onClientAdded(data);
+		const { id, shouldCallAfter } = options.onClientAdded(data);
 		clients.set(id, client);
 
-		if (options.afterClientAdded) options.afterClientAdded(id);
+		if (options.afterClientAdded && shouldCallAfter) options.afterClientAdded(id);
 	}
 
 	function handleMessage(message: any, client: any) {
