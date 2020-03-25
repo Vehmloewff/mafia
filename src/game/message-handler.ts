@@ -1,5 +1,6 @@
 export interface Options {
 	onClientAdded: (data: unknown) => string;
+	afterClientAdded?: (id: string) => void;
 }
 
 type Registar = (params: unknown, user: string) => void | unknown;
@@ -49,6 +50,8 @@ export default function messageHandler(options: Options) {
 	function addClient(client: any, data: any) {
 		const id = options.onClientAdded(data);
 		clients.set(id, client);
+
+		if (options.afterClientAdded) options.afterClientAdded(id);
 	}
 
 	function handleMessage(message: any, client: any) {
