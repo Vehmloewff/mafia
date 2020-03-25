@@ -51,6 +51,9 @@ As soon as a successfull upgrade is acomplished, the sever will beam down an arr
 
 And anytime a new user is added, the server will beam that down also.
 
+Message Type: `new-users`,
+Message Content: `SafeUser[]`
+
 #### Changing the game settings
 
 Only owners can do this.
