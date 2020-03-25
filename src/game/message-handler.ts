@@ -5,7 +5,9 @@ export interface Options {
 type Registar = (params: unknown, user: string) => void | unknown;
 type ClientMessageListener = (message: any, client: any) => void;
 
-export default function actions(options: Options) {
+export type MessageHandler = ReturnType<typeof messageHandler>;
+
+export default function messageHandler(options: Options) {
 	const clients: Map<string, any> = new Map();
 	const registrations: Map<string, Registar[]> = new Map();
 	const clientMessageListeners: ClientMessageListener[] = [];

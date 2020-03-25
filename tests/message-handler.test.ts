@@ -1,5 +1,5 @@
 import { describe } from 'zip-tap';
-import actions, { Options } from '../src/game/message-handler';
+import messageHandler, { Options } from '../src/game/message-handler';
 
 describe(`Actions`, it => {
 	it(`should register messages`, expect => {
@@ -9,7 +9,7 @@ describe(`Actions`, it => {
 				return data.id + '-id';
 			},
 		};
-		const action = actions(options);
+		const action = messageHandler(options);
 
 		action.client.addClient(`some-client`, { id: 'hello' });
 
