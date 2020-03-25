@@ -1,6 +1,6 @@
 export interface Options {
-	onClientAdded: (data: unknown) => { id: string; shouldCallAfter?: boolean };
-	afterClientAdded?: (id: string) => void;
+	onClientAdded: (data: unknown) => { id: string; shouldCallAfterParams?: boolean };
+	afterClientAdded?: (id: string, params: any) => void;
 }
 
 type Registar = (params: unknown, user: string) => void | unknown;
@@ -48,10 +48,10 @@ export default function messageHandler(options: Options) {
 
 	// http side
 	function addClient(client: any, data: any) {
-		const { id, shouldCallAfter } = options.onClientAdded(data);
+		const { id, shouldCallAfterParams } = options.onClientAdded(data);
 		clients.set(id, client);
 
-		if (options.afterClientAdded && shouldCallAfter) options.afterClientAdded(id);
+		if (options.afterClientAdded) options.afterClientAdded(id, shouldCallAfterParams);
 	}
 
 	function handleMessage(message: any, client: any) {
