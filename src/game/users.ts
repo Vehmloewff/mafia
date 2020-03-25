@@ -13,25 +13,23 @@ export interface User extends StartUser {
 
 type Role = 'mafia' | 'doctor' | 'sheriff' | 'judge' | 'villager';
 
-export default function users(owner: StartUser) {
+export default function users() {
 	const users: Map<string, User> = new Map();
 
-	pushUser(owner, true);
+	let isFirstAddition = true;
 
-	function pushUser(user: StartUser, isOwner: boolean) {
+	function add(user: StartUser) {
 		users.set(user.id, {
 			name: user.name,
 			gender: user.gender,
 			id: user.id,
-			isOwner,
+			isOwner: isFirstAddition,
 			role: null,
 			isDead: false,
 			citizensArrestsLeft: 1,
 		});
-	}
 
-	function add(user: StartUser) {
-		pushUser(user, false);
+		isFirstAddition = false;
 	}
 
 	function get(id: string): User {
