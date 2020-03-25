@@ -4,10 +4,13 @@ export interface StartUser {
 	id: string;
 }
 
-export interface User extends StartUser {
+export interface SafeUser extends StartUser {
+	isDead: boolean;
+}
+
+export interface User extends SafeUser {
 	isOwner: boolean;
 	role: Role;
-	isDead: boolean;
 	citizensArrestsLeft: number;
 }
 
@@ -34,6 +37,17 @@ export default function users() {
 
 	function get(id: string): User {
 		return users.get(id);
+	}
+
+	function getSafe(id: string): SafeUser {
+		const user = get(id);
+
+		return {
+			name: user.name,
+			id: user.id,
+			isDead: user.isDead,
+			gender: user.gender,
+		};
 	}
 
 	function update(id: string, value: User) {
@@ -63,5 +77,5 @@ export default function users() {
 			.map(user => user.id);
 	}
 
-	return { add, get, update, allUsers, aliveUsers, usersOnRole, aliveUsersOnRole };
+	return { add, get, getSafe, update, allUsers, aliveUsers, usersOnRole, aliveUsersOnRole };
 }
