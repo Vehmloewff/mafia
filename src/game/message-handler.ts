@@ -65,7 +65,7 @@ export default function messageHandler(options: Options) {
 
 	function parseMessage(message: any): { key: string; params: any } {
 		try {
-			const data = JSON.parse(message);
+			const data = typeof message === 'string' ? JSON.parse(message) : message;
 
 			if (!data.key || typeof data.key !== 'string' || !data.params) throw ``;
 
