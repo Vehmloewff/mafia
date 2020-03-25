@@ -39,6 +39,12 @@ export default function messageHandler(options: Options) {
 		});
 	}
 
+	function broadcastExclude(key: string, data: unknown, idToExclude: string) {
+		Array.from(clients.keys()).forEach(id => {
+			if (id !== idToExclude) send(key, data, id);
+		});
+	}
+
 	// http side
 	function addClient(client: any, data: any) {
 		const id = options.onClientAdded(data);
@@ -90,6 +96,7 @@ export default function messageHandler(options: Options) {
 		register,
 		send,
 		broadcast,
+		broadcastExclude,
 		client: {
 			addClient,
 			handleMessage,
