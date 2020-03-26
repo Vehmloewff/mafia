@@ -4,7 +4,7 @@ import { Arrest, Settings } from './interfaces';
 import { chooseRandArrItem } from '../utils';
 import createTimer from './timer';
 
-export default function createTrial(messages: MessageHandler, users: Users, arrest: Arrest, settings: Settings) {
+export default function createTrial(messages: MessageHandler, users: Users, arrest: Arrest, settings: Settings, onDone?: () => void) {
 	const unsubscribe: (() => void)[] = [];
 	let allowVoting = false;
 
@@ -108,6 +108,9 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 
 		// Send the result
 		messages.broadcast(`vote-result`, result);
+
+		// Move on
+		if (onDone) onDone();
 	}
 
 	function autoSelect(id: string): string {
