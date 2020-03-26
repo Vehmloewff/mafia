@@ -8,3 +8,10 @@ export interface Settings {
 	roundsPerCitezensArrest: number;
 	snorts: string[];
 }
+
+export interface Arrest {
+	by: string;
+	arresting: string;
+	isCitizensArrest: boolean;
+	isValid: boolean;
+}
