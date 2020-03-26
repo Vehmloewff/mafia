@@ -11,7 +11,7 @@ interface Options {
 	settings: Settings;
 }
 
-export default function selection(users: Users, messages: MessageHandler, options: Options) {
+export default function createSelection(users: Users, messages: MessageHandler, options: Options) {
 	const snorts: string[] = [];
 	const hurt: User[] = [];
 	const healed: User[] = [];
