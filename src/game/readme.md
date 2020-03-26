@@ -121,13 +121,11 @@ When any client sends up a `next` message, the server will beam down either a `t
 
 The server will beam down a `trial`, `{ isCitezensArrest: boolean, user: string, canVote: boolean, accusedBy: string }` message.
 
-When the owner sends up a `start-vote` message, each user must make a selection before the [timer](#timer) is up.
+The owner must send up a `start-vote` message to start the vote.
 
-If they do not, the server will pick for them.
+Once the vote has started, the server will beam down a `started-vote` message, and each user must make a selection before the [timer](#timer) is up. If they do not, the server will pick for them.
 
-If canVote is `false` the client must send up a snort.
-
-Else, send up a `{ guilty: boolean }` message.
+If canVote is `false` the client must send up a snort, otherwise, they must send up a `vote` `"guilty"|"innocent"` message.
 
 If it is a citezens arrest, one of the judges is chosen to vote. Otherwise, everyone can vote.
 
