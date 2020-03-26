@@ -23,33 +23,7 @@ export default function selection(users: Users, messages: MessageHandler, option
 	let didNotSelect = users.aliveUsers();
 
 	messages.register(`selection`, (selection: string, userId) => {
-		const user = users.get(userId);
-
-		if (!user) return console.warn(`Ignoring invalid user ${userId}.`);
-
-		if (user.role === 'judge' || user.role === 'villager') {
-			// Selection should be a snort
-			snorts.push(selection);
-		} else {
-			// Selection should be a user
-			const target = users.get(selection);
-
-			// But we'll throw if it's not
-			if (!target) return messages.send(`error`, { message: `Selection is not a user.`, code: `NOT_USER` }, userId);
-
-			// Throw if a mafia is selecting a mafia
-			if (user.role === 'mafia' && target.role === 'mafia')
-				return messages.send(`error`, { message: `A mafia can't select a mafia`, code: `MAFIA_CIVIL_WAR` }, userId);
-
-			// Remember the selection
-			if (user.role === 'mafia') hurt.push(target);
-			else if (user.role === 'doctor') healed.push(target);
-			else if (user.role === 'sheriff') arrested.push(target);
-		}
-
-		// Remove userId from didNotSelect array
-		const index = didNotSelect.indexOf(userId);
-		didNotSelect = didNotSelect.splice(index, 1);
+		writeSelection(userId, selection);
 	});
 
 	function onTimerDone() {
