@@ -14,7 +14,7 @@ export interface User extends SafeUser {
 	citizensArrestsLeft: number;
 }
 
-type Role = 'mafia' | 'doctor' | 'sheriff' | 'judge' | 'villager';
+export type Role = 'mafia' | 'doctor' | 'sheriff' | 'judge' | 'villager';
 
 export default function users() {
 	const users: Map<string, User> = new Map();
