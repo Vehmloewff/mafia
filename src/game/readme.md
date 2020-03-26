@@ -74,6 +74,11 @@ The server will beam down each players role.
 Message Type: `role`,
 Content: `"mafia"|"doctor"|...`
 
+The server will also send down the settings:
+
+Type: `settings`
+Content: `Settings`
+
 The owner can them send up a message to start the first round:
 
 Type: `start-next-round`
