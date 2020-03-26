@@ -16,6 +16,8 @@ export interface User extends SafeUser {
 
 export type Role = 'mafia' | 'doctor' | 'sheriff' | 'judge' | 'villager';
 
+export type Users = ReturnType<typeof users>;
+
 export default function users() {
 	const users: Map<string, User> = new Map();
 
