@@ -101,7 +101,7 @@ export default function selection(users: Users, messages: MessageHandler, option
 
 		// Remove userId from didNotSelect array
 		const index = didNotSelect.indexOf(userId);
-		didNotSelect = didNotSelect.splice(index, 1);
+		didNotSelect.splice(index, 1);
 	}
 
 	function autoSelect(user: User): string {
