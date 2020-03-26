@@ -8,7 +8,6 @@ import { chooseRandArrItem } from '../utils';
 
 interface Options {
 	onAllSelectionsDone?: () => void;
-	owner: string;
 	settings: Settings;
 }
 
@@ -18,7 +17,7 @@ export default function selection(users: Users, messages: MessageHandler, option
 	const healed: User[] = [];
 	const arrested: User[] = [];
 
-	createTimer(messages, 10, options.owner, () => onTimerDone());
+	createTimer(messages, users, 10, () => onTimerDone());
 
 	let didNotSelect = users.aliveUsers();
 

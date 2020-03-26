@@ -1,12 +1,14 @@
 import { MessageHandler } from './message-handler';
+import { Users } from './users';
 
-export default function createTimer(messages: MessageHandler, time: number, owner: string, onDone: () => void) {
+export default function createTimer(messages: MessageHandler, users: Users, time: number, onDone: () => void) {
 	let timeLeft = time;
 	let isPaused = false;
 
 	const unsubscribe = messages.register(`timer`, (action: string, userId) => {
 		// Throw if the user is not the owner
-		if (userId !== owner) return messages.send(`error`, { message: `Only owners can control the timer.`, code: `NOT_OWNER` }, userId);
+		if (!users.get(userId).isOwner)
+			return messages.send(`error`, { message: `Only owners can control the timer.`, code: `NOT_OWNER` }, userId);
 
 		// Perform the action
 		if (action === 'pause') isPaused = true;
