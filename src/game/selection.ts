@@ -7,7 +7,7 @@ import { Settings } from './interfaces';
 import { chooseRandArrItem } from '../utils';
 
 interface Options {
-	onAllSelectionsDone?: () => void;
+	onAllSelectionsDone?: (arrested: string[]) => void;
 	settings: Settings;
 }
 
@@ -73,7 +73,7 @@ export default function createSelection(users: Users, messages: MessageHandler, 
 		unsubscribe();
 
 		// Let others know that this is done
-		if (options.onAllSelectionsDone) options.onAllSelectionsDone();
+		if (options.onAllSelectionsDone) options.onAllSelectionsDone(arrested.map(user => user.id));
 	}
 
 	function writeSelection(userId: string, selection: string, sendErrors: boolean = true) {
