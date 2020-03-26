@@ -17,6 +17,17 @@ export default function messageHandler(options: Options) {
 		const old = registrations.get(key) || [];
 		old.push(registar);
 		registrations.set(key, old);
+
+		return () => {
+			const old = registrations.get(key);
+			const index = old.indexOf(registar);
+
+			if (index === -1) throw new Error(`It looks the the indexes got mixed up somehow`);
+
+			old.splice(index, 1);
+
+			registrations.set(key, old);
+		};
 	}
 
 	function send(key: string, data: unknown, clientId: string) {

@@ -22,7 +22,7 @@ export default function selection(users: Users, messages: MessageHandler, option
 
 	let didNotSelect = users.aliveUsers();
 
-	messages.register(`selection`, (selection: string, userId) => {
+	const unsubscribe = messages.register(`selection`, (selection: string, userId) => {
 		writeSelection(userId, selection);
 	});
 
@@ -69,6 +69,9 @@ export default function selection(users: Users, messages: MessageHandler, option
 
 		// Broadcast the narrative
 		messages.broadcast(`narrative`, { story, eliminated, snorts });
+
+		// Remove the current listeners
+		unsubscribe();
 
 		// Let others know that this is done
 		if (options.onAllSelectionsDone) options.onAllSelectionsDone();
