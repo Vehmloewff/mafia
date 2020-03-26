@@ -15,7 +15,7 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 		: [chooseRandArrItem(users.usersOnRole('judge'))]; // But if the arrested is a judge, he is allowed to vote, after all he is not the mafia
 
 	// Keep track of who has not voted
-	const didNotVote = canVote;
+	const didNotVote = Array.from(canVote);
 
 	// And what they voted for
 	const innocent: string[] = [];
