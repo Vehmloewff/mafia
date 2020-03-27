@@ -6,6 +6,25 @@ export const chooseRandArrItem = <T>(arr: T[]): T => {
 	return arr[getRandInteger(0, arr.length)];
 };
 
+export const repeat = (n: number, cb: (index: number) => void) => {
+	for (let index = 0; index < n; index++) {
+		cb(index);
+	}
+};
+
+export const shuffleArray = <T>(arr: T[], n?: number): T[] => {
+	const newArr: T[] = [];
+
+	repeat(n || arr.length, () => {
+		const randomNumber = getRandInteger(0, arr.length - 1);
+		newArr.push(arr[randomNumber]);
+
+		arr.splice(randomNumber, 1);
+	});
+
+	return newArr;
+};
+
 const pronounMap = {
 	he: 'she',
 	him: 'her',
@@ -40,3 +59,14 @@ export const capitalizeSentenceLeads = (lines: string): string => {
 
 	return newSentence;
 };
+
+const nums = `1234567890`.split('');
+
+export function random6Digits() {
+	const getChar = () => nums[Math.floor(Math.random() * nums.length)];
+
+	let chars = ``;
+	repeat(6, () => (chars += getChar()));
+
+	return chars;
+}
