@@ -7,7 +7,7 @@ export const chooseRandArrItem = <T>(arr: T[]): T => {
 };
 
 export const repeat = (n: number, cb: (index: number) => void) => {
-	for (let index = 0; index <= n; index++) {
+	for (let index = 0; index < n; index++) {
 		cb(index);
 	}
 };
@@ -59,3 +59,14 @@ export const capitalizeSentenceLeads = (lines: string): string => {
 
 	return newSentence;
 };
+
+const nums = `1234567890`.split('');
+
+export function random6Digits() {
+	const getChar = () => nums[Math.floor(Math.random() * nums.length)];
+
+	let chars = ``;
+	repeat(6, () => (chars += getChar()));
+
+	return chars;
+}
