@@ -49,20 +49,20 @@ export default function createGame(onGameOver: () => void) {
 	}
 
 	function onClientAdded(data: StartUser) {
-		let isNew = false;
+		let isNew = true;
 
 		if (!gameDidStart) {
 			// Check if this user already exists
 			if (users.get(data.id)) {
-				// This user exists.  Do not call the afterClientAdded method
-				isNew = true;
+				// This user exists.
+				isNew = false;
 			} else {
 				// User does not exist.  Add user and proceed as normal
 				users.add(data);
 			}
 		}
 
-		return { id: data.id, shouldCallAfterParams: isNew };
+		return { id: data.id, shouldCallAfterParams: isNew }; // Tell afterClientAdded if the user is new or old
 	}
 
 	// Handle settings changes
