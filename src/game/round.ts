@@ -6,8 +6,8 @@ import { repeat } from '../utils';
 import createTrial from './trial';
 
 export interface Hooks {
-	onGameOver: () => {};
-	onRoundOver: () => {};
+	onGameOver: () => void;
+	onRoundOver: () => void;
 	getCitizensArrests: () => Arrest[];
 	onCitizensArrestChosen: (index: number) => void;
 }
@@ -54,6 +54,7 @@ export default function createRound(messages: MessageHandler, users: Users, sett
 		else {
 			unsubscribe();
 			messages.broadcast(`round-over`, null);
+			hooks.onRoundOver();
 		}
 	}
 
