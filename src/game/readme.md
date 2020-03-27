@@ -119,7 +119,7 @@ When any client sends up a `next` message, the server will beam down either a `t
 
 ##### Trials
 
-The server will beam down a `trial`, `{ isCitezensArrest: boolean, user: string, canVote: boolean, accusedBy: string }` message.
+The server will beam down a `trial`, `{ isCitizensArrest: boolean, user: string, canVote: boolean, accusedBy: string }` message.
 
 The owner must send up a `start-vote` message to start the vote.
 
@@ -127,7 +127,7 @@ Once the vote has started, the server will beam down a `started-vote` message, a
 
 If canVote is `false` the client must send up a snort, otherwise, they must send up a `vote` `"guilty"|"innocent"` message.
 
-If it is a citezens arrest, one of the judges is chosen to vote. Otherwise, everyone can vote.
+If it is a citizens arrest, one of the judges is chosen to vote. Otherwise, everyone can vote.
 
 Once everyone has voted, the sever will send down a `vote-result`, `{ guilty: boolean, inocent: string[], guilty: string[], snorts: string[], role?: string }` message. The `innocent` and `guilty` fields are the userId's of the people who voted each way. If only a judge voted, the id will be `JUDGE`.
 

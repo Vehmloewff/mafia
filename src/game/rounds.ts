@@ -75,7 +75,7 @@ export default function createRounds(messages: MessageHandler, users: Users, set
 		playingRound = false;
 
 		// Add more citizens arrests if the round number is right
-		if (roundNumber % settings.roundsPerCitezensArrest === 0) {
+		if (roundNumber % settings.roundsPerCitizensArrest === 0) {
 			users
 				.aliveUsers()
 				.map(id => users.get(id))

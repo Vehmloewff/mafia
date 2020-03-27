@@ -20,7 +20,7 @@ export default function createGame(onGameOver: () => void) {
 		numberVillagers: 1,
 		incorperateJudges: true,
 		maxArrestsPerRound: 3,
-		roundsPerCitezensArrest: 3,
+		roundsPerCitizensArrest: 3,
 		snorts: Object.keys(defaultSnorts),
 	};
 

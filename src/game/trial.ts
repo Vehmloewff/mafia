@@ -24,7 +24,7 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 
 	// Tell everyone that we are about to vote
 	users.aliveUsers().forEach(id => {
-		messages.send(`trial`, { isCitezensArrest: arrest.isCitizensArrest, user: arrest.by, canVote: canVote.indexOf(id) !== -1 }, id);
+		messages.send(`trial`, { isCitizensArrest: arrest.isCitizensArrest, user: arrest.by, canVote: canVote.indexOf(id) !== -1 }, id);
 	});
 
 	// Listen for the start-vote message

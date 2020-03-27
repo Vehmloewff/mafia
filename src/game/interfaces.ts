@@ -5,7 +5,7 @@ export interface Settings {
 	numberVillagers: number;
 	incorperateJudges: boolean;
 	maxArrestsPerRound: number;
-	roundsPerCitezensArrest: number;
+	roundsPerCitizensArrest: number;
 	snorts: string[];
 }
 
