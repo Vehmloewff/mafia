@@ -37,7 +37,9 @@ const clientPlugins = [
 
 const serverPlugins = [resolve(), ...plugins];
 
-const watch = {};
+const watch = {
+	clearScreen: false,
+};
 
 const build = () => [
 	{
