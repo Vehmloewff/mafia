@@ -1,7 +1,7 @@
 import { Users, User } from './users';
 import { MessageHandler } from './message-handler';
 import createTimer from './timer';
-import narrator from '../narrator';
+import narrator from '../narrator/index';
 import { justHurtLines, justHealedLines, hurtAndHealedLines, reasonsArrested, openers } from '../narrator/lines';
 import { Settings } from './interfaces';
 import { chooseRandArrItem } from '../utils';
