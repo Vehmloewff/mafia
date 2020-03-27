@@ -11,7 +11,7 @@ export default function createRounds(messages: MessageHandler, users: Users, set
 	let playingRound = false;
 	let roundNumber = 0;
 
-	const citizensArrests: Arrest[] = [];
+	let citizensArrests: Arrest[] = [];
 
 	messages.register(`start-next-round`, (_, id) => {
 		const user = users.get(id);
@@ -34,8 +34,32 @@ export default function createRounds(messages: MessageHandler, users: Users, set
 			onCitizensArrestChosen: index => (citizensArrests[index].isValid = false),
 			onGameOver: () => onGameOver(),
 			onRoundOver: () => onRoundOver(),
-			getCitizensArrests: () => citizensArrests,
+			getCitizensArrests: () => {
+				makeSureAllArrestsAreValid();
+
+				return citizensArrests;
+			},
 		});
+	});
+
+	messages.register(`citizens-arrest`, (user: string, id) => {
+		const arresting = users.get(user);
+		const by = users.get(id);
+
+		// Make sure that the arrested is alive and well
+		if (!arresting?.isDead)
+			return messages.send(`error`, { message: `The arrested must be alive and well`, code: `ARREST_INVALID` }, id);
+
+		// Make sure that the user has some citizens arrests left
+		if (by?.citizensArrestsLeft <= 0)
+			return messages.send(`error`, { message: `You don't have any citizens arrests left`, code: `INVALID` }, id);
+
+		// Create the arrest
+		citizensArrests.push({ arresting: user, by: id, isCitizensArrest: true, isValid: true });
+
+		// Mark down the users arrestsLeft
+		by.citizensArrestsLeft--;
+		messages.send(`citizens-arrests-left`, by.citizensArrestsLeft, id);
 	});
 
 	function onGameOver() {
@@ -49,5 +73,28 @@ export default function createRounds(messages: MessageHandler, users: Users, set
 
 	function onRoundOver() {
 		playingRound = false;
+
+		// Add more citizens arrests if the round number is right
+		if (roundNumber % settings.roundsPerCitezensArrest === 0) {
+			users
+				.aliveUsers()
+				.map(id => users.get(id))
+				.forEach(user => {
+					// Add another arrest
+					user.citizensArrestsLeft++;
+					users.update(user.id, user);
+
+					// Tell the client that they have more arrests
+					messages.send(`citizens-arrests-left`, user.citizensArrestsLeft, user.id);
+				});
+		}
+	}
+
+	function makeSureAllArrestsAreValid() {
+		citizensArrests = citizensArrests.map(arrest => {
+			if (users.get(arrest.arresting).isDead || users.get(arrest.by).isDead) arrest.isValid = false;
+
+			return arrest;
+		});
 	}
 }
