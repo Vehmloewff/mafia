@@ -1,7 +1,15 @@
 import polka from 'polka';
 import fs from 'fs';
-const app = polka();
+import createGame from './api/create-game';
+import createGameStore from './game-store';
+import joinGame from './api/join-game';
+import { createServer } from 'http';
+
+const server = createServer();
+const app = polka({ server });
 const PORT = process.env.PORT || 3000;
+const games = createGameStore();
+
 let filesNames: string[] = [];
 
 fs.readdir(__dirname + '/../public', (err, files) => {
@@ -32,5 +40,8 @@ app.get('/:file', (req, res) => {
 	};
 	result((req as any).params.file);
 });
+
+createGame(games, app);
+joinGame(games, server);
 
 app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
