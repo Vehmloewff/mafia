@@ -58,5 +58,5 @@ declare module 'polka' {
 		listen: Server['listen'];
 	}
 
-	export default function <T = IncomingMessage>(options?: IOptions<T>): Polka<T>;
+	export default function<T = IncomingMessage>(options?: IOptions<T>): Polka<T>;
 }

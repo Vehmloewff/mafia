@@ -3,3 +3,14 @@ html {
 	margin: 0;
 	padding: 0;
 }
+
+:root {
+	--background: #272c34;
+	--midground: #21252b;
+	--foreground: #d6d9df;
+	--foreground-secondary: #9da5b4;
+	--highlight: #333842;
+	--highlight-less: #2e323c;
+	--highlight-more: #3a3f4b;
+	--sharp: #181a1f;
+}

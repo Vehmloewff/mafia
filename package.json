@@ -34,6 +34,7 @@
 		"preversion": "npm run test && npm run lint:test && npm run build"
 	},
 	"devDependencies": {
+		"@pyoner/svelte-types": "^3.4.4-2",
 		"@rollup/plugin-commonjs": "^11.0.2",
 		"@rollup/plugin-json": "^4.0.2",
 		"@rollup/plugin-node-resolve": "^7.1.1",
@@ -44,6 +45,7 @@
 		"@types/ws": "^7.2.3",
 		"acorn": "^7.1.1",
 		"builtin-modules": "^3.1.0",
+		"eventemitter3": "^4.0.0",
 		"prettier": "^1.19.1",
 		"rollup": "^1.32.0",
 		"rollup-plugin-command": "^1.1.2",
@@ -57,11 +59,15 @@
 		"zip-tap-reporter": "^2.0.1"
 	},
 	"dependencies": {
+		"abstract-state-router": "^6.1.0",
 		"bufferutil": "^4.0.1",
+		"hash-brown-router": "^3.4.1",
 		"mime-types": "^2.1.26",
 		"path-parser": "^6.1.0",
 		"polka": "^0.5.2",
 		"query-string": "^6.11.1",
+		"sausage-router": "^1.1.2",
+		"svelte-state-renderer": "^3.0.1",
 		"utf-8-validate": "^5.0.2",
 		"ws": "^7.2.3"
 	}

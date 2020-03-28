@@ -16,8 +16,15 @@ function sendFile(res: Response, file: string) {
 	fs.readFile(nodePath.resolve(`public`, file), 'utf-8', (err, data) => {
 		if (err) {
 			if (err.code === 'ENOENT') {
-				res.statusCode = 404;
-				res.end(`404 - File not found`);
+				// The static file was not found.
+				if (/index\.html/.test(file)) {
+					// This is index.html.  Throw 404
+					res.statusCode = 404;
+					res.end(`404 - file not found`);
+				} else {
+					// This is not the index.html, so that is what we will send
+					sendFile(res, `index.html`);
+				}
 			} else {
 				res.statusCode = 500;
 				res.end('Internal Server Error');

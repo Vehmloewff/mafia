@@ -25,10 +25,15 @@ const plugins = [
 ];
 
 const clientPlugins = [
+	globFiles({
+		key: `@routes`,
+		include: `./src/client/routes/**/*.svelte`,
+		importStar: true,
+	}),
 	svelte({
 		emitCss: true,
 		css: css => css.write('public/bundle.css'),
-		dev: !building,
+		dev: false,
 	}),
 	resolve({
 		browser: !testing,
