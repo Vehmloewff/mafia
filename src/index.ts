@@ -5,22 +5,12 @@ import createGameStore from './game-store';
 import joinGame from './api/join-game';
 import { createServer } from 'http';
 import nodePath from 'path';
+import { contentType } from 'mime-types';
 
 const server = createServer();
 const app = polka({ server });
 const PORT = process.env.PORT || 3000;
 const games = createGameStore();
-
-let filesNames: string[] = [];
-
-fs.readdir(__dirname + '/../public', (err, files) => {
-	if (err) console.log(err.message);
-	else {
-		files.forEach(file => {
-			filesNames.push(file);
-		});
-	}
-});
 
 function sendFile(res: Response, file: string) {
 	fs.readFile(nodePath.resolve(`public`, file), 'utf-8', (err, data) => {
@@ -34,6 +24,7 @@ function sendFile(res: Response, file: string) {
 				console.error(new Date().getDate(), err);
 			}
 		} else {
+			res.setHeader('content-type', contentType(file) || `text/plain`);
 			res.statusCode = 200;
 			res.end(data);
 		}

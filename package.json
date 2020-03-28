@@ -35,9 +35,11 @@
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^11.0.2",
+		"@rollup/plugin-json": "^4.0.2",
 		"@rollup/plugin-node-resolve": "^7.1.1",
 		"@rollup/plugin-run": "^1.2.0",
 		"@rollup/plugin-sucrase": "^3.0.0",
+		"@types/mime-types": "^2.1.0",
 		"@types/trouter": "^3.1.0",
 		"@types/ws": "^7.2.3",
 		"acorn": "^7.1.1",
@@ -56,6 +58,7 @@
 	},
 	"dependencies": {
 		"bufferutil": "^4.0.1",
+		"mime-types": "^2.1.26",
 		"path-parser": "^6.1.0",
 		"polka": "^0.5.2",
 		"query-string": "^6.11.1",

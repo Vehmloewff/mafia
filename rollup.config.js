@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
 import run from '@rollup/plugin-run';
+import json from '@rollup/plugin-json';
 import globFiles from 'rollup-plugin-glob-files';
 import command from 'rollup-plugin-command';
 import svelte from 'rollup-plugin-svelte';
@@ -16,6 +17,7 @@ const watching = process.env.ROLLUP_WATCH;
 const plainTests = process.env.BLAND_TESTS;
 
 const plugins = [
+	json(),
 	commonjs(),
 	sucrase({
 		transforms: ['typescript'],
