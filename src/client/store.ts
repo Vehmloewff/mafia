@@ -3,6 +3,9 @@ import { SafeUser, StartUser, User } from '../game/users';
 import { Settings } from '../game/interfaces';
 import defaultSnorts from '../game/default-snorts';
 
+export const stateRouter = writable(null);
+export const router = writable(null);
+
 export const users = writable<SafeUser[]>([]);
 export const settings = writable<Settings>({
 	revealAllies: true,

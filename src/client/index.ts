@@ -4,17 +4,19 @@ import createRenderer from 'svelte-state-renderer';
 import createStateRouter from 'abstract-state-router';
 import NotFound from './components/not-found.svelte';
 import ErrorComponent from './components/error.svelte';
+import { stateRouter as stateRouterStore, router as routerStore } from './store';
 
 // @ts-ignore
 import sausage from 'sausage-router';
 // @ts-ignore
 import makeRouter from 'hash-brown-router';
 
+const router = sausage();
 // @ts-ignore
 const renderer = createRenderer();
 const stateRouter = createStateRouter(renderer, document.body, {
 	pathPrefix: '',
-	router: makeRouter(sausage()),
+	router: makeRouter(router),
 });
 
 // Errors
@@ -24,7 +26,7 @@ stateRouter.on('stateChangeError', err => {
 		props: { error: err },
 	});
 
-	stateRouter.once('stateChangeStart', () => err.$destroy());
+	stateRouter.once('stateChangeStart', () => error.$destroy());
 });
 stateRouter.on('routeNotFound', (route, paramaters) => {
 	const notFound = new NotFound({
@@ -54,6 +56,10 @@ stateRouter.on('routeNotFound', (route, paramaters) => {
 			defaultParameters: route.defaultParameters,
 		});
 	});
+
+// Store the router
+stateRouterStore.set(stateRouter);
+routerStore.set(router);
 
 // Evaluate the current route
 stateRouter.evaluateCurrentRoute(`app`);

@@ -2,15 +2,42 @@ body,
 html {
 	margin: 0;
 	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 :root {
 	--background: #272c34;
 	--midground: #21252b;
 	--foreground: #d6d9df;
-	--foreground-secondary: #9da5b4;
+	--foreground-less: #9da5b4;
 	--highlight: #333842;
 	--highlight-less: #2e323c;
 	--highlight-more: #3a3f4b;
 	--sharp: #181a1f;
+	--action: #4d78cc;
+	--action-less: #4469b4;
+	font-size: 16px;
+}
+
+.text-less {
+	color: var(--foreground-less);
+}
+.text-more {
+	color: var(--foreground);
+}
+.container {
+	padding-right: 16px;
+	padding-left: 16px;
+}
+.center {
+	text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 100;
 }

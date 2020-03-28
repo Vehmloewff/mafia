@@ -7,6 +7,7 @@ import globFiles from 'rollup-plugin-glob-files';
 import command from 'rollup-plugin-command';
 import svelte from 'rollup-plugin-svelte';
 import livereload from 'rollup-plugin-livereload';
+import svg from 'rollup-plugin-svg';
 
 import pkg from './package.json';
 import builtinModules from 'builtin-modules';
@@ -31,10 +32,11 @@ const clientPlugins = [
 		importStar: true,
 	}),
 	svelte({
-		emitCss: true,
+		emitCss: false,
 		css: css => css.write('public/bundle.css'),
 		dev: false,
 	}),
+	svg(),
 	resolve({
 		browser: !testing,
 		dedupe: ['svelte'],
