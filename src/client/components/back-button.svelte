@@ -16,7 +16,7 @@
 	}
 </style>
 
-<Button {state}>
+<Button {state} noBackground={true}>
 	<Icon icon={backIcon} color="action" />
 	{#if label}
 		<div class="label">{label}</div>
