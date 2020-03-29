@@ -5,6 +5,7 @@
 	export let state;
 	export let params;
 	export let simple = true;
+	export let noBackground = false;
 
 	$: url = !state ? null : $stateRouter.makePath(state, params);
 	const dispatch = createEventDispatcher();
@@ -46,16 +47,24 @@
 	button.simple:active {
 		background: var(--highlight-more);
 	}
+
+	button.noBackground {
+		background: rgba(0, 0, 0, 0);
+	}
+	button.noBackground:hover {
+		color: var(--action-less);
+		background: rgba(0, 0, 0, 0);
+	}
 </style>
 
 {#if state}
 	<a href={url} on:click={clickLink}>
-		<button class:simple on:click={clickButton}>
+		<button class:simple class:noBackground on:click={clickButton}>
 			<slot />
 		</button>
 	</a>
 {:else}
-	<button class:simple on:click={clickButton}>
+	<button class:simple class:noBackground on:click={clickButton}>
 		<slot />
 	</button>
 {/if}

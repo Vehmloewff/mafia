@@ -48,6 +48,7 @@ const serverPlugins = [resolve(), ...plugins];
 
 const watch = {
 	clearScreen: false,
+	exclude: 'src/client/icons/**',
 };
 
 const build = () => [

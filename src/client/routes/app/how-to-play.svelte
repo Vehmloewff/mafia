@@ -6,9 +6,19 @@
 </script>
 
 <script>
-	import Button from '../../components/button.svelte';
 	import BackButton from '../../components/back-button.svelte';
+	import Navbar from '../../components/navbar.svelte';
 </script>
 
-<BackButton />
-how-to-play
+<Navbar left={10} middle={-8}>
+	<div slot="left">
+		<span class="container">
+			<BackButton label="Home" state="app.home" />
+		</span>
+	</div>
+	<div slot="middle">
+		<span>
+			<h2>How to play</h2>
+		</span>
+	</div>
+</Navbar>

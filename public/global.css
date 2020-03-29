@@ -41,3 +41,8 @@ h5,
 h6 {
 	font-weight: 100;
 }
+
+.centered {
+	max-width: 1000px;
+	margin: auto;
+}

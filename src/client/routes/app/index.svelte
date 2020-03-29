@@ -19,5 +19,7 @@
 </style>
 
 <div class="app">
-	<uiView />
+	<div class="centered">
+		<uiView />
+	</div>
 </div>
