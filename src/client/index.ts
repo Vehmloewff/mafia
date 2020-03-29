@@ -4,7 +4,7 @@ import createRenderer from 'svelte-state-renderer';
 import createStateRouter from 'abstract-state-router';
 import NotFound from './components/not-found.svelte';
 import ErrorComponent from './components/error.svelte';
-import { stateRouter as stateRouterStore, router as routerStore } from './store';
+import { stateRouter as stateRouterStore, router as routerStore, error } from './store';
 
 // @ts-ignore
 import sausage from 'sausage-router';
@@ -20,7 +20,7 @@ const stateRouter = createStateRouter(renderer, document.body, {
 });
 
 // Errors
-stateRouter.on('stateChangeError', err => {
+error.subscribe(err => {
 	const error = new ErrorComponent({
 		target: document.body,
 		props: { error: err },
@@ -28,6 +28,7 @@ stateRouter.on('stateChangeError', err => {
 
 	stateRouter.once('stateChangeStart', () => error.$destroy());
 });
+stateRouter.on('stateChangeError', err => error.set({ message: err.message, code: err.code }));
 stateRouter.on('routeNotFound', (route, paramaters) => {
 	const notFound = new NotFound({
 		target: document.body,
