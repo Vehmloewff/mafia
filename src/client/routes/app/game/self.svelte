@@ -1,8 +1,8 @@
 <script context="module">
 	export const route = {
-		name: 'app.game',
-		route: 'game/:id',
+		name: 'app.game.self',
+		route: 'self',
 	};
 </script>
 
-<uiView />
+elf
