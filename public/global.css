@@ -16,6 +16,9 @@ html {
 	--sharp: #181a1f;
 	--action: #4d78cc;
 	--action-less: #4469b4;
+	--placeholders: #4b5365;
+	--danger: #dd4f3f;
+	--outlines: #e0c285;
 	font-size: 16px;
 }
 
@@ -45,4 +48,12 @@ h6 {
 .centered {
 	max-width: 1000px;
 	margin: auto;
+}
+
+input {
+	background: rgba(0, 0, 0, 0);
+	font-size: 16px;
+	border: none;
+	outline: none;
+	color: var(--foreground);
 }

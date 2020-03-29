@@ -62,6 +62,7 @@
 	"dependencies": {
 		"abstract-state-router": "^6.1.0",
 		"bufferutil": "^4.0.1",
+		"foid": "^1.0.0",
 		"hash-brown-router": "^3.4.1",
 		"mime-types": "^2.1.26",
 		"path-parser": "^6.1.0",

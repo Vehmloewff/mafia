@@ -6,6 +6,8 @@
 	export let params;
 	export let simple = true;
 	export let noBackground = false;
+	export let forceButton = false;
+	export let disabled = false;
 
 	$: url = !state ? null : $stateRouter.makePath(state, params);
 	const dispatch = createEventDispatcher();
@@ -15,8 +17,8 @@
 		$router.go(url);
 	}
 
-	function clickButton() {
-		dispatch('click');
+	function clickButton(e) {
+		dispatch('click', e);
 	}
 </script>
 
@@ -32,6 +34,7 @@
 		outline: none;
 		background: var(--action);
 		color: var(--foreground);
+		outline: none;
 	}
 	button:active {
 		background: var(--action-less);
@@ -55,16 +58,25 @@
 		color: var(--action-less);
 		background: rgba(0, 0, 0, 0);
 	}
+
+	button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	a {
+		outline: none;
+	}
 </style>
 
 {#if state}
 	<a href={url} on:click={clickLink}>
-		<button class:simple class:noBackground on:click={clickButton}>
+		<button class:simple class:noBackground on:click={clickButton} type={forceButton ? 'button' : null} {disabled}>
 			<slot />
 		</button>
 	</a>
 {:else}
-	<button class:simple class:noBackground on:click={clickButton}>
+	<button class:simple class:noBackground on:click={clickButton} type={forceButton ? 'button' : null} {disabled}>
 		<slot />
 	</button>
 {/if}
