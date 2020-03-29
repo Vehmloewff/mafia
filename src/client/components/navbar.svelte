@@ -1,4 +1,6 @@
 <script>
+	import { fly } from 'svelte/transition';
+
 	export let left = 0;
 	export let middle = 0;
 	export let right = 0;
@@ -40,7 +42,7 @@
 	}
 </style>
 
-<div class="nav">
+<div class="nav" in:fly={{ y: -55, delay: 300 }}>
 	<div class="inner">
 		<div class="left ext">
 			<div class="int" style="top: {left}px">

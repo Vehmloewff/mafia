@@ -7,6 +7,7 @@
 
 <script>
 	import Button from '../../components/button.svelte';
+	import Page from '../../components/page.svelte';
 </script>
 
 <style>
@@ -20,21 +21,23 @@
 	}
 </style>
 
-<header>
-	<h1 class="text-more container center">Mafia</h1>
-	<p class="container center">
-		<Button state="app.what-is-this">What is this</Button>
-		<span style="padding: 4px">•</span>
-		<Button state="app.how-to-play">How to play</Button>
-	</p>
-</header>
+<Page>
+	<header>
+		<h1 class="text-more container center">Mafia</h1>
+		<p class="container center">
+			<Button state="app.what-is-this">What is this</Button>
+			<span style="padding: 4px">•</span>
+			<Button state="app.how-to-play">How to play</Button>
+		</p>
+	</header>
 
-<main>
-	<div>
-		<Button simple={false}>Join a Game</Button>
-	</div>
-	<div>- or -</div>
-	<div>
-		<Button>Create a Game</Button>
-	</div>
-</main>
+	<main>
+		<div>
+			<Button simple={false}>Join a Game</Button>
+		</div>
+		<div>- or -</div>
+		<div>
+			<Button state="app.new">Create a Game</Button>
+		</div>
+	</main>
+</Page>
