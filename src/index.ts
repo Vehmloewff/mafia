@@ -1,4 +1,4 @@
-import polka, { Response } from 'polka';
+import polka, { Request, Response } from 'polka';
 import fs from 'fs';
 import createGame from './api/create-game';
 import createGameStore from './game-store';
@@ -8,14 +8,16 @@ import nodePath from 'path';
 import { contentType } from 'mime-types';
 
 const server = createServer();
-const app = polka({ server });
+const app = polka({ server, onNoMatch });
 const PORT = process.env.PORT || 3000;
 const games = createGameStore();
 
 function sendFile(res: Response, file: string) {
+	if (file[0] === '/') file = file.replace('/', '');
+
 	fs.readFile(nodePath.resolve(`public`, file), 'utf-8', (err, data) => {
 		if (err) {
-			if (err.code === 'ENOENT') {
+			if (err.code === 'ENOENT' || err.code === 'EISDIR') {
 				// The static file was not found.
 				if (/index\.html/.test(file)) {
 					// This is index.html.  Throw 404
@@ -42,9 +44,9 @@ app.get('/', (_, res) => {
 	sendFile(res, `index.html`);
 });
 
-app.get('/:file', (req, res) => {
-	sendFile(res, (req as any).params.file);
-});
+function onNoMatch(req: Request, res: Response) {
+	sendFile(res, req.url);
+}
 
 createGame(games, app);
 joinGame(games, server);
