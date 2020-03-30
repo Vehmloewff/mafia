@@ -12,7 +12,7 @@
 </script>
 
 {#if ready}
-	<div class="page" in:fly={{ y: side ? 0 : 30, x: side ? 50 : 0, duration: 1000, delay }}>
+	<div class="page" in:fly={{ y: side ? 0 : 20, x: side ? 50 : 0, duration: 500, delay }}>
 		<slot />
 	</div>
 {/if}

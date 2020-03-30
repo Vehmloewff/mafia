@@ -6,6 +6,8 @@
 <style>
 	div {
 		display: inline-block;
+		position: relative;
+		top: 3px;
 	}
 </style>
 

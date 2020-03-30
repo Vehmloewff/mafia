@@ -14,6 +14,8 @@
 	import { onMount } from 'svelte';
 
 	function keyUp(e) {
+		if (!modal) return;
+
 		if (e.key === `Escape`) $modal = null;
 		if ($modal.onCancelClick) $modal.onCancelClick();
 	}

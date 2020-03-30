@@ -1,5 +1,6 @@
 <script>
 	import { users } from '../store';
+	import crown from '../icons/crown.svg';
 
 	export let id;
 	export let defaultFull = false;
@@ -17,7 +18,6 @@
 	}
 
 	$: user = $users.get(id);
-	$: console.log(user);
 	$: name = user && user.name && nameSafe(user.name);
 </script>
 
@@ -66,6 +66,20 @@
 		height: 18px;
 		padding: 5px 9px 5px 3px;
 	}
+
+	span.blur {
+		filter: blur(4px);
+	}
+
+	.crown {
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		top: -6px;
+		right: -6px;
+		z-index: 2;
+		color: #e6a756;
+	}
 </style>
 
 <div class="over" on:click={() => (full = !full)} bind:offsetWidth={overWidth}>
@@ -75,5 +89,12 @@
 	<div class="name" bind:offsetWidth={nameWidth}>
 		{@html name}
 	</div>
-	<div class="role">{user.role || 'unknown'}</div>
+	<div class="role">
+		<span class:blur={!user.role}>{user.role || 'unknown'}</span>
+	</div>
+	{#if user.isOwner}
+		<div class="crown">
+			{@html crown}
+		</div>
+	{/if}
 </div>

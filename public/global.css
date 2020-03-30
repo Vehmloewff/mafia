@@ -70,3 +70,8 @@ code {
 	border: 1px solid var(--sharp);
 	padding: 3px 10px;
 }
+pre {
+	overflow-y: hidden;
+	overflow-x: auto;
+	padding: 5px;
+}
