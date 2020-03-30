@@ -18,7 +18,7 @@
 	import socket from '../../../socket';
 	import { stateRouter, self } from '../../../store';
 	import foid from 'foid';
-	import gameIsValid from '../../../verify-game';
+	import { gameIsValid } from '../../../verify-game';
 
 	export let id;
 

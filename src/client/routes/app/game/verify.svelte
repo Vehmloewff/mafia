@@ -11,7 +11,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { stateRouter } from '../../../store';
-	import gameIsValid from '../../../verify-game';
+	import { gameIsValid } from '../../../verify-game';
 	import Loader from '../../../components/loader.svelte';
 	import Button from '../../../components/button.svelte';
 	import Page from '../../../components/page.svelte';

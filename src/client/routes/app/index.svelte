@@ -8,6 +8,7 @@
 
 <script>
 	import { stateRouter } from '../../store';
+	import Modal from '../../components/modal.svelte';
 	const gameInProgress = localStorage.getItem(`game-in-progress`);
 
 	if (gameInProgress) $stateRouter.go(`app.game.resume`, { id: gameInProgress }, { replace: true });
@@ -26,7 +27,9 @@
 </style>
 
 <div class="app">
-	<div class="centered">
-		<uiView />
-	</div>
+	<Modal>
+		<div class="centered">
+			<uiView />
+		</div>
+	</Modal>
 </div>
