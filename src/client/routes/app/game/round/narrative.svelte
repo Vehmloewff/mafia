@@ -1,6 +1,6 @@
 <script context="module">
 	export const route = {
-		name: 'app.game.narrative',
+		name: 'app.game.round.narrative',
 		route: 'narrative',
 	};
 </script>

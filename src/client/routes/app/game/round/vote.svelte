@@ -1,6 +1,6 @@
 <script context="module">
 	export const route = {
-		name: 'app.game.vote',
+		name: 'app.game.round.vote',
 		route: 'vote',
 	};
 </script>

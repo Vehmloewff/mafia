@@ -1,6 +1,6 @@
 <script context="module">
 	export const route = {
-		name: 'app.game.selection',
+		name: 'app.game.round.selection',
 		route: 'selection',
 	};
 </script>
