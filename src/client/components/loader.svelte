@@ -1,5 +1,5 @@
 <script>
-	export let color = 'foreground';
+	export let color = 'foreground-more';
 
 	$: style = `style="background: var(--${color});`;
 </script>

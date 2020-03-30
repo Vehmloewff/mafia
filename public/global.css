@@ -8,8 +8,10 @@ html {
 :root {
 	--background: #272c34;
 	--midground: #21252b;
-	--foreground: #d6d9df;
-	--foreground-less: #9da5b4;
+	--foreground-more: #d6d9df;
+	--foreground: #9da5b4;
+	--foreground-less: #63686d;
+	--foreground-less: #666e7a;
 	--highlight: #333842;
 	--highlight-less: #2e323c;
 	--highlight-more: #3a3f4b;
@@ -26,8 +28,12 @@ html {
 	color: var(--foreground-less);
 }
 .text-more {
+	color: var(--foreground-more);
+}
+.text {
 	color: var(--foreground);
 }
+
 .container {
 	padding-right: 16px;
 	padding-left: 16px;
@@ -55,7 +61,7 @@ input {
 	font-size: 16px;
 	border: none;
 	outline: none;
-	color: var(--foreground);
+	color: var(--foreground-more);
 }
 
 code {

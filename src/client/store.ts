@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { SafeUser, StartUser, User } from '../game/users';
+import { User } from '../game/users';
 import { Settings } from '../game/interfaces';
 import defaultSnorts from '../game/default-snorts';
 import foid from 'foid';
@@ -7,13 +7,13 @@ import foid from 'foid';
 export const stateRouter = writable(null);
 export const router = writable(null);
 
-export const users = writable<SafeUser[]>([]);
+export const users = writable<Map<string, User>>(new Map());
 export const settings = writable<Settings>({
 	revealAllies: true,
 	openVote: true,
-	maxEach: 2,
+	maxEach: null,
 	numberVillagers: 1,
-	incorperateJudges: true,
+	incorperateJudges: false,
 	maxArrestsPerRound: 3,
 	roundsPerCitizensArrest: 3,
 	snorts: Object.keys(defaultSnorts),
@@ -36,3 +36,5 @@ self.subscribe(data => localStorage.setItem(`self`, JSON.stringify({ id: data.id
 export const error = writable<{ message: string; code: string }>(null);
 export const roundNumber = writable(0);
 export const messageListener = writable((messgageKey: string, params: unknown) => {});
+export const owner = writable<string>(null);
+export const currentSocket = writable(null);

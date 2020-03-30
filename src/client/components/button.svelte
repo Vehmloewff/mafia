@@ -33,7 +33,7 @@
 		transition: 0.3s;
 		outline: none;
 		background: var(--action);
-		color: var(--foreground);
+		color: var(--foreground-more);
 		outline: none;
 	}
 	button:active {
@@ -62,6 +62,9 @@
 	button:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+	button:disabled:hover {
+		background: unset;
 	}
 
 	a {

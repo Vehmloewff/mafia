@@ -20,10 +20,13 @@ const stateRouter = createStateRouter(renderer, document.body, {
 });
 
 // Errors
+let first = true;
 error.subscribe(err => {
+	if (first) return (first = false);
+
 	const error = new ErrorComponent({
 		target: document.body,
-		props: { error: err },
+		props: { error: err, message: err?.message, code: err?.code },
 	});
 
 	stateRouter.once('stateChangeStart', () => error.$destroy());

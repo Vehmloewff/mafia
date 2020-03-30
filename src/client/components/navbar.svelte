@@ -33,10 +33,8 @@
 	}
 	.right {
 		text-align: right;
-		float: left;
-		width: 33.3%;
+		float: right;
 	}
-
 	.int {
 		position: relative;
 	}

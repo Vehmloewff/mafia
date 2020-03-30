@@ -16,7 +16,7 @@
 	import { fly } from 'svelte/transition';
 	import { onMount, tick } from 'svelte';
 	import socket from '../../../socket';
-	import { stateRouter, self } from '../../../store';
+	import { stateRouter, self, currentSocket } from '../../../store';
 	import foid from 'foid';
 	import { gameIsValid } from '../../../verify-game';
 
@@ -55,7 +55,7 @@
 			return old;
 		});
 
-		await socket(id);
+		$currentSocket = await socket(id);
 		localStorage.setItem(`game-in-progress`, id);
 
 		$stateRouter.go(`app.game.pre-start`, { id });
@@ -101,7 +101,7 @@
 		background: rgba(0, 0, 0, 0);
 		outline: none;
 		width: calc(100% - 92px);
-		color: var(--foreground);
+		color: var(--foreground-more);
 		border: none;
 		font-size: 16px;
 		margin-left: 10px;

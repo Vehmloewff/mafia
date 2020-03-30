@@ -17,13 +17,13 @@
 	import Page from '../../../components/page.svelte';
 	import { sureExitGame } from '../../../services';
 
-	let message = `Detecting game...`;
+	let message = `Detecting game`;
 	let nonExistent = false;
 	export let id;
 
 	onMount(async () => {
 		if (await gameExists(id)) {
-			message = `Connecting to game...`;
+			message = `Connecting to game`;
 			// Join the game
 		} else {
 			nonExistent = true;
@@ -40,7 +40,7 @@
 <Page delay={100}>
 	<div class="center">
 		{#if nonExistent}
-			<h3>You started a game, but didn't finish it</h3>
+			<h3>You started a game, and didn't finish it</h3>
 			<h4>But it has already ended or timed out</h4>
 			<div style="padding-top: 10px">
 				<Button state="app.home" on:click={() => localStorage.removeItem(`game-in-progress`)}>Exit game</Button>

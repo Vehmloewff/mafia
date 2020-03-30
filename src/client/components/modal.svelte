@@ -30,7 +30,7 @@
 	.modal {
 		margin: auto;
 		max-width: 300px;
-		color: var(--foreground);
+		color: var(--foreground-more);
 		background: var(--midground);
 		padding: 16px;
 		border-radius: 4px;
@@ -60,7 +60,7 @@
 		<div class="modal-container">
 			<div class="modal" transition:fly={{ y: -50 }}>
 				<h3>{$modal.title}</h3>
-				<p class="text-less">{$modal.message}</p>
+				<p class="text">{$modal.message}</p>
 				<div class="footer">
 					<span style="float: left">
 						<Button

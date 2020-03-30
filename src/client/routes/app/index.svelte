@@ -22,7 +22,7 @@
 		left: 0;
 		bottom: 0;
 		background: var(--background);
-		color: var(--foreground-less);
+		color: var(--foreground);
 	}
 </style>
 

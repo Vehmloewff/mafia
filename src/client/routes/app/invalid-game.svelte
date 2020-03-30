@@ -11,7 +11,7 @@
 <script>
 	import Page from '../../components/page.svelte';
 	import Button from '../../components/button.svelte';
-	import makeIdReadable from '../../readable-id';
+	import { makeIdReadable } from '../../services';
 
 	export let id;
 </script>
