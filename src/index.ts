@@ -45,7 +45,10 @@ app.get('/', (_, res) => {
 });
 
 function onNoMatch(req: Request, res: Response) {
-	sendFile(res, req.url);
+	if (req.url.startsWith('/api')) {
+		res.statusCode = 404;
+		res.end(`404 - not found`);
+	} else sendFile(res, req.url);
 }
 
 createGame(games, app);

@@ -57,3 +57,10 @@ input {
 	outline: none;
 	color: var(--foreground);
 }
+
+code {
+	background: var(--midground);
+	border-radius: 4px;
+	border: 1px solid var(--sharp);
+	padding: 3px 10px;
+}

@@ -18,6 +18,7 @@
 	import socket from '../../../socket';
 	import { stateRouter, self } from '../../../store';
 	import foid from 'foid';
+	import gameIsValid from '../../../verify-game';
 
 	export let id;
 
@@ -35,12 +36,6 @@
 		input.focus();
 	});
 
-	function gameIsValid() {
-		return fetch(`/api/games/${id}`)
-			.then(_ => true)
-			.catch(_ => false);
-	}
-
 	async function submit(e) {
 		e.preventDefault();
 		didTouchName = true;
@@ -49,7 +44,7 @@
 
 		loading = true;
 
-		if (!(await gameIsValid())) {
+		if (!(await gameIsValid(id))) {
 			return $stateRouter.go(`app.invalid-game`, { id });
 		}
 
@@ -60,6 +55,8 @@
 		});
 
 		await socket(id);
+
+		$stateRouter.go(`app.game.pre-start`);
 	}
 </script>
 
