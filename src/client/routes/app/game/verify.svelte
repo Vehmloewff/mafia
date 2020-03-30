@@ -20,7 +20,7 @@
 
 	onMount(async () => {
 		if (await gameIsValid(id)) {
-			$stateRouter.go(`app.game.self`, {}, { replace: true });
+			$stateRouter.go(`app.game.self`, { id }, { replace: true });
 		} else {
 			$stateRouter.go(`app.invalid-game`, { id }, { replace: true });
 		}

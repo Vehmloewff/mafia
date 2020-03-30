@@ -96,6 +96,7 @@ export default function createGame(onGameOver: () => void) {
 
 		// Remember this
 		gameDidStart = true;
+		messages.gameStarted();
 
 		// Create the rounds handler
 		createRounds(messages, users, settings, {
