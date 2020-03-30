@@ -79,7 +79,7 @@
 </style>
 
 <Socket>
-	<Navbar left={-8} right={14}>
+	<Navbar left={-8} right={14} slide={true}>
 		<div slot="left">
 			<h2 class="container">Mafia</h2>
 		</div>

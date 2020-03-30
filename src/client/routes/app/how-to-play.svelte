@@ -11,7 +11,7 @@
 	import Page from '../../components/page.svelte';
 </script>
 
-<Navbar left={10} middle={-8}>
+<Navbar left={10} middle={-8} slide={true}>
 	<div slot="left">
 		<span class="container">
 			<BackButton label="Home" state="app.home" />

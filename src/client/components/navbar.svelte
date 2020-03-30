@@ -1,9 +1,15 @@
 <script>
 	import { fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
 	export let left = 0;
 	export let middle = 0;
 	export let right = 0;
+	export let slide = false;
+
+	let ready = !slide;
+
+	onMount(() => (ready = true));
 </script>
 
 <style>
@@ -40,22 +46,24 @@
 	}
 </style>
 
-<div class="nav" in:fly={{ y: -55, delay: 300 }}>
-	<div class="inner">
-		<div class="left ext">
-			<div class="int" style="top: {left}px">
-				<slot name="left" />
+{#if ready}
+	<div class="nav" in:fly={{ y: -55, delay: 300 }}>
+		<div class="inner">
+			<div class="left ext">
+				<div class="int" style="top: {left}px">
+					<slot name="left" />
+				</div>
 			</div>
-		</div>
-		<div class="middle ext">
-			<div class="int" style="top: {middle}px">
-				<slot name="middle" />
+			<div class="middle ext">
+				<div class="int" style="top: {middle}px">
+					<slot name="middle" />
+				</div>
 			</div>
-		</div>
-		<div class="right ext">
-			<div class="int" style="top: {right}px">
-				<slot name="right" />
+			<div class="right ext">
+				<div class="int" style="top: {right}px">
+					<slot name="right" />
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+{/if}
