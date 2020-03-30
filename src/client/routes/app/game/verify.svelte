@@ -2,8 +2,8 @@
 	export const route = {
 		name: `app.game.verify`,
 		route: `verify`,
-		async resolve(_, params) {
-			return params;
+		async resolve(_, { id }) {
+			return { id };
 		},
 	};
 </script>

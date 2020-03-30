@@ -6,6 +6,13 @@
 	};
 </script>
 
+<script>
+	import { stateRouter } from '../../store';
+	const gameInProgress = localStorage.getItem(`game-in-progress`);
+
+	if (gameInProgress) $stateRouter.go(`app.game.resume`, { id: gameInProgress }, { replace: true });
+</script>
+
 <style>
 	.app {
 		position: fixed;

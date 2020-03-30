@@ -22,8 +22,8 @@
 
 	export let id;
 
-	let gender = `Male`;
-	let name = ``;
+	let gender = $self.gender;
+	let name = $self.name;
 
 	let didTouchName = false;
 	let loading = false;
@@ -48,15 +48,17 @@
 			return $stateRouter.go(`app.invalid-game`, { id });
 		}
 
-		self.set({
-			name,
-			gender,
-			id: foid(20),
+		self.update(old => {
+			old.name = name;
+			old.gender = gender;
+
+			return old;
 		});
 
 		await socket(id);
+		localStorage.setItem(`game-in-progress`, id);
 
-		$stateRouter.go(`app.game.pre-start`);
+		$stateRouter.go(`app.game.pre-start`, { id });
 	}
 </script>
 
