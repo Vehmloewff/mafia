@@ -11,58 +11,58 @@ describe(`narrator`, it => {
 		openers: [openers[0]],
 	};
 
-	// it(`it should generate a nice story`, expect => {
-	// 	console.log(
-	// 		narrator({
-	// 			hurt: [`Bill`],
-	// 			healed: [`Jack`],
-	// 			arrested: [`Jill`],
-	// 			...defaults,
-	// 			characterGenders: new Map([
-	// 				[`Bill`, 'male'],
-	// 				['Jack', 'male'],
-	// 				['Jill', 'female'],
-	// 			]),
-	// 		})
-	// 	);
-	// 	console.log(
-	// 		`-------\n` +
-	// 			narrator({
-	// 				hurt: [`Bill`],
-	// 				healed: [`Bill`, `Jack`],
-	// 				arrested: [`Jill`],
-	// 				...defaults,
-	// 				characterGenders: new Map([
-	// 					[`Bill`, 'male'],
-	// 					['Jack', 'male'],
-	// 					['Jill', 'female'],
-	// 				]),
-	// 			})
-	// 	);
-	// 	console.log(
-	// 		`-------\n` +
-	// 			narrator({
-	// 				hurt: [],
-	// 				healed: [`Jack`],
-	// 				arrested: [`Jill`],
-	// 				...defaults,
-	// 				characterGenders: new Map([
-	// 					['Jack', 'male'],
-	// 					['Jill', 'female'],
-	// 				]),
-	// 			})
-	// 	);
-	// 	console.log(
-	// 		`-------\n` +
-	// 			narrator({
-	// 				hurt: [],
-	// 				healed: [],
-	// 				arrested: [`Jill`],
-	// 				...defaults,
-	// 				characterGenders: new Map([['Jill', 'female']]),
-	// 			})
-	// 	);
-	// });
+	it(`it should generate a nice story`, expect => {
+		console.log(
+			narrator({
+				hurt: [`Bill`],
+				healed: [`Jack`],
+				arrested: [`Jill`],
+				...defaults,
+				characterGenders: new Map([
+					[`Bill`, 'male'],
+					['Jack', 'male'],
+					['Jill', 'female'],
+				]),
+			})
+		);
+		console.log(
+			`-------\n` +
+				narrator({
+					hurt: [`Bill`],
+					healed: [`Bill`, `Jack`],
+					arrested: [`Jill`],
+					...defaults,
+					characterGenders: new Map([
+						[`Bill`, 'male'],
+						['Jack', 'male'],
+						['Jill', 'female'],
+					]),
+				})
+		);
+		console.log(
+			`-------\n` +
+				narrator({
+					hurt: [],
+					healed: [`Jack`],
+					arrested: [`Jill`],
+					...defaults,
+					characterGenders: new Map([
+						['Jack', 'male'],
+						['Jill', 'female'],
+					]),
+				})
+		);
+		console.log(
+			`-------\n` +
+				narrator({
+					hurt: [],
+					healed: [],
+					arrested: [`Jill`],
+					...defaults,
+					characterGenders: new Map([['Jill', 'female']]),
+				})
+		);
+	});
 
 	it(`should generate a nice story with many roles`, expect => {
 		console.log(
