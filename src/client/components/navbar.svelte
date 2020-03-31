@@ -44,6 +44,10 @@
 	.int {
 		position: relative;
 	}
+	.placeholder {
+		height: 10px;
+		width: 33.3%;
+	}
 </style>
 
 {#if ready}
@@ -51,17 +55,23 @@
 		<div class="inner">
 			<div class="left ext">
 				<div class="int" style="top: {left}px">
-					<slot name="left" />
+					<slot name="left">
+						<div class="placeholder" />
+					</slot>
 				</div>
 			</div>
 			<div class="middle ext">
 				<div class="int" style="top: {middle}px">
-					<slot name="middle" />
+					<slot name="middle">
+						<div class="placeholder" />
+					</slot>
 				</div>
 			</div>
 			<div class="right ext">
 				<div class="int" style="top: {right}px">
-					<slot name="right" />
+					<slot name="right">
+						<div class="placeholder" />
+					</slot>
 				</div>
 			</div>
 		</div>

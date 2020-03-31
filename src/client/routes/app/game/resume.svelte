@@ -38,7 +38,7 @@
 </style>
 
 <Page delay={100}>
-	<div class="center">
+	<div class="center container">
 		{#if nonExistent}
 			<h3>You started a game, and didn't finish it</h3>
 			<h4>But it has already ended or timed out</h4>

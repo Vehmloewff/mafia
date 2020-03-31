@@ -2,7 +2,7 @@ import { MessageHandler } from './message-handler';
 import { Users } from './users';
 
 export default function createTimer(messages: MessageHandler, users: Users, time: number, onDone: () => void) {
-	let timeLeft = time;
+	let timeLeft = time + 1;
 	let isPaused = false;
 
 	const unsubscribe = messages.register(`timer`, (action: string, userId) => {
@@ -27,9 +27,9 @@ export default function createTimer(messages: MessageHandler, users: Users, time
 	}
 
 	function countDown() {
-		if (time >= 0) {
+		if (timeLeft > 0) {
 			setTimeout(() => {
-				time--;
+				timeLeft--;
 				messages.broadcast(`timer`, timeLeft);
 				next();
 			}, 1000);
@@ -40,6 +40,8 @@ export default function createTimer(messages: MessageHandler, users: Users, time
 	}
 
 	function next() {
-		if (!isPaused) countDown;
+		if (!isPaused) countDown();
 	}
+
+	next();
 }

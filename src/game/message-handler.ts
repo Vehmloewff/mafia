@@ -97,7 +97,7 @@ export default function messageHandler(options: Options) {
 		try {
 			const data = typeof message === 'string' ? JSON.parse(message) : message;
 
-			if (!data.key || typeof data.key !== 'string' || !data.params) throw ``;
+			if (!data.key || typeof data.key !== 'string') throw ``;
 
 			return data;
 		} catch (_) {

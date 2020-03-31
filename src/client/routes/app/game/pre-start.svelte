@@ -11,7 +11,7 @@
 <script>
 	import Button from '../../../components/button.svelte';
 	import Page from '../../../components/page.svelte';
-	import { users, self, owner } from '../../../store';
+	import { users, self, owner, messageListener, currentSocket, stateRouter, settings as settingsStore } from '../../../store';
 	import { playersNeeded, setOwner, makeIdReadable } from '../../../services';
 	import { onMount } from 'svelte';
 	import UserChip from '../../../components/user-chip.svelte';
@@ -29,7 +29,33 @@
 		if ($self.isOwner) {
 			users.subscribe(() => (usersNeeded = playersNeeded()));
 		}
+
+		$messageListener = (key, params) => {
+			if (key === 'role') onRoleSet(params);
+			else if (key === 'round') onRoundStart(params);
+			else if (key === 'settings') $settingsStore = params;
+		};
 	});
+
+	function startGame() {
+		$currentSocket.send(`start-game`);
+	}
+
+	function onRoleSet(role) {
+		$self.role = role;
+		users.update($users => {
+			const user = $users.get($self.id);
+			user.role = role;
+			$users.set($self.id, user);
+
+			return $users;
+		});
+		if ($self.isOwner) $currentSocket.send(`start-next-round`);
+	}
+
+	function onRoundStart(num) {
+		$stateRouter.go('app.game.round', { id, round: num });
+	}
 </script>
 
 <style>
@@ -79,7 +105,7 @@
 </style>
 
 <Socket>
-	<Navbar left={-8} right={14} slide={true}>
+	<Navbar left={-5} right={14} slide={true}>
 		<div slot="left">
 			<h2 class="container">Mafia</h2>
 		</div>
@@ -105,6 +131,7 @@
 			</div>
 		</div>
 	</Navbar>
+
 	<Page>
 		<div class="container">
 			<div class="header" />
@@ -113,7 +140,7 @@
 				<div class="card container" style="padding-top: 30px; padding-bottom: 30px;">
 					{#if $self.isOwner}
 						<div style="padding-bottom: 8px">
-							<Button disabled={usersNeeded}>Start Game</Button>
+							<Button disabled={usersNeeded} on:click={startGame}>Start Game</Button>
 						</div>
 						{#if usersNeeded}
 							<span>Waiting for at least {usersNeeded} more {usersNeeded === 1 ? `user` : `users`}...</span>

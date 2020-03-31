@@ -14,7 +14,7 @@ export interface User extends SafeUser {
 	citizensArrestsLeft: number;
 }
 
-export type Role = 'mafia' | 'doctor' | 'sheriff' | 'judge' | 'villager' | 'not assigned';
+export type Role = 'mafia' | 'doctor' | 'sheriff' | 'judge' | 'villager';
 
 export type Users = ReturnType<typeof users>;
 
@@ -29,7 +29,7 @@ export default function users() {
 			gender: user.gender,
 			id: user.id,
 			isOwner: isFirstAddition,
-			role: 'not assigned',
+			role: null,
 			isDead: false,
 			citizensArrestsLeft: 1,
 		});
@@ -46,7 +46,7 @@ export default function users() {
 
 		return {
 			...user,
-			role: user.role === 'not assigned' || user.isDead ? user.role : null,
+			role: user.isDead ? user.role : null,
 		};
 	}
 

@@ -15,8 +15,6 @@
 	import Page from '../../../components/page.svelte';
 	import { settings } from '../../../store';
 
-	$: console.log($settings);
-
 	function setValue(e, key) {
 		const value = e.target.selectedOptions[0].value;
 		$settings[key] = value;
@@ -28,11 +26,11 @@
 <style>
 	.input-container {
 		display: inline-block;
-		width: calc(100% - 205px);
+		width: calc(100% - 175px);
 		text-align: left;
 	}
 	.line {
-		width: 550px;
+		max-width: 550px;
 		margin: auto;
 		padding: 8px;
 		margin-top: 10px;
@@ -44,7 +42,7 @@
 	}
 	.line .label {
 		display: inline-block;
-		width: 200px;
+		width: 170px;
 		text-align: right;
 	}
 
@@ -68,7 +66,7 @@
 </style>
 
 <Socket>
-	<Navbar left={10} middle={-8}>
+	<Navbar left={10} middle={-5}>
 		<div slot="left">
 			<span class="container">
 				<BackButton label="Mafia" state="app.game.pre-start" params={{ id }} />

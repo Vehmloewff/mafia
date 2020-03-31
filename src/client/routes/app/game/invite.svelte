@@ -38,7 +38,7 @@
 </style>
 
 <Socket>
-	<Navbar left={10} middle={-8}>
+	<Navbar left={10} middle={-5}>
 		<div slot="left">
 			<span class="container">
 				<BackButton label="Mafia" state="app.game.pre-start" params={{ id }} />

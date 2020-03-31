@@ -1,4 +1,4 @@
-import { self, error, messageListener, users } from './store';
+import { self, error, messageListener, users, timeLeft } from './store';
 import { get } from 'svelte/store';
 import { stringify } from 'query-string';
 import { User } from '../game/users';
@@ -51,6 +51,11 @@ export default function createSocket(gameId: string) {
 					});
 
 					if (firstMessage) setOwner();
+				}
+
+				// Timer
+				else if (message.key === 'timer') {
+					timeLeft.set(message.params);
 				}
 
 				firstMessage = false;

@@ -65,7 +65,7 @@
 <style>
 	.input-container {
 		display: inline-block;
-		width: calc(100% - 92px);
+		width: calc(100% - 65px);
 		text-align: left;
 	}
 	input {
@@ -78,7 +78,7 @@
 		color: var(--placeholders);
 	}
 	.line {
-		width: 350px;
+		max-width: 350px;
 		margin: auto;
 		padding: 8px;
 		margin-top: 10px;
@@ -100,7 +100,7 @@
 	select {
 		background: rgba(0, 0, 0, 0);
 		outline: none;
-		width: calc(100% - 92px);
+		width: calc(100% - 65px);
 		color: var(--foreground-more);
 		border: none;
 		font-size: 16px;
@@ -117,7 +117,7 @@
 
 	.later {
 		text-align: right;
-		width: 350px;
+		max-width: 350px;
 		margin: auto;
 		padding-top: 40px;
 	}

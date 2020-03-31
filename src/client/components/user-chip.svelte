@@ -1,9 +1,9 @@
 <script>
-	import { users } from '../store';
+	import { users, self } from '../store';
 	import crown from '../icons/crown.svg';
 
 	export let id;
-	export let defaultFull = false;
+	export let defaultFull = true;
 
 	let nameWidth;
 	let overWidth;
@@ -18,6 +18,7 @@
 	}
 
 	$: user = $users.get(id);
+	$: shouldBlur = !user.role && !!$self.role;
 	$: name = user && user.name && nameSafe(user.name);
 </script>
 
@@ -90,7 +91,7 @@
 		{@html name}
 	</div>
 	<div class="role">
-		<span class:blur={!user.role}>{user.role || 'unknown'}</span>
+		<span class:blur={shouldBlur}>{shouldBlur ? 'unknown' : user.role || 'not assigned'}</span>
 	</div>
 	{#if user.isOwner}
 		<div class="crown">
