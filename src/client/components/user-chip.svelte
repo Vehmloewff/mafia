@@ -29,6 +29,16 @@
 		user-select: none;
 		cursor: pointer;
 	}
+	.over.dead {
+		opacity: 0.7;
+	}
+	.over.dead .name-over {
+		text-decoration: line-through;
+	}
+	.over.dead .role {
+		text-decoration: line-through;
+	}
+
 	.name,
 	.name-over {
 		background: var(--action);
@@ -83,7 +93,7 @@
 	}
 </style>
 
-<div class="over" on:click={() => (full = !full)} bind:offsetWidth={overWidth}>
+<div class="over" on:click={() => (full = !full)} bind:offsetWidth={overWidth} class:dead={user.isDead}>
 	<div class="name-over" style="right: {full ? 0 : overWidth - nameWidth}px" class:full>
 		{@html name}
 	</div>

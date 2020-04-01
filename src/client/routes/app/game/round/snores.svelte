@@ -26,7 +26,10 @@
 	export let round;
 	export let next;
 
-	if (next !== 'narrative' || next !== 'vote') next = 'vote';
+	if (next !== 'narrative' && next !== 'vote') {
+		console.log('invalid next', next);
+		next = 'vote';
+	}
 
 	let timeout;
 	let readySnorts = $snorts.map(id => {
@@ -42,12 +45,12 @@
 
 	function waitABit() {
 		timeout = setTimeout(() => {
-			if (!readySnorts.length) {
-				timeout = setTimeout(() => $stateRouter.go(`app.game.round.${next}`, { id, round }), 2000);
-			} else {
-				readySnorts.shift();
-				readySnorts = readySnorts;
+			readySnorts.shift();
+			readySnorts = readySnorts;
 
+			if (!readySnorts.length) {
+				timeout = setTimeout(() => $stateRouter.go(`app.game.round.${next}`, { id, round }), 200);
+			} else {
 				playNextSnort();
 			}
 		}, 2000);

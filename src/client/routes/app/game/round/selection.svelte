@@ -63,7 +63,7 @@
 		user-select: none;
 	}
 	.user.active {
-		opacity: 0.3;
+		opacity: 0.7;
 		text-decoration: line-through;
 	}
 </style>

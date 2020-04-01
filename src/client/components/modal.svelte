@@ -16,8 +16,12 @@
 	function keyUp(e) {
 		if (!modal) return;
 
-		if (e.key === `Escape`) $modal = null;
-		if ($modal.onCancelClick) $modal.onCancelClick();
+		if (e.key === `Escape`) {
+			const onCancelClick = $modal && $modal.onCancelClick;
+			$modal = null;
+
+			if (onCancelClick) onCancelClick();
+		}
 	}
 </script>
 
