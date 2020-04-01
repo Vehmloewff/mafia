@@ -5,7 +5,7 @@ import createGameStore from './game-store';
 import joinGame from './api/join-game';
 import { createServer } from 'http';
 import nodePath from 'path';
-import { contentType } from 'mime-types';
+import { lookup } from 'mime-types';
 
 const server = createServer();
 const app = polka({ server, onNoMatch });
@@ -15,7 +15,7 @@ const games = createGameStore();
 function sendFile(res: Response, file: string) {
 	if (file[0] === '/') file = file.replace('/', '');
 
-	fs.readFile(nodePath.resolve(`public`, file), 'utf-8', (err, data) => {
+	fs.stat(nodePath.resolve(`public`, file), (err, stat) => {
 		if (err) {
 			if (err.code === 'ENOENT' || err.code === 'EISDIR') {
 				// The static file was not found.
@@ -33,9 +33,13 @@ function sendFile(res: Response, file: string) {
 				console.error(new Date().getDate(), err);
 			}
 		} else {
-			res.setHeader('content-type', contentType(file) || `text/plain`);
 			res.statusCode = 200;
-			res.end(data);
+			let type = lookup(file) as string;
+			let charset = /^text\/|^application\/(javascript|json)/.test(type || 'text/plain') ? 'UTF-8' : false;
+			res.setHeader('Last-Modified', new Date(stat.mtimeMs).toUTCString());
+			res.setHeader('Content-Length', stat.size);
+			res.setHeader('Content-Type', type + (charset ? '; charset=' + charset : ''));
+			fs.createReadStream(nodePath.resolve(`public`, file)).pipe(res);
 		}
 	});
 }

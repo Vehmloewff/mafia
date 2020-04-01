@@ -2,6 +2,7 @@
 	export const route = {
 		name: `app.game.round`,
 		route: `round/:round`,
+		defaultChild: `selection`,
 		async resolve(_, params) {
 			return params;
 		},
@@ -19,11 +20,15 @@
 	import playersIcon from '../../../../icons/players.svg';
 	import clockIcon from '../../../../icons/clock.svg';
 	import { fade, fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
 	export let round;
 
 	let openDrawer = false;
+	let ready = false;
 	let width;
+
+	onMount(() => (ready = true));
 </script>
 
 <style>
@@ -112,6 +117,8 @@
 
 <svelte:window bind:innerWidth={width} />
 
+<uiView />
+
 <Socket>
 	<Navbar middle={-5} left={10} right={-10}>
 		<div slot="left">
@@ -137,22 +144,22 @@
 			</h4>
 		</div>
 	</Navbar>
-</Socket>
 
-<uiView />
-
-{#if openDrawer}
-	<div class="cover" in:fade on:click={() => (openDrawer = false)} />
-{/if}
-<div class="drawer" in:fly={{ x: 300 }} class:out={openDrawer}>
-	<div class="header">
-		<Icon icon={playersIcon} size={100} />
-	</div>
-	<div class="main">
-		{#each Array.from($users.values()) as user}
-			<div class="line center container" style="padding-top: 16px;">
-				<UserChip id={user.id} />
+	{#if openDrawer}
+		<div class="cover" in:fade on:click={() => (openDrawer = false)} />
+	{/if}
+	{#if ready}
+		<div class="drawer" class:out={openDrawer} transition:fly={{ x: -300 }}>
+			<div class="header">
+				<Icon icon={playersIcon} size={100} />
 			</div>
-		{/each}
-	</div>
-</div>
+			<div class="main">
+				{#each Array.from($users.values()) as user}
+					<div class="line center container" style="padding-top: 16px;">
+						<UserChip id={user.id} />
+					</div>
+				{/each}
+			</div>
+		</div>
+	{/if}
+</Socket>

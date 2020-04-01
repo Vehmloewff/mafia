@@ -17,15 +17,19 @@ export default function createSelection(users: Users, messages: MessageHandler, 
 	const healed: User[] = [];
 	const arrested: User[] = [];
 
+	const selections: Map<string, string> = new Map();
+
 	createTimer(messages, users, 10, () => onTimerDone());
 
 	let didNotSelect = users.aliveUsers();
 
 	const unsubscribe = messages.register(`selection`, (selection: string, userId) => {
-		writeSelection(userId, selection);
+		selections.set(userId, selection);
 	});
 
 	function onTimerDone() {
+		selections.forEach((selection, user) => writeSelection(user, selection));
+
 		// Loop through all the users that did not select and choose for them
 		didNotSelect.forEach(id => {
 			const user = users.get(id);
