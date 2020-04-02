@@ -68,7 +68,7 @@
 	}
 </style>
 
-<Page slide={true}>
+<Page side={true}>
 	<div class="center container">
 		<h2>You are a {$self.role}</h2>
 		<p>

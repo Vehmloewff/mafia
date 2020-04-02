@@ -14,17 +14,21 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 		? users.aliveUsers().filter(id => id !== arrest.arresting) // The person arrested should not be allowed to vote
 		: [chooseRandArrItem(users.usersOnRole('judge'))]; // But if the arrested is a judge, he is allowed to vote, after all he is not the mafia
 
-	// Keep track of who has not voted
-	const didNotVote = Array.from(canVote);
-
-	// And what they voted for
-	const innocent: string[] = [];
-	const guilty: string[] = [];
-	const snorts: string[] = [];
+	// Keep a vote tally
+	const votes: Map<string, string> = new Map();
 
 	// Tell everyone that we are about to vote
 	users.aliveUsers().forEach(id => {
-		messages.send(`trial`, { isCitizensArrest: arrest.isCitizensArrest, user: arrest.by, canVote: canVote.indexOf(id) !== -1 }, id);
+		messages.send(
+			`trial`,
+			{
+				isCitizensArrest: arrest.isCitizensArrest,
+				user: arrest.arresting,
+				canVote: canVote.indexOf(id) !== -1,
+				accusedBy: arrest.by,
+			},
+			id
+		);
 	});
 
 	// Listen for the start-vote message
@@ -46,46 +50,46 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 	unsubscribe.push(startVote);
 
 	// Listen for the votes
-	const voteListener = messages.register(`vote`, (selection: string, userId) => handleVote(userId, selection, false));
+	const voteListener = messages.register(`vote`, (selection: string, userId) => {
+		votes.set(userId, selection);
+		//handleVote(userId, selection, false);
+	});
 	unsubscribe.push(voteListener);
-
-	function handleVote(userId: string, selection: string, automated: boolean) {
-		// Throw if a vote is not in progress
-		if (!automated && !allowVoting)
-			messages.send(`error`, { message: `Voting is not allowed at this time`, code: `WRONG_TIME` }, userId);
-
-		// Remember the vote
-		const hideJudge = (userId: string) => (shouldPickJudge && users.get(userId).role === 'judge' ? 'JUDGE' : userId);
-
-		if (didNotVote.indexOf(userId) === -1) snorts.push(selection);
-		else if (selection === 'innocent') innocent.push(hideJudge(userId));
-		else if (selection === 'guilty') guilty.push(hideJudge(userId));
-		else {
-			// And throw if it is invalid
-			return automated
-				? undefined
-				: messages.send(
-						`error`,
-						{ message: `Expected a 'innocent' or 'guilty' string.  Got ${selection}`, code: `INVALID` },
-						userId
-				  );
-		}
-
-		// Mark that user as voted
-		const index = didNotVote.indexOf(userId);
-		if (index !== -1) didNotVote.splice(index, 1);
-	}
 
 	function onTimerDone() {
 		// Auto select for the clients that did not do so themselves
-		didNotVote.forEach(id => {
+		users.aliveUsers().forEach(id => {
+			// Return if they have already voted
+			if (votes.has(id)) return;
+
+			// Auto select
 			const selection = autoSelect(id);
+			votes.set(id, selection);
 
 			// Tell the client what happend
 			messages.send(`vote`, selection, id);
+		});
 
-			// Tally the vote
-			handleVote(id, selection, true);
+		// Vote ballats
+		const innocent: string[] = [];
+		const guilty: string[] = [];
+		const snorts: string[] = [];
+
+		// Tally the votes
+		votes.forEach((selection, userId) => {
+			const hideJudge = (userId: string) => (shouldPickJudge && users.get(userId).role === 'judge' ? 'JUDGE' : userId);
+
+			if (canVote.indexOf(userId) === -1) snorts.push(selection);
+			else if (selection === 'innocent') innocent.push(hideJudge(userId));
+			else if (selection === 'guilty') guilty.push(hideJudge(userId));
+			else {
+				// And throw if it is invalid
+				return messages.send(
+					`error`,
+					{ message: `Expected a 'innocent' or 'guilty' string.  Got ${selection}`, code: `INVALID` },
+					userId
+				);
+			}
 		});
 
 		// Generate a result
@@ -114,7 +118,7 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 	}
 
 	function autoSelect(id: string): string {
-		if (canVote.indexOf(id)) return 'innocent'; // Always prefer innocent over guilty
+		if (canVote.indexOf(id) !== -1) return 'innocent'; // Always prefer innocent over guilty
 		return chooseRandArrItem(settings.snorts);
 	}
 }

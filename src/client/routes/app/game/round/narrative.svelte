@@ -20,7 +20,7 @@
 	export let id;
 	export let round;
 
-	$: paragraphs = insertEliminated($narrative.split('\n\n'));
+	$: paragraphs = $narrative.split('\n\n');
 
 	$eliminated.forEach(({ id, role }) => {
 		if ($self.id === id) $self.isDead = true;
@@ -44,16 +44,6 @@
 		}
 	};
 
-	function insertEliminated(lines) {
-		let index = lines.findIndex(line => arrestedTest.test(line));
-
-		if (index === -1) index = lines.length - 1;
-
-		lines.splice(index, 0, `$ELIMINATED$`);
-
-		return lines;
-	}
-
 	function next() {
 		if ($self.isOwner && $currentSocket) $currentSocket.send(`next`);
 	}
@@ -63,20 +53,17 @@
 
 </style>
 
-<Page slide={true}>
+<Page side={true}>
 	<div class="container">
-		<h2 class="center" style="padding-top: 100px">Narrative</h2>
+		<h2 class="center text-more" style="padding-top: 100px">What's new?</h2>
 		{#each paragraphs as line}
-			{#if line === '$ELIMINATED$'}
-				<p class="center" style="padding-top: 40px; padding-bottom: 40px;">
-					{#each $eliminated as { id }}
-						<UserChip {id} defaultFull={false} />
-					{/each}
-				</p>
-			{:else}
-				<p>{line}</p>
-			{/if}
+			<p>{line}</p>
 		{/each}
+		<p class="center" style="padding-top: 40px">
+			{#each $eliminated as { id }}
+				<UserChip {id} defaultFull={false} />
+			{/each}
+		</p>
 		<div style="padding-bottom: 100px;" />
 
 		<Progress on:done={next} time={paragraphs.length * 1000 * 10} />

@@ -9,5 +9,4 @@ export function play(url: string) {
 	if (!track) return console.error('Invalid track requested!');
 
 	track.play();
-	console.log(track.volume);
 }
