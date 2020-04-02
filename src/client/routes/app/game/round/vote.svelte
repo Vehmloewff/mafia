@@ -2,24 +2,33 @@
 	export const route = {
 		name: 'app.game.round.vote',
 		route: 'vote',
+		async resolve(_, params) {
+			return params;
+		},
 	};
 </script>
 
 <script>
 	import Page from '../../../../components/page.svelte';
 	import Button from '../../../../components/button.svelte';
-	import { trial } from './store';
-	import { users, self, currentSocket, messageListener } from '../../../../store';
+	import { trial, voteResult, snorts as snortsStore } from './store';
+	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
 	import snorts from '../../../../../game/default-snorts';
 	import { fly } from 'svelte/transition';
 
 	$: accused = $users.get($trial.user).name;
 	$: accusedBy = ($users.get($trial.accusedBy) || getUserString($trial.accusedBy)).name;
 
-	$: console.log(accused, accusedBy);
+	export let id;
+	export let round;
 
 	$messageListener = (key, message) => {
 		if (key === 'started-vote') voting = true;
+		if (key === 'vote-result') {
+			$snortsStore = message.snorts;
+			$voteResult = message;
+			$stateRouter.go('app.game.round.snore', { next: `vote-result`, id, round });
+		}
 	};
 
 	let voting = false;

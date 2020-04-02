@@ -4,7 +4,7 @@
 		route: 'snore',
 		querystringParameters: [`next`],
 		defaultParameters: {
-			next: `vote`,
+			next: `vote-result`,
 		},
 		async resolve(_, params) {
 			return params;
@@ -26,7 +26,7 @@
 	export let round;
 	export let next;
 
-	if (next !== 'narrative' && next !== 'vote') {
+	if (next !== 'narrative' && next !== 'vote-result') {
 		console.log('invalid next', next);
 		next = 'vote';
 	}
