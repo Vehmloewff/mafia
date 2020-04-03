@@ -18,7 +18,7 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 	const votes: Map<string, string> = new Map();
 
 	// Tell everyone that we are about to vote
-	users.aliveUsers().forEach(id => {
+	users.allUsers().forEach(id => {
 		messages.send(
 			`trial`,
 			{

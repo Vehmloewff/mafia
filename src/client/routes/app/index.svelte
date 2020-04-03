@@ -11,7 +11,7 @@
 	import Modal from '../../components/modal.svelte';
 	const gameInProgress = localStorage.getItem(`game-in-progress`);
 
-	if (gameInProgress) $stateRouter.go(`app.game.resume`, { id: gameInProgress }, { replace: true });
+	if (gameInProgress) $stateRouter.go(`app.game`, { id: gameInProgress }, { replace: true });
 </script>
 
 <style>

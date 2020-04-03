@@ -10,7 +10,7 @@
 
 <script>
 	import Page from '../../../../components/page.svelte';
-	import { trials, eliminated as eliminatedStore } from './store';
+	import { trials, eliminated as eliminatedStore, trial } from './store';
 	import UserChip from '../../../../components/user-chip.svelte';
 	import Button from '../../../../components/button.svelte';
 	import { self, currentSocket, stateRouter, messageListener } from '../../../../store';
@@ -23,7 +23,11 @@
 	];
 
 	$messageListener = (key, message) => {
-		if (key === 'round') $stateRouter.go(`app.game.round`, { id, round: message });
+		if (key === 'round') {
+			$trials = [];
+			$trial = {};
+			$stateRouter.go(`app.game.round`, { id, round: message });
+		}
 	};
 
 	function nextRound() {

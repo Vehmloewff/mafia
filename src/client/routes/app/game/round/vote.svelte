@@ -38,9 +38,6 @@
 	$: guilty !== null ? sendSelection(guilty ? 'guilty' : 'innocent') : null;
 	$: selectedSnort !== null ? sendSelection(selectedSnort) : null;
 
-	$trials.push($trial);
-	$trials = $trials;
-
 	function sendSelection(selection) {
 		$currentSocket.send(`vote`, selection);
 	}

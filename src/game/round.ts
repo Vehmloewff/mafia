@@ -47,7 +47,7 @@ export default function createRound(messages: MessageHandler, users: Users, sett
 
 	function next() {
 		// End the game if there are any mafias left
-		if (!users.usersOnRole('mafia').length) hooks.onGameOver();
+		if (gameIsOver()) hooks.onGameOver();
 		// If there are still trials left, vote on them
 		else if (trials.length) createTrial(messages, users, trials[0], settings, () => onTrialDone());
 		// Otherwise, the round is over
@@ -56,6 +56,15 @@ export default function createRound(messages: MessageHandler, users: Users, sett
 			messages.broadcast(`round-over`, null);
 			hooks.onRoundOver();
 		}
+	}
+
+	function gameIsOver(): boolean {
+		// Game over if there are only mafias left
+		if (users.aliveUsers().length === users.aliveUsersOnRole('mafia').length) return true;
+		// or if there are no mafias
+		if (!users.aliveUsersOnRole('mafia').length) return true;
+
+		return false;
 	}
 
 	function getTrials() {

@@ -14,6 +14,7 @@
 	import UserChip from '../../../../components/user-chip.svelte';
 	import { narrative, eliminated, trial } from './store';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
+	import { nextListener } from '../../../../services';
 
 	const arrestedTest = /^.+ what do you have to say for (yourself|yourselves)\?$/;
 
@@ -33,16 +34,7 @@
 		$users = $users;
 	});
 
-	$messageListener = (key, message) => {
-		if (key === 'trial') {
-			$trial = message;
-			$stateRouter.go('app.game.round.vote', { id, round });
-		} else if (key === 'round-over') {
-			$stateRouter.go('app.game.round.recap', { id, round });
-		} else if (key === 'game-over') {
-			$stateRouter.go('app.game.game-end', { id });
-		}
-	};
+	$messageListener = nextListener(id, round);
 
 	function next() {
 		if ($self.isOwner && $currentSocket) $currentSocket.send(`next`);

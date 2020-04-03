@@ -14,20 +14,12 @@
 	import Progress from '../../../../components/progress.svelte';
 	import { voteResult, trial } from './store';
 	import { self, stateRouter, currentSocket, messageListener, users } from '../../../../store';
+	import { nextListener } from '../../../../services';
 
 	export let id;
 	export let round;
 
-	$messageListener = (key, message) => {
-		if (key === 'trial') {
-			$trial = message;
-			$stateRouter.go('app.game.round.vote', { id, round });
-		} else if (key === 'round-over') {
-			$stateRouter.go('app.game.round.recap', { id, round });
-		} else if (key === 'game-over') {
-			$stateRouter.go('app.game.game-end', { id });
-		}
-	};
+	$messageListener = nextListener(id, round);
 
 	let judgesOnly = false;
 	$: {

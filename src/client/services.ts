@@ -1,10 +1,11 @@
 // @ts-ignore
 import { createModal } from './components/modal.svelte';
-import { self, users, error, owner, settings } from './store';
+import { self, users, error, owner, settings, stateRouter } from './store';
 import { get } from 'svelte/store';
 import { User } from '../game/users';
 import { numberRoles } from '../game/number-roles';
 import { Settings } from '../game/interfaces';
+import { trial, trials } from './routes/app/game/round/store';
 
 export const sureExitGame = () => {
 	createModal({
@@ -58,3 +59,35 @@ export const playersNeeded = () => {
 export function makeIdReadable(id: string): string {
 	return id.slice(0, 3) + `-` + id.slice(3, 6);
 }
+
+export const nextListener = (id: string, round: string) => (key: string, message: any) => {
+	const $stateRouter = get(stateRouter);
+	const $self = get(self);
+
+	if (key === 'trial') {
+		if ($self.isDead) {
+			$stateRouter.go('app.game.rip', { id });
+		} else {
+			trial.set(message);
+			trials.update($trials => {
+				$trials.push(message);
+				return $trials;
+			});
+			$stateRouter.go('app.game.round.vote', { id, round });
+		}
+	} else if (key === 'round-over') {
+		if ($self.isDead) {
+			$stateRouter.go('app.game.rip', { id });
+		} else {
+			$stateRouter.go('app.game.round.recap', { id, round });
+		}
+	} else if (key === 'game-over') {
+		message.forEach((user: User) => {
+			users.update($users => {
+				$users.set(user.id, user);
+				return $users;
+			});
+		});
+		$stateRouter.go('app.game.game-end', { id });
+	}
+};

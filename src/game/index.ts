@@ -105,7 +105,7 @@ export default function createGame(onGameOver: () => void) {
 	});
 
 	function beamRoles(sender: string) {
-		const allUsers = users.allUsers();
+		const allUsers = users.aliveUsers();
 
 		// Get the amount of each role
 		let villager: number;
@@ -136,6 +136,10 @@ export default function createGame(onGameOver: () => void) {
 
 				// Tell the client what role they are to play
 				messages.send(`role`, value, userId);
+
+				// Remove user from the iteration
+				const index = allUsers.indexOf(userId);
+				allUsers.splice(index, 1);
 			});
 		};
 

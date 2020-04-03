@@ -13,13 +13,14 @@ export const repeat = (n: number, cb: (index: number) => void) => {
 };
 
 export const shuffleArray = <T>(arr: T[], n?: number): T[] => {
+	const oldArr: T[] = Array.from(arr);
 	const newArr: T[] = [];
 
-	repeat(n || arr.length, () => {
-		const randomNumber = getRandInteger(0, arr.length - 1);
-		newArr.push(arr[randomNumber]);
+	repeat(n || oldArr.length, () => {
+		const randomNumber = getRandInteger(0, oldArr.length);
+		newArr.push(oldArr[randomNumber]);
 
-		arr.splice(randomNumber, 1);
+		oldArr.splice(randomNumber, 1);
 	});
 
 	return newArr;
