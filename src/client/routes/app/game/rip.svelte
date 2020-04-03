@@ -14,7 +14,15 @@
 	export let id;
 
 	$messageListener = (key, message) => {
-		if (key === 'game-over') $stateRouter.go('app.game.game-end', { id });
+		if (key === 'game-over') {
+			message.forEach(user => {
+				users.update($users => {
+					$users.set(user.id, user);
+					return $users;
+				});
+			});
+			$stateRouter.go('app.game.game-end', { id });
+		}
 	};
 </script>
 
