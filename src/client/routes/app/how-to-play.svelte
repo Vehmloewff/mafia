@@ -19,7 +19,7 @@
 	</div>
 	<div slot="middle">
 		<span>
-			<h2>How to play</h2>
+			<h2>How&nbsp;to&nbsp;play</h2>
 		</span>
 	</div>
 </Navbar>
