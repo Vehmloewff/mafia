@@ -1,0 +1,35 @@
+<script context="module">
+	export const route = {
+		name: `app`,
+		route: `/`,
+		defaultChild: `home`,
+	};
+</script>
+
+<script>
+	import { stateRouter } from '../../store';
+	import Modal from '../../components/modal.svelte';
+	const gameInProgress = localStorage.getItem(`game-in-progress`);
+
+	if (gameInProgress) $stateRouter.go(`app.game`, { id: gameInProgress }, { replace: true });
+</script>
+
+<style>
+	.app {
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		background: var(--background);
+		color: var(--foreground);
+	}
+</style>
+
+<div class="app">
+	<Modal>
+		<div class="centered">
+			<uiView />
+		</div>
+	</Modal>
+</div>

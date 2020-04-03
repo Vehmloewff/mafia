@@ -2,10 +2,12 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
 import run from '@rollup/plugin-run';
+import json from '@rollup/plugin-json';
 import globFiles from 'rollup-plugin-glob-files';
 import command from 'rollup-plugin-command';
 import svelte from 'rollup-plugin-svelte';
 import livereload from 'rollup-plugin-livereload';
+import svg from 'rollup-plugin-svg';
 
 import pkg from './package.json';
 import builtinModules from 'builtin-modules';
@@ -16,6 +18,7 @@ const watching = process.env.ROLLUP_WATCH;
 const plainTests = process.env.BLAND_TESTS;
 
 const plugins = [
+	json(),
 	commonjs(),
 	sucrase({
 		transforms: ['typescript'],
@@ -23,11 +26,17 @@ const plugins = [
 ];
 
 const clientPlugins = [
-	svelte({
-		emitCss: true,
-		css: css => css.write('public/bundle.css'),
-		dev: !building,
+	globFiles({
+		key: `@routes`,
+		include: `./src/client/routes/**/*.svelte`,
+		importStar: true,
 	}),
+	svelte({
+		emitCss: false,
+		css: css => css.write('public/bundle.css'),
+		dev: false,
+	}),
+	svg(),
 	resolve({
 		browser: !testing,
 		dedupe: ['svelte'],
@@ -39,6 +48,7 @@ const serverPlugins = [resolve(), ...plugins];
 
 const watch = {
 	clearScreen: false,
+	exclude: 'src/client/icons/**',
 };
 
 const build = () => [

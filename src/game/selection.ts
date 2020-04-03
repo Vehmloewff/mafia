@@ -12,30 +12,61 @@ interface Options {
 }
 
 export default function createSelection(users: Users, messages: MessageHandler, options: Options) {
-	const snorts: string[] = [];
-	const hurt: User[] = [];
-	const healed: User[] = [];
-	const arrested: User[] = [];
+	const selections: Map<string, string> = new Map();
 
 	createTimer(messages, users, 10, () => onTimerDone());
 
-	let didNotSelect = users.aliveUsers();
-
 	const unsubscribe = messages.register(`selection`, (selection: string, userId) => {
-		writeSelection(userId, selection);
+		selections.set(userId, selection);
 	});
 
 	function onTimerDone() {
-		// Loop through all the users that did not select and choose for them
-		didNotSelect.forEach(id => {
-			const user = users.get(id);
+		// Autoselect for those that did not select themselves
+		users.aliveUsers().forEach(id => {
+			// Return if this user has already selected
+			if (selections.has(id)) return;
 
-			// Auto select
-			const selection = autoSelect(user);
-			writeSelection(id, selection);
+			// Create an autoselection
+			const selection = autoSelect(users.get(id));
+			selections.set(id, selection);
 
-			// Tell the client what happened
+			// Tell the user what happened
 			messages.send(`selection`, selection, id);
+		});
+
+		// Create some starting points
+		const snorts: string[] = [];
+		const hurt: User[] = [];
+		const healed: User[] = [];
+		const arrested: User[] = [];
+
+		// Tally the selections
+		selections.forEach((selection, userId) => {
+			const user = users.get(userId);
+
+			// Check if valid user
+			if (!user) return console.warn(`Ignoring invalid user ${userId}.`);
+
+			// What are they selecting?
+			if (user.role === 'judge' || user.role === 'villager') {
+				// Selection should be a snort
+				snorts.push(selection);
+			} else {
+				// Selection should be a user
+				const target = users.get(selection);
+
+				// But we'll throw if it's not
+				if (!target) return messages.send(`error`, { message: `Selection is not a user.`, code: `NOT_USER` }, userId);
+
+				// Throw if a mafia is selecting a mafia
+				if (user.role === 'mafia' && target.role === 'mafia')
+					return messages.send(`error`, { message: `A mafia can't select a mafia`, code: `MAFIA_CIVIL_WAR` }, userId);
+
+				// Remember the selection
+				if (user.role === 'mafia') hurt.push(target);
+				else if (user.role === 'doctor') healed.push(target);
+				else if (user.role === 'sheriff') arrested.push(target);
+			}
 		});
 
 		// Define the genders
@@ -74,36 +105,6 @@ export default function createSelection(users: Users, messages: MessageHandler, 
 
 		// Let others know that this is done
 		if (options.onAllSelectionsDone) options.onAllSelectionsDone(arrested.map(user => user.id));
-	}
-
-	function writeSelection(userId: string, selection: string, sendErrors: boolean = true) {
-		const user = users.get(userId);
-
-		if (!user) return console.warn(`Ignoring invalid user ${userId}.`);
-
-		if (user.role === 'judge' || user.role === 'villager') {
-			// Selection should be a snort
-			snorts.push(selection);
-		} else {
-			// Selection should be a user
-			const target = users.get(selection);
-
-			// But we'll throw if it's not
-			if (!target && sendErrors) return messages.send(`error`, { message: `Selection is not a user.`, code: `NOT_USER` }, userId);
-
-			// Throw if a mafia is selecting a mafia
-			if (user.role === 'mafia' && target.role === 'mafia' && sendErrors)
-				return messages.send(`error`, { message: `A mafia can't select a mafia`, code: `MAFIA_CIVIL_WAR` }, userId);
-
-			// Remember the selection
-			if (user.role === 'mafia') hurt.push(target);
-			else if (user.role === 'doctor') healed.push(target);
-			else if (user.role === 'sheriff') arrested.push(target);
-		}
-
-		// Remove userId from didNotSelect array
-		const index = didNotSelect.indexOf(userId);
-		didNotSelect.splice(index, 1);
 	}
 
 	function autoSelect(user: User): string {

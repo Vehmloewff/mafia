@@ -2,4 +2,124 @@ body,
 html {
 	margin: 0;
 	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+	--background: #272c34;
+	--midground: #21252b;
+	--foreground-more: #d6d9df;
+	--foreground: #9da5b4;
+	--foreground-less: #63686d;
+	--foreground-less: #666e7a;
+	--highlight: #333842;
+	--highlight-less: #2e323c;
+	--highlight-more: #3a3f4b;
+	--sharp: #181a1f;
+	--action: #4d78cc;
+	--action-less: #4469b4;
+	--placeholders: #4b5365;
+	--danger: #dd4f3f;
+	--outlines: #e0c285;
+	font-size: 16px;
+
+	/* progress and snack bar inset */
+	--pack-inset: 10px;
+}
+
+@media (min-width: 400px) {
+	:root {
+		--pack-inset: 20px;
+	}
+}
+
+@media (min-width: 600px) {
+	:root {
+		--pack-inset: 100px;
+	}
+}
+
+@media (min-width: 800px) {
+	:root {
+		--pack-inset: 200px;
+	}
+}
+
+@media (min-width: 1000px) {
+	:root {
+		--pack-inset: 300px;
+	}
+}
+
+@media (min-width: 1200px) {
+	:root {
+		--pack-inset: 400px;
+	}
+}
+
+@media (min-width: 1400px) {
+	:root {
+		--pack-inset: 500px;
+	}
+}
+
+@media (min-width: 1600px) {
+	:root {
+		--pack-inset: 600px;
+	}
+}
+
+.text-less {
+	color: var(--foreground-less);
+}
+.text-more {
+	color: var(--foreground-more);
+}
+.text {
+	color: var(--foreground);
+}
+
+.container {
+	padding-right: 16px;
+	padding-left: 16px;
+}
+.center {
+	text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 100;
+}
+
+.centered {
+	max-width: 1000px;
+	margin: auto;
+}
+
+input {
+	background: rgba(0, 0, 0, 0);
+	font-size: 16px;
+	border: none;
+	outline: none;
+	color: var(--foreground-more);
+}
+
+code {
+	background: var(--midground);
+	border-radius: 4px;
+	border: 1px solid var(--sharp);
+	padding: 3px 10px;
+}
+pre {
+	overflow-y: hidden;
+	overflow-x: auto;
+	padding: 5px;
+}
+.nav-spacer {
+	padding-top: 55px;
 }

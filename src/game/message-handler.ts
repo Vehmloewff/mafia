@@ -13,6 +13,8 @@ export default function messageHandler(options: Options) {
 	const registrations: Map<string, Registar[]> = new Map();
 	const clientMessageListeners: ClientMessageListener[] = [];
 
+	let gameDidStart = false;
+
 	function register(key: string, registar: Registar) {
 		const old = registrations.get(key) || [];
 		old.push(registar);
@@ -43,6 +45,10 @@ export default function messageHandler(options: Options) {
 				client
 			)
 		);
+	}
+
+	function gameStarted() {
+		gameDidStart = true;
 	}
 
 	function broadcast(key: string, data: unknown) {
@@ -79,6 +85,10 @@ export default function messageHandler(options: Options) {
 		});
 	}
 
+	function playable() {
+		return !gameDidStart;
+	}
+
 	function onMessage(handler: ClientMessageListener) {
 		clientMessageListeners.push(handler);
 	}
@@ -87,7 +97,7 @@ export default function messageHandler(options: Options) {
 		try {
 			const data = typeof message === 'string' ? JSON.parse(message) : message;
 
-			if (!data.key || typeof data.key !== 'string' || !data.params) throw ``;
+			if (!data.key || typeof data.key !== 'string') throw ``;
 
 			return data;
 		} catch (_) {
@@ -109,12 +119,14 @@ export default function messageHandler(options: Options) {
 	return {
 		register,
 		send,
+		gameStarted,
 		broadcast,
 		broadcastExclude,
 		client: {
 			addClient,
 			handleMessage,
 			onMessage,
+			playable,
 		},
 	};
 }

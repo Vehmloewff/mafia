@@ -9,7 +9,8 @@
 		"emitDeclarationOnly": true,
 		"declaration": true,
 		"declarationDir": "dist/typings",
-		"lib": ["es5", "es6", "dom"]
+		"lib": ["es5", "es6", "dom"],
+		"types": ["@pyoner/svelte-types"]
 	},
 	"target": "ESNext",
 	"module": "ES6",

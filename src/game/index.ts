@@ -16,9 +16,9 @@ export default function createGame(onGameOver: () => void) {
 	let settings: Settings = {
 		revealAllies: true,
 		openVote: true,
-		maxEach: 2,
+		maxEach: null,
 		numberVillagers: 1,
-		incorperateJudges: true,
+		incorperateJudges: false,
 		maxArrestsPerRound: 3,
 		roundsPerCitizensArrest: 3,
 		snorts: Object.keys(defaultSnorts),
@@ -89,13 +89,14 @@ export default function createGame(onGameOver: () => void) {
 		if (!users.get(id).isOwner) return messages.send(`error`, { message: `Only owners can start the game.`, code: `NOT_OWNER` }, id);
 
 		// Beam down each players roles
-		beamRoles();
+		beamRoles(id);
 
 		// Broadcast the settings
 		beamSettings();
 
 		// Remember this
 		gameDidStart = true;
+		messages.gameStarted();
 
 		// Create the rounds handler
 		createRounds(messages, users, settings, {
@@ -103,15 +104,25 @@ export default function createGame(onGameOver: () => void) {
 		});
 	});
 
-	function beamRoles() {
-		const allUsers = users.allUsers();
+	function beamRoles(sender: string) {
+		const allUsers = users.aliveUsers();
 
 		// Get the amount of each role
-		const { villager, eachRole } = numberRoles(allUsers.length, {
-			maxOfEach: settings.maxEach,
-			amountOfVillagers: settings.numberVillagers,
-			judges: settings.incorperateJudges,
-		});
+		let villager: number;
+		let eachRole: number;
+		try {
+			const res = numberRoles(allUsers.length, {
+				maxOfEach: settings.maxEach,
+				amountOfVillagers: settings.numberVillagers,
+				judges: settings.incorperateJudges,
+			});
+
+			villager = res.villager;
+			eachRole = res.eachRole;
+		} catch (e) {
+			if (e === `NOT_ENOUGH`) messages.send(`error`, { message: `Not enough users to start a game`, code: e }, sender);
+			console.error(e);
+		}
 
 		// Create a helper function
 		const assign = (amount: number, value: Role) => {
@@ -125,6 +136,10 @@ export default function createGame(onGameOver: () => void) {
 
 				// Tell the client what role they are to play
 				messages.send(`role`, value, userId);
+
+				// Remove user from the iteration
+				const index = allUsers.indexOf(userId);
+				allUsers.splice(index, 1);
 			});
 		};
 
