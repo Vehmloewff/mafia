@@ -14,7 +14,8 @@
 	import { onMount } from 'svelte';
 
 	function keyUp(e) {
-		if (!modal) return;
+		if (!$modal) return;
+		if ($modal.preventCancel) return;
 
 		if (e.key === `Escape`) {
 			const onCancelClick = $modal && $modal.onCancelClick;
@@ -75,15 +76,17 @@
 					<svelte:component this={$modal.message} bind:onOkClick bind:okDisabled />
 				{/if}
 				<div class="footer">
-					<span style="float: left">
-						<Button
-							on:click={() => {
-								if ($modal.onCancelClick) $modal.onCancelClick();
-								$modal = null;
-							}}>
-							Cancel
-						</Button>
-					</span>
+					{#if $modal.preventCancel}
+						<span style="float: left">
+							<Button
+								on:click={() => {
+									if ($modal.onCancelClick) $modal.onCancelClick();
+									$modal = null;
+								}}>
+								Cancel
+							</Button>
+						</span>
+					{/if}
 					<Button
 						state={$modal.state}
 						simple={false}

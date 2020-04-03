@@ -1,11 +1,12 @@
 // @ts-ignore
 import { createModal } from './components/modal.svelte';
-import { self, users, error, owner, settings, stateRouter } from './store';
+import { self, users, error, owner, settings, stateRouter, currentSocket } from './store';
 import { get } from 'svelte/store';
 import { User } from '../game/users';
 import { numberRoles } from '../game/number-roles';
 import { Settings } from '../game/interfaces';
 import { trial, trials } from './routes/app/game/round/store';
+import OwnerDefer from './components/owner-defer.svelte';
 
 export const sureExitGame = () => {
 	createModal({
@@ -89,5 +90,23 @@ export const nextListener = (id: string, round: string) => (key: string, message
 			});
 		});
 		$stateRouter.go('app.game.game-end', { id });
+	}
+};
+
+export const callNext = () => {
+	const $currentSocket = get(currentSocket);
+	const $self = get(self);
+
+	if ($self.isOwner && $self.isDead)
+		createModal({
+			title: `Defer your ownership`,
+			message: OwnerDefer,
+			preventCancel: true,
+			onOkClick: () => next(),
+		});
+	else next();
+
+	function next() {
+		$currentSocket.send('next');
 	}
 };

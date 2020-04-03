@@ -35,6 +35,7 @@
 </style>
 
 <div class="container center">
+	<p>Dead people can't be game owners.</p>
 	<p>
 		{#each Array.from($users.values).filter(user => !user.isDead && user.id !== $self.id) as { name, id }}
 			<div
