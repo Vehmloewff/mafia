@@ -23,6 +23,8 @@
 		bottom: 0;
 		background: var(--background);
 		color: var(--foreground);
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
 	}
 </style>
 
