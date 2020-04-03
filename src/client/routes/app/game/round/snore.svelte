@@ -49,7 +49,7 @@
 			readySnorts = readySnorts;
 
 			if (!readySnorts.length) {
-				timeout = setTimeout(() => $stateRouter.go(`app.game.round.${next}`, { id, round }), 200);
+				timeout = setTimeout(done, 200);
 			} else {
 				playNextSnort();
 			}
@@ -58,11 +58,15 @@
 
 	function playNextSnort() {
 		const snort = readySnorts[0];
-		if (!snort) return;
+		if (!snort) return done();
 
 		play(snort.url);
 
 		waitABit();
+	}
+
+	function done() {
+		$stateRouter.go(`app.game.round.${next}`, { id, round });
 	}
 
 	function getRandomPosition() {

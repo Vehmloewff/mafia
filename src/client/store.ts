@@ -26,7 +26,6 @@ export const self = writable<User>({
 self.subscribe(data => localStorage.setItem(`self`, JSON.stringify({ id: data.id, name: data.name, gender: data.gender })));
 
 export const error = writable<{ message: string; code: string }>(null);
-export const roundNumber = writable(0);
 export const messageListener = writable((messgageKey: string, params: unknown) => {});
 export const owner = writable<string>(null);
 export const timeLeft = writable(0);

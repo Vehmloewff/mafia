@@ -146,7 +146,7 @@
 				</div>
 			</div>
 		{:else}
-			<p class="one-liner">Everyone voted {verdict}</p>
+			<p class="one-liner">That's how everyone voted.</p>
 		{/if}
 
 		{#if $voteResult.isGuilty}

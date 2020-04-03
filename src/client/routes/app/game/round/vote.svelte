@@ -11,7 +11,7 @@
 <script>
 	import Page from '../../../../components/page.svelte';
 	import Button from '../../../../components/button.svelte';
-	import { trial, voteResult, snorts as snortsStore } from './store';
+	import { trial, trials, voteResult, snorts as snortsStore } from './store';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
 	import snorts from '../../../../../game/default-snorts';
 	import { fly } from 'svelte/transition';
@@ -37,6 +37,9 @@
 
 	$: guilty !== null ? sendSelection(guilty ? 'guilty' : 'innocent') : null;
 	$: selectedSnort !== null ? sendSelection(selectedSnort) : null;
+
+	$trials.push($trial);
+	$trials = $trials;
 
 	function sendSelection(selection) {
 		$currentSocket.send(`vote`, selection);
