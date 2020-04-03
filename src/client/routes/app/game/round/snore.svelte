@@ -26,6 +26,9 @@
 	export let round;
 	export let next;
 
+	let innerHeight;
+	let innerWidth;
+
 	if (next !== 'narrative' && next !== 'vote-result') {
 		console.log('invalid next', next);
 		next = 'vote';
@@ -70,7 +73,7 @@
 	}
 
 	function getRandomPosition() {
-		return `top: ${getRandInteger(0, 100)}%; left: ${getRandInteger(0, 100)}%;`;
+		return `top: ${getRandInteger(-50, innerHeight - 100)}px; left: ${getRandInteger(-50, innerWidth - 100)}px;`;
 	}
 </script>
 
@@ -93,6 +96,8 @@
 		text-align: center;
 	}
 </style>
+
+<svelte:window bind:innerHeight bind:innerWidth />
 
 <Page slide={true}>
 	<div class="playing-field">
