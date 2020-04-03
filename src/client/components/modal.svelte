@@ -23,6 +23,9 @@
 			if (onCancelClick) onCancelClick();
 		}
 	}
+
+	let onOkClick;
+	let okDisabled;
 </script>
 
 <style>
@@ -66,7 +69,11 @@
 		<div class="modal-container">
 			<div class="modal" transition:fly={{ y: -50 }}>
 				<h3>{$modal.title}</h3>
-				<p class="text">{$modal.message}</p>
+				{#if typeof $modal.message === 'string'}
+					<p class="text">{$modal.message}</p>
+				{:else}
+					<svelte:component this={$modal.message} bind:onOkClick bind:okDisabled />
+				{/if}
 				<div class="footer">
 					<span style="float: left">
 						<Button
@@ -80,8 +87,10 @@
 					<Button
 						state={$modal.state}
 						simple={false}
+						disabled={okDisabled}
 						on:click={() => {
 							if ($modal.onOkClick) $modal.onOkClick();
+							if (onOkClick) onOkClick();
 							$modal = null;
 						}}>
 						{$modal.primaryText || 'Ok'}
