@@ -9,7 +9,7 @@
 </script>
 
 <script>
-	import { messageListener, stateRouter } from '../../../store';
+	import { messageListener, stateRouter, users } from '../../../store';
 
 	export let id;
 
