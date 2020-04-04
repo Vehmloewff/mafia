@@ -1,12 +1,16 @@
-import { self, error, messageListener, users, timeLeft } from './store';
+import { self, error, messageListener, users, timeLeft, settings } from './store';
 import { get } from 'svelte/store';
 import { stringify } from 'query-string';
 import { User } from '../game/users';
 import { setOwner } from './services';
+import defaultSettings from '../default-settings';
 
 export type Listener = () => void;
 
 export default function createSocket(gameId: string) {
+	users.set(new Map());
+	settings.set(defaultSettings);
+
 	const $self = get(self);
 	const toSend = {
 		id: $self.id,

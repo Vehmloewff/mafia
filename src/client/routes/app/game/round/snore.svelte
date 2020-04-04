@@ -18,7 +18,7 @@
 	import { stateRouter } from '../../../../store';
 	import { fade, fly, scale } from 'svelte/transition';
 	import { getRandInteger } from '../../../../../utils';
-	import allSnorts from '../../../../../game/default-snorts';
+	import allSnorts from '../../../../../default-snorts';
 	import Page from '../../../../components/page.svelte';
 	import { load, play } from '../../../../audio';
 

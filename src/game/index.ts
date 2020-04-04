@@ -3,9 +3,9 @@ import messageHandler from './message-handler';
 import storeUsers from './users';
 import { numberRoles } from './number-roles';
 import { shuffleArray } from '../utils';
-import defaultSnorts from './default-snorts';
 import { Settings } from './interfaces';
 import createRounds from './rounds';
+import defaultSettings from '../default-settings';
 
 export default function createGame(onGameOver: () => void) {
 	const messages = messageHandler({ onClientAdded, afterClientAdded });
@@ -13,16 +13,7 @@ export default function createGame(onGameOver: () => void) {
 
 	let gameDidStart = false;
 	let ownerAtStart: string;
-	let settings: Settings = {
-		revealAllies: true,
-		openVote: true,
-		maxEach: null,
-		numberVillagers: 1,
-		incorperateJudges: false,
-		maxArrestsPerRound: 3,
-		roundsPerCitizensArrest: 3,
-		snorts: Object.keys(defaultSnorts),
-	};
+	let settings: Settings = defaultSettings;
 
 	function afterClientAdded(id: string, isNew: boolean) {
 		const user = users.get(id);

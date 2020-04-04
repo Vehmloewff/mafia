@@ -11,7 +11,7 @@
 <script>
 	import Page from '../../../../components/page.svelte';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
-	import snorts from '../../../../../game/default-snorts';
+	import snorts from '../../../../../default-snorts';
 	import { narrative, snorts as snortsStore, eliminated } from './store';
 
 	export let id;

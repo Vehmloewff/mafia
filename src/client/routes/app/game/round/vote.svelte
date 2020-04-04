@@ -13,7 +13,7 @@
 	import Button from '../../../../components/button.svelte';
 	import { trial, trials, voteResult, snorts as snortsStore } from './store';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
-	import snorts from '../../../../../game/default-snorts';
+	import snorts from '../../../../../default-snorts';
 	import { fly } from 'svelte/transition';
 
 	$: accused = $users.get($trial.user).name;
