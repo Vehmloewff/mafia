@@ -18,7 +18,7 @@
 	import socket from '../../../socket';
 	import { stateRouter, self, currentSocket } from '../../../store';
 	import foid from 'foid';
-	import { gameIsValid } from '../../../verify-game';
+	import { gameStatus } from '../../../verify-game';
 
 	export let id;
 
@@ -44,8 +44,10 @@
 
 		loading = true;
 
-		if (!(await gameIsValid(id))) {
-			return $stateRouter.go(`app.invalid-game`, { id });
+		const status = await gameStatus(id);
+
+		if (status === 'invalid') {
+			return $stateRouter.go(`app.invalid-game`, { id }, { replace: true });
 		}
 
 		self.update(old => {

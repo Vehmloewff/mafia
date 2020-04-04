@@ -9,26 +9,37 @@
 </script>
 
 <script>
-	import { stateRouter } from '../../../store';
+	import { stateRouter, currentSocket } from '../../../store';
 	import { onMount } from 'svelte';
-	import { gameExists } from '../../../verify-game';
+	import { gameStatus } from '../../../verify-game';
 	import Loader from '../../../components/loader.svelte';
 	import Button from '../../../components/button.svelte';
 	import Page from '../../../components/page.svelte';
 	import { sureExitGame } from '../../../services';
+	import createSocket from '../../../socket';
 
 	let message = `Detecting game`;
 	let nonExistent = false;
 	export let id;
 
 	onMount(async () => {
-		if (await gameExists(id)) {
+		const status = await gameStatus(id);
+
+		if (status === 'started') {
 			message = `Connecting to game`;
-			// Join the game
+
+			connect();
+		} else if (status === 'ok') {
+			await connect();
+			$stateRouter.go('app.game.pre-start', { id }, { replace: true });
 		} else {
 			nonExistent = true;
 		}
 	});
+
+	async function connect() {
+		$currentSocket = await createSocket(id);
+	}
 </script>
 
 <style>

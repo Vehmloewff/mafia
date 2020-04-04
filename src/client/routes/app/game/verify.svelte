@@ -11,7 +11,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { stateRouter } from '../../../store';
-	import { gameIsValid } from '../../../verify-game';
+	import { gameStatus } from '../../../verify-game';
 	import Loader from '../../../components/loader.svelte';
 	import Button from '../../../components/button.svelte';
 	import Page from '../../../components/page.svelte';
@@ -19,8 +19,12 @@
 	export let id;
 
 	onMount(async () => {
-		if (await gameIsValid(id)) {
+		const status = await gameStatus(id);
+
+		if (status === 'ok') {
 			$stateRouter.go(`app.game.self`, { id }, { replace: true });
+		} else if (status === 'started') {
+			$stateRouter.go(`app.game.resume`, { id }, { replace: true });
 		} else {
 			$stateRouter.go(`app.invalid-game`, { id }, { replace: true });
 		}
