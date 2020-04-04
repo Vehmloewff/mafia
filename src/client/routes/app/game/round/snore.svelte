@@ -73,7 +73,7 @@
 	}
 
 	function getRandomPosition() {
-		return `top: ${getRandInteger(-50, innerHeight - 100)}px; left: ${getRandInteger(-50, innerWidth - 100)}px;`;
+		return `top: ${getRandInteger(0, innerHeight - 200)}px; left: ${getRandInteger(0, innerWidth - 200)}px;`;
 	}
 </script>
 
@@ -82,6 +82,7 @@
 		padding-top: 56px;
 		position: relative;
 		height: 100vh;
+		overflow: hidden;
 	}
 
 	.snort {

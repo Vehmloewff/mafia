@@ -13,5 +13,9 @@ describe(`narrator`, it => {
 			villager: 2,
 			eachRole: 1,
 		});
+		expect(numberRoles(7, { maxOfEach: null, amountOfVillagers: 1, judges: false })).toMatchObject({
+			villager: 1,
+			eachRole: 2,
+		});
 	});
 });

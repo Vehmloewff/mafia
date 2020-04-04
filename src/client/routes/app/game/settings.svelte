@@ -17,7 +17,10 @@
 
 	function setValue(e, key) {
 		const value = e.target.selectedOptions[0].value;
-		$settings[key] = value;
+		const number = Number(value);
+		const isNull = value === 'null';
+
+		$settings[key] = isNull ? null : Number.isNaN(number) ? value : number;
 	}
 
 	export let id;

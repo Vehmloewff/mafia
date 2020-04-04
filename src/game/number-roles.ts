@@ -10,7 +10,7 @@ export function numberRoles(num: number, options: { maxOfEach: number | null; am
 	}
 	if (options.amountOfVillagers > 3) throw new Error(`INVALID_PARAM`);
 
-	let villagers = Math.floor(num * 0.3 * options.amountOfVillagers);
+	let villagers = options.amountOfVillagers === 1 ? 1 : Math.floor(num * 0.2 * options.amountOfVillagers);
 
 	function makeGuessForNumberEach() {
 		const guess = Math.floor((num - villagers) / importantRoles);
