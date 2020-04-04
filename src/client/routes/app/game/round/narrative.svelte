@@ -10,7 +10,6 @@
 
 <script>
 	import Page from '../../../../components/page.svelte';
-	import Progress from '../../../../components/progress.svelte';
 	import UserChip from '../../../../components/user-chip.svelte';
 	import { narrative, eliminated, trial } from './store';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
@@ -57,7 +56,5 @@
 			{/each}
 		</p>
 		<div style="padding-bottom: 100px;" />
-
-		<Progress on:done={next} time={paragraphs.length * 1000 * 10} />
 	</div>
 </Page>

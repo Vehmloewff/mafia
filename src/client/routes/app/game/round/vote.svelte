@@ -10,6 +10,7 @@
 
 <script>
 	import Page from '../../../../components/page.svelte';
+	import Progress from '../../../../components/progress.svelte';
 	import Button from '../../../../components/button.svelte';
 	import { trial, trials, voteResult, snorts as snortsStore } from './store';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
@@ -120,3 +121,5 @@
 		{/if}
 	</div>
 </Page>
+
+<Progress time={10 * 1000} />

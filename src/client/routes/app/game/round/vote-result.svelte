@@ -11,7 +11,6 @@
 <script>
 	import Page from '../../../../components/page.svelte';
 	import UserChip from '../../../../components/user-chip.svelte';
-	import Progress from '../../../../components/progress.svelte';
 	import { voteResult, trial } from './store';
 	import { self, stateRouter, currentSocket, messageListener, users } from '../../../../store';
 	import { nextListener, callNext } from '../../../../services';
@@ -154,7 +153,5 @@
 				<p>Oh yeah! You got the mafia!</p>
 			{/if}
 		</div>
-
-		<Progress time={15 * 1000} on:done={done} />
 	</div>
 </Page>
