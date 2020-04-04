@@ -33,7 +33,7 @@
 
 	<main>
 		<div>
-			<Button simple={false}>Join a Game</Button>
+			<Button simple={false} state="app.join">Join a Game</Button>
 		</div>
 		<div>- or -</div>
 		<div>
