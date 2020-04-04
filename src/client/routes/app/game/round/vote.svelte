@@ -10,11 +10,13 @@
 
 <script>
 	import Page from '../../../../components/page.svelte';
+	import Progress from '../../../../components/progress.svelte';
 	import Button from '../../../../components/button.svelte';
 	import { trial, trials, voteResult, snorts as snortsStore } from './store';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
-	import snorts from '../../../../../game/default-snorts';
+	import snorts from '../../../../../default-snorts';
 	import { fly } from 'svelte/transition';
+	import { createSnackbar } from '../../../../components/snackbar.svelte';
 
 	$: accused = $users.get($trial.user).name;
 	$: accusedBy = ($users.get($trial.accusedBy) || getUserString($trial.accusedBy)).name;
@@ -28,6 +30,11 @@
 			$snortsStore = message.snorts;
 			$voteResult = message;
 			$stateRouter.go('app.game.round.snore', { next: `vote-result`, id, round });
+		}
+		if (key === 'vote') {
+			createSnackbar({
+				text: $trial.canVote ? `We voted "innocent" for you` : `Selected ${snorts[message]} for you`,
+			});
 		}
 	};
 
@@ -84,6 +91,7 @@
 
 	.floored {
 		padding-top: 30vh;
+		padding-bottom: 100px;
 	}
 </style>
 
@@ -120,3 +128,7 @@
 		{/if}
 	</div>
 </Page>
+
+{#if voting}
+	<Progress time={10 * 1000} />
+{/if}

@@ -14,11 +14,15 @@
 	import Page from '../../../components/page.svelte';
 	import { makeIdReadable } from '../../../services';
 	import Socket from '../../../components/socket.svelte';
+	import { createSnackbar } from '../../../components/snackbar.svelte';
 
 	export let id;
 
-	function copy() {
+	function copy(isLink = false) {
 		document.execCommand('copy');
+		createSnackbar({
+			text: `${isLink ? 'Link' : 'Id'} copied to clipboard!`,
+		});
 	}
 </script>
 
@@ -55,11 +59,11 @@
 		<div class="invite container center">
 			<h2>Invite your family and friends to this game</h2>
 			<p>They can use this game id to join:</p>
-			<div class="code" on:click={copy}>
+			<div class="code" on:click={_ => copy(false)}>
 				<code>{makeIdReadable(id)}</code>
 			</div>
 			<p style="padding-top: 20px;">Or, they can just use this link:</p>
-			<div class="link" on:click={copy}>
+			<div class="link" on:click={_ => copy(true)}>
 				<pre>
 					<code>{location.protocol}//{location.host}/game/{id}</code>
 				</pre>

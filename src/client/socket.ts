@@ -1,12 +1,21 @@
-import { self, error, messageListener, users, timeLeft } from './store';
+import { self, error, messageListener, users, timeLeft, settings, owner } from './store';
 import { get } from 'svelte/store';
 import { stringify } from 'query-string';
-import { User } from '../game/users';
+import { User, Users } from '../game/users';
 import { setOwner } from './services';
+import defaultSettings from '../default-settings';
+
+// @ts-ignore
+import { createSnackbar } from './components/snackbar.svelte';
+// @ts-ignore
+import { createModal } from './components/modal.svelte';
 
 export type Listener = () => void;
 
 export default function createSocket(gameId: string) {
+	users.set(new Map());
+	settings.set(defaultSettings);
+
 	const $self = get(self);
 	const toSend = {
 		id: $self.id,
@@ -31,12 +40,15 @@ export default function createSocket(gameId: string) {
 				clearTimeout(timeout);
 				resolve({
 					send,
+					destroy: () => socket.close(),
 				});
 
 				const message = JSON.parse(data.data);
 
 				// Handle errors
 				if (message.key === 'error') {
+					console.log(message);
+
 					if (message.params.code === 'INVALID_GAME_ID') console.log('invalid game id');
 					else error.set(message.params);
 				}
@@ -65,7 +77,14 @@ export default function createSocket(gameId: string) {
 
 				// Owner defer
 				else if (message.key === 'owner-defer') {
-					const $self = get(self);
+					if (!message.params.to)
+						createModal({
+							state: 'app.home',
+							primaryText: 'Ok',
+							preventCancel: true,
+							title: `Game closed`,
+							message: `${get(users).get(get(owner)).name} has closed this game.`,
+						});
 
 					users.update($users => {
 						const oldOwner = $users.get(message.params.from);
@@ -76,15 +95,16 @@ export default function createSocket(gameId: string) {
 						newOwner.isOwner = true;
 						$users.set(message.params.to, newOwner);
 
-						if (message.params.to === $self.id) {
-							self.update($self => {
-								$self.isOwner = true;
-								return $self;
-							});
-						}
-
 						return $users;
 					});
+
+					setOwner();
+
+					const $users = get(users);
+					const $self = get(self);
+
+					if ($self.id === message.params.to)
+						createSnackbar({ text: `${$users.get(message.params.from).name} just made you the game owner` });
 				}
 
 				firstMessage = false;

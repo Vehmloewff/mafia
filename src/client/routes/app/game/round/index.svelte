@@ -16,7 +16,8 @@
 	import Button from '../../../../components/button.svelte';
 	import UserChip from '../../../../components/user-chip.svelte';
 	import Icon from '../../../../components/icon.svelte';
-	import { timeLeft, users } from '../../../../store';
+	import { timeLeft, users, self } from '../../../../store';
+	import { exitGame, closeGame } from '../../../../services';
 	import playersIcon from '../../../../icons/players.svg';
 	import clockIcon from '../../../../icons/clock.svg';
 	import { fade, fly } from 'svelte/transition';
@@ -72,6 +73,7 @@
 		text-align: center;
 		padding-bottom: 30px;
 		overflow: auto;
+		-webkit-overflow-scrolling: touch;
 	}
 	.cover {
 		position: fixed;
@@ -159,6 +161,12 @@
 						<UserChip id={user.id} />
 					</div>
 				{/each}
+				<div style="padding-top: 30px">
+					{#if $self.isOwner}
+						<Button on:click={closeGame}>Close Game</Button>
+					{/if}
+					<Button on:click={exitGame}>Exit Game</Button>
+				</div>
 			</div>
 		</div>
 	{/if}

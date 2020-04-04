@@ -10,6 +10,7 @@
 	import { stateRouter } from '../../store';
 	import Modal from '../../components/modal.svelte';
 	const gameInProgress = localStorage.getItem(`game-in-progress`);
+	import Snackbar from '../../components/snackbar.svelte';
 
 	if (gameInProgress) $stateRouter.go(`app.game`, { id: gameInProgress }, { replace: true });
 </script>
@@ -23,7 +24,7 @@
 		bottom: 0;
 		background: var(--background);
 		color: var(--foreground);
-		overflow: auto;
+		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 	}
 </style>
@@ -35,3 +36,5 @@
 		</div>
 	</Modal>
 </div>
+
+<Snackbar />

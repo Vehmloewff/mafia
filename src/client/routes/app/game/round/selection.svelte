@@ -10,15 +10,17 @@
 
 <script>
 	import Page from '../../../../components/page.svelte';
+	import Progress from '../../../../components/progress.svelte';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
-	import snorts from '../../../../../game/default-snorts';
+	import snorts from '../../../../../default-snorts';
 	import { narrative, snorts as snortsStore, eliminated } from './store';
+	import { createSnackbar } from '../../../../components/snackbar.svelte';
 
 	export let id;
 	export let round;
 
 	$messageListener = (key, message) => {
-		if (key === 'selection') console.log(`Autoselected`, message);
+		if (key === 'selection') createSnackbar({ text: `We selected ${interperetSelection(message)} for you.` });
 		else if (key === 'narrative') {
 			$narrative = message.story;
 			$snortsStore = message.snorts;
@@ -33,6 +35,12 @@
 	function filter(user) {
 		if ($self.role === 'mafia') return user.role !== 'mafia' && !user.isDead;
 		else return !user.isDead;
+	}
+
+	function interperetSelection(selection) {
+		if ($self.role === 'judge' || $self.role === 'villager') {
+			return snorts[selection].name;
+		} else return $users.get(selection).name;
 	}
 
 	function set(selection) {
@@ -99,3 +107,5 @@
 		</div>
 	</div>
 </Page>
+
+<Progress time={10 * 1000} />

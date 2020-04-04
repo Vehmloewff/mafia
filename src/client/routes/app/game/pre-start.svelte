@@ -12,7 +12,7 @@
 	import Button from '../../../components/button.svelte';
 	import Page from '../../../components/page.svelte';
 	import { users, self, owner, messageListener, currentSocket, stateRouter, settings as settingsStore } from '../../../store';
-	import { playersNeeded, setOwner, makeIdReadable } from '../../../services';
+	import { playersNeeded, setOwner, makeIdReadable, exitGame, closeGame } from '../../../services';
 	import { onMount } from 'svelte';
 	import UserChip from '../../../components/user-chip.svelte';
 	import Navbar from '../../../components/navbar.svelte';
@@ -146,6 +146,12 @@
 							<span>Waiting for at least {usersNeeded} more {usersNeeded === 1 ? `user` : `users`}...</span>
 						{:else}All set! You can start the game whenever.{/if}
 					{:else}Waiting for {$users.get($owner).name} to start the game...{/if}
+					<div style="padding-top: 8px">
+						{#if $self.isOwner}
+							<Button on:click={closeGame}>Close Game</Button>
+						{/if}
+						<Button on:click={exitGame}>Exit Game</Button>
+					</div>
 				</div>
 			</div>
 

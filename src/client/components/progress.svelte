@@ -1,7 +1,7 @@
 <script>
 	import { tweened } from 'svelte/motion';
 	import { onMount, createEventDispatcher, onDestroy } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	export let time;
 
@@ -23,14 +23,12 @@
 <style>
 	.outside {
 		position: fixed;
-		bottom: 20px;
-		right: var(--pack-inset);
-		left: var(--pack-inset);
+		bottom: 0;
+		right: 0;
+		left: 0;
 		background: var(--highlight-more);
-		box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.2);
 		z-index: 10;
-		height: 7px;
-		border-radius: 3px;
+		height: 4px;
 	}
 	.progress {
 		position: absolute;
@@ -39,10 +37,9 @@
 		bottom: 0;
 		z-index: 1;
 		background: var(--action);
-		border-radius: 3px;
 	}
 </style>
 
-<div class="outside" transition:fly={{ delay: 1000, y: 300 }}>
+<div class="outside" transition:fade={{ delay: 500 }}>
 	<div class="progress" style="right: {(1 - $progress) * 100}%" />
 </div>

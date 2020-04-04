@@ -1,8 +1,8 @@
 import { writable, get } from 'svelte/store';
 import { User } from '../game/users';
 import { Settings } from '../game/interfaces';
-import defaultSnorts from '../game/default-snorts';
 import foid from 'foid';
+import defaultSettings from '../default-settings';
 
 export const stateRouter = writable(null);
 export const router = writable(null);
@@ -30,16 +30,8 @@ export const messageListener = writable((messgageKey: string, params: unknown) =
 export const owner = writable<string>(null);
 export const timeLeft = writable(0);
 
-export const settings = writable<Settings>({
-	revealAllies: true,
-	openVote: true,
-	maxEach: null,
-	numberVillagers: 1,
-	incorperateJudges: false,
-	maxArrestsPerRound: 3,
-	roundsPerCitizensArrest: 3,
-	snorts: Object.keys(defaultSnorts),
-});
+export const settings = writable<Settings>(defaultSettings);
+
 settings.subscribe($settings => {
 	const socket = get(currentSocket);
 	const $self = get(self);

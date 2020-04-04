@@ -10,10 +10,10 @@
 
 <script>
 	import Page from '../../../../components/page.svelte';
-	import Progress from '../../../../components/progress.svelte';
 	import UserChip from '../../../../components/user-chip.svelte';
+	import Button from '../../../../components/button.svelte';
 	import { narrative, eliminated, trial } from './store';
-	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
+	import { users, self, currentSocket, messageListener, stateRouter, owner } from '../../../../store';
 	import { nextListener, callNext } from '../../../../services';
 
 	const arrestedTest = /^.+ what do you have to say for (yourself|yourselves)\?$/;
@@ -35,10 +35,6 @@
 	});
 
 	$messageListener = nextListener(id, round);
-
-	function next() {
-		if ($self.isOwner && $currentSocket) callNext();
-	}
 </script>
 
 <style>
@@ -56,8 +52,12 @@
 				<UserChip {id} defaultFull={false} />
 			{/each}
 		</p>
-		<div style="padding-bottom: 100px;" />
-
-		<Progress on:done={next} time={paragraphs.length * 1000 * 10} />
+		<div style="padding: 100px 0;" class="center">
+			{#if $self.isOwner}
+				<Button on:click={callNext}>Next Page</Button>
+			{:else}
+				<span class="text-less">Waiting for {$users.get($owner).name} to move us on...</span>
+			{/if}
+		</div>
 	</div>
 </Page>
