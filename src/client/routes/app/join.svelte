@@ -6,7 +6,7 @@
 </script>
 
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy, tick } from 'svelte';
 	import { gameStatus } from '../../verify-game.ts';
 	import Button from '../../components/button.svelte';
 
@@ -34,7 +34,12 @@
 	$: nextStep(chars, inputs);
 	$: gameId = chars.join('');
 
-	onMount(() => input1.focus());
+	onMount(() => {
+		input1.focus();
+		document.onpaste = onPaste;
+	});
+
+	onDestroy(() => (document.onpaste = null));
 
 	let lastLength = null;
 	function nextStep(arr, inputs) {
@@ -54,6 +59,8 @@
 
 	async function verify() {
 		verifying = true;
+
+		await tick();
 
 		const status = await gameStatus(gameId);
 
@@ -85,6 +92,29 @@
 		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
 			e.preventDefault();
 		}
+	}
+
+	async function onPaste(e) {
+		e.stopPropagation();
+		e.preventDefault();
+
+		// Get pasted data via clipboard API
+		const clipboardData = e.clipboardData || window.clipboardData;
+		const pastedData = clipboardData.getData('Text');
+
+		// get each char
+		const chars = pastedData.split('').filter(v => v !== '' && v !== '-');
+
+		// Make sure it is valid
+		if (chars.length !== 6) return;
+
+		// Fill the inputs
+		char1 = chars[0];
+		char2 = chars[1];
+		char3 = chars[2];
+		char4 = chars[3];
+		char5 = chars[4];
+		char6 = chars[5];
 	}
 </script>
 
@@ -148,7 +178,7 @@
 
 <div class="container center" style="max-width: 320px; margin: auto; margin-top: calc(50vh - calc(220px / 2))">
 	<h2>Join</h2>
-	<p>Enter the game id</p>
+	<p>Enter or paste the game id</p>
 	<div class="inputs">
 		<div class="input-container">
 			<input
@@ -157,7 +187,8 @@
 				bind:this={input1}
 				on:keyup={e => onKeyUp(e, 1)}
 				on:keydown={onKeyDown}
-				disabled={verifying} />
+				disabled={verifying}
+				on:paste={onPaste} />
 		</div>
 		<div class="input-container">
 			<input
@@ -166,7 +197,8 @@
 				bind:this={input2}
 				on:keyup={e => onKeyUp(e, 2)}
 				on:keydown={onKeyDown}
-				disabled={verifying} />
+				disabled={verifying}
+				on:paste={onPaste} />
 		</div>
 		<div class="input-container">
 			<input
@@ -175,7 +207,8 @@
 				bind:this={input3}
 				on:keyup={e => onKeyUp(e, 3)}
 				on:keydown={onKeyDown}
-				disabled={verifying} />
+				disabled={verifying}
+				on:paste={onPaste} />
 		</div>
 		<div class="space">-</div>
 		<div class="input-container">
@@ -185,7 +218,8 @@
 				bind:this={input4}
 				on:keyup={e => onKeyUp(e, 4)}
 				on:keydown={onKeyDown}
-				disabled={verifying} />
+				disabled={verifying}
+				on:paste={onPaste} />
 		</div>
 		<div class="input-container">
 			<input
@@ -194,7 +228,8 @@
 				bind:this={input5}
 				on:keyup={e => onKeyUp(e, 5)}
 				on:keydown={onKeyDown}
-				disabled={verifying} />
+				disabled={verifying}
+				on:paste={onPaste} />
 		</div>
 		<div class="input-container">
 			<input
@@ -203,13 +238,14 @@
 				bind:this={input6}
 				on:keyup={e => onKeyUp(e, 6)}
 				on:keydown={onKeyDown}
-				disabled={verifying} />
+				disabled={verifying}
+				on:paste={onPaste} />
 		</div>
 	</div>
 	{#if message}
 		<div class="message" class:error={didError}>{message}</div>
 	{:else}
-		<div style="height: 38px" />
+		<div style="height: 38px" on:paste={onPaste} />
 	{/if}
 	<div class="actions">
 		<Button state="app.home">Cancel</Button>
