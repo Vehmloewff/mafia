@@ -71,7 +71,7 @@ export default function createSelection(users: Users, messages: MessageHandler, 
 
 		// Dead people should not be arrested
 		arrested.forEach((user, index) => {
-			if (hurt.indexOf(user) !== -1) arrested.splice(index, 1);
+			if (hurt.indexOf(user) !== -1 && healed.indexOf(user) === -1) arrested.splice(index, 1);
 		});
 
 		// Define the genders
