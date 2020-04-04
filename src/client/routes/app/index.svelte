@@ -7,7 +7,7 @@
 </script>
 
 <script>
-	import { stateRouter } from '../../store';
+	import { stateRouter, self } from '../../store';
 	import Modal from '../../components/modal.svelte';
 	const gameInProgress = localStorage.getItem(`game-in-progress`);
 	import Snackbar from '../../components/snackbar.svelte';
@@ -32,6 +32,12 @@
 		width: 0;
 	}
 </style>
+
+<svelte:head>
+	{#if $self.name}
+		<title>Mafia • {$self.name}</title>
+	{/if}
+</svelte:head>
 
 <div class="app">
 	<Modal>
