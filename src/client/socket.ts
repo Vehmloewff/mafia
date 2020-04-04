@@ -1,9 +1,12 @@
 import { self, error, messageListener, users, timeLeft, settings, owner } from './store';
 import { get } from 'svelte/store';
 import { stringify } from 'query-string';
-import { User } from '../game/users';
+import { User, Users } from '../game/users';
 import { setOwner } from './services';
 import defaultSettings from '../default-settings';
+
+// @ts-ignore
+import { createSnackbar } from './components/snackbar.svelte';
 
 export type Listener = () => void;
 
@@ -84,6 +87,12 @@ export default function createSocket(gameId: string) {
 					});
 
 					setOwner();
+
+					const $users = get(users);
+					const $self = get(self);
+
+					if ($self.id === message.params.to)
+						createSnackbar({ text: `${$users.get(message.params.from).name} just made you the game owner` });
 				}
 
 				firstMessage = false;

@@ -16,6 +16,7 @@
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
 	import snorts from '../../../../../default-snorts';
 	import { fly } from 'svelte/transition';
+	import { createSnackbar } from '../../../../components/snackbar.svelte';
 
 	$: accused = $users.get($trial.user).name;
 	$: accusedBy = ($users.get($trial.accusedBy) || getUserString($trial.accusedBy)).name;
@@ -29,6 +30,11 @@
 			$snortsStore = message.snorts;
 			$voteResult = message;
 			$stateRouter.go('app.game.round.snore', { next: `vote-result`, id, round });
+		}
+		if (key === 'vote') {
+			createSnackbar({
+				text: $trial.canVote ? `We voted "innocent" for you` : `Selected ${snorts[message]} for you`,
+			});
 		}
 	};
 
