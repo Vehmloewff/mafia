@@ -50,8 +50,10 @@ export default function users() {
 		};
 	}
 
-	function update(id: string, value: User) {
-		users.set(id, value);
+	function update(id: string, value: User | ((user: User) => User)) {
+		if (typeof value === 'function') {
+			users.set(id, value(users.get(id)));
+		} else users.set(id, value);
 	}
 
 	function allUsers(): string[] {

@@ -12,7 +12,7 @@ export default function createGame(onGameOver: () => void) {
 	const users = storeUsers();
 
 	let gameDidStart = false;
-	let owner: string;
+	let ownerAtStart: string;
 	let settings: Settings = {
 		revealAllies: true,
 		openVote: true,
@@ -28,7 +28,7 @@ export default function createGame(onGameOver: () => void) {
 		const user = users.get(id);
 
 		// Remember the owner
-		if (user.isOwner) owner = id;
+		if (user.isOwner) ownerAtStart = id;
 
 		if (user) {
 			if (isNew) {
@@ -104,6 +104,28 @@ export default function createGame(onGameOver: () => void) {
 		});
 	});
 
+	messages.register(`owner-defer`, (to: string, id) => {
+		// Only owners can defer
+		if (!users.get(id).isOwner)
+			return messages.send(`error`, { message: `Nice try, only owners can defer their ownership`, code: `NOT_OWNER` }, id);
+
+		// You cannot defer yourself
+		if (to === id) return messages.send(`error`, { message: `You can't defer to yourself`, code: `INVALID` }, id);
+
+		// Defer the ownership
+		users.update(id, user => {
+			user.isOwner = false;
+			return user;
+		});
+		users.update(to, user => {
+			user.isOwner = true;
+			return user;
+		});
+
+		// Tell everyone what happened
+		messages.broadcastExclude(`owner-defer`, { from: id, to }, id);
+	});
+
 	function beamRoles(sender: string) {
 		const allUsers = users.aliveUsers();
 
@@ -150,7 +172,7 @@ export default function createGame(onGameOver: () => void) {
 	}
 
 	function beamSettings() {
-		messages.broadcastExclude(`settings`, settings, owner);
+		messages.broadcastExclude(`settings`, settings, ownerAtStart);
 	}
 
 	return messages.client;
