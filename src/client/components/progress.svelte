@@ -28,7 +28,7 @@
 		left: 0;
 		background: var(--highlight-more);
 		z-index: 10;
-		height: 3px;
+		height: 4px;
 	}
 	.progress {
 		position: absolute;
