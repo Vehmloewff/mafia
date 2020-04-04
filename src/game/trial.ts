@@ -103,9 +103,11 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 		};
 
 		// Mark the user as dead if guilty
-		const old = users.get(arrest.arresting);
-		old.isDead = true;
-		if (isGuilty) users.update(old.id, old);
+		if (isGuilty)
+			users.update(arrest.arresting, user => {
+				user.isDead = true;
+				return user;
+			});
 
 		// unsubscribe
 		unsubscribe.forEach(fn => fn());
