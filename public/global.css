@@ -23,49 +23,49 @@ html {
 	--outlines: #e0c285;
 	font-size: 16px;
 
-	/* progress and snack bar inset */
-	--pack-inset: 10px;
+	/* snack bar inset */
+	--snack-inset: 10px;
 }
 
 @media (min-width: 400px) {
 	:root {
-		--pack-inset: 20px;
+		--snack-inset: 20px;
 	}
 }
 
 @media (min-width: 600px) {
 	:root {
-		--pack-inset: 100px;
+		--snack-inset: 100px;
 	}
 }
 
 @media (min-width: 800px) {
 	:root {
-		--pack-inset: 200px;
+		--snack-inset: 200px;
 	}
 }
 
 @media (min-width: 1000px) {
 	:root {
-		--pack-inset: 300px;
+		--snack-inset: 300px;
 	}
 }
 
 @media (min-width: 1200px) {
 	:root {
-		--pack-inset: 400px;
+		--snack-inset: 400px;
 	}
 }
 
 @media (min-width: 1400px) {
 	:root {
-		--pack-inset: 500px;
+		--snack-inset: 500px;
 	}
 }
 
 @media (min-width: 1600px) {
 	:root {
-		--pack-inset: 600px;
+		--snack-inset: 600px;
 	}
 }
 
