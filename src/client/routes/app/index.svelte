@@ -27,6 +27,10 @@
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 	}
+
+	.app::-webkit-scrollbar {
+		width: 0;
+	}
 </style>
 
 <div class="app">
