@@ -152,9 +152,9 @@
 				<div class="line">
 					<div class="label">Gender:</div>
 					<div class="input-container">
-						<select>
-							<option on:click={() => (gender = 'Male')}>Male</option>
-							<option on:click={() => (gender = 'Female')}>Female</option>
+						<select bind:value={gender}>
+							<option selected={gender === 'male'} value="male">Male</option>
+							<option selected={gender === 'female'} value="female">Female</option>
 						</select>
 					</div>
 				</div>

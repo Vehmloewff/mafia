@@ -8,7 +8,12 @@ export type Listener = () => void;
 
 export default function createSocket(gameId: string) {
 	const $self = get(self);
-	const socket = new WebSocket(`ws://${location.host}/api/games/${gameId}?${stringify($self)}`);
+	const toSend = {
+		id: $self.id,
+		name: $self.name,
+		gender: $self.gender,
+	};
+	const socket = new WebSocket(`ws://${location.host}/api/games/${gameId}?${stringify(toSend)}`);
 
 	function send(key: string, params: any = null) {
 		socket.send(JSON.stringify({ key, params }));

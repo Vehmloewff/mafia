@@ -16,7 +16,7 @@
 	const currentGame = localStorage.getItem('game-in-progress');
 
 	if (!currentGame) $stateRouter.go('app.game.verify', { id }, { replace: true });
-	else $stateRouter.go('app.game.resume', { id }, { replace: true });
+	else $stateRouter.go('app.game.resume', { id: currentGame }, { replace: true });
 </script>
 
 <uiView />
