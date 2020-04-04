@@ -28,6 +28,8 @@
 	main div {
 		text-align: center;
 		padding: 8px;
+	}
+	main {
 		padding-bottom: 100px;
 	}
 </style>
