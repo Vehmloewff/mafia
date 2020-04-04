@@ -1,4 +1,4 @@
-import { self, error, messageListener, users, timeLeft, settings } from './store';
+import { self, error, messageListener, users, timeLeft, settings, owner } from './store';
 import { get } from 'svelte/store';
 import { stringify } from 'query-string';
 import { User } from '../game/users';
@@ -41,6 +41,8 @@ export default function createSocket(gameId: string) {
 
 				// Handle errors
 				if (message.key === 'error') {
+					console.log(message);
+
 					if (message.params.code === 'INVALID_GAME_ID') console.log('invalid game id');
 					else error.set(message.params);
 				}
@@ -69,8 +71,6 @@ export default function createSocket(gameId: string) {
 
 				// Owner defer
 				else if (message.key === 'owner-defer') {
-					const $self = get(self);
-
 					users.update($users => {
 						const oldOwner = $users.get(message.params.from);
 						oldOwner.isOwner = false;
@@ -80,15 +80,10 @@ export default function createSocket(gameId: string) {
 						newOwner.isOwner = true;
 						$users.set(message.params.to, newOwner);
 
-						if (message.params.to === $self.id) {
-							self.update($self => {
-								$self.isOwner = true;
-								return $self;
-							});
-						}
-
 						return $users;
 					});
+
+					setOwner();
 				}
 
 				firstMessage = false;

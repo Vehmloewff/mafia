@@ -85,6 +85,7 @@
 
 	.floored {
 		padding-top: 30vh;
+		padding-bottom: 100px;
 	}
 </style>
 
@@ -122,4 +123,6 @@
 	</div>
 </Page>
 
-<Progress time={10 * 1000} />
+{#if voting}
+	<Progress time={10 * 1000} />
+{/if}

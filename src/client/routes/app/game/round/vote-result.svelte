@@ -11,8 +11,9 @@
 <script>
 	import Page from '../../../../components/page.svelte';
 	import UserChip from '../../../../components/user-chip.svelte';
+	import Button from '../../../../components/button.svelte';
 	import { voteResult, trial } from './store';
-	import { self, stateRouter, currentSocket, messageListener, users } from '../../../../store';
+	import { self, stateRouter, currentSocket, messageListener, users, owner } from '../../../../store';
 	import { nextListener, callNext } from '../../../../services';
 
 	export let id;
@@ -38,10 +39,6 @@
 			old.role = $voteResult.role;
 			$users.set($trial.user, old);
 		}
-	}
-
-	function done() {
-		if ($self.isOwner) callNext();
 	}
 </script>
 
@@ -151,6 +148,13 @@
 				<p>Uhh oh! You just convicted an innocent person!</p>
 			{:else if !$voteResult.isGuilty && $voteResult.role === 'mafia' && $voteResult.guilty.indexOf($self.id) !== -1}
 				<p>Oh yeah! You got the mafia!</p>
+			{/if}
+		</div>
+		<div style="padding: 100px 0;">
+			{#if $self.isOwner}
+				<Button on:click={callNext}>Next Page</Button>
+			{:else}
+				<span class="text-less">Waiting for {$users.get($owner).name} to move us on...</span>
 			{/if}
 		</div>
 	</div>
