@@ -8,6 +8,12 @@
 <script>
 	import Button from '../../components/button.svelte';
 	import Page from '../../components/page.svelte';
+	import { currentSocket } from '../../store';
+
+	if ($currentSocket) {
+		$currentSocket.destroy();
+		$currentSocket = null;
+	}
 </script>
 
 <style>

@@ -39,7 +39,9 @@
 	}
 </style>
 
-<p>Dead people can't be game owners.</p>
+<p>
+	{#if $self.isDead}Dead people can't be game owners.{:else}Owners must be active in the game.{/if}
+</p>
 <p class="center">
 	{#each Array.from($users.values()).filter(user => !user.isDead && user.id !== $self.id) as { name, id }}
 		<div

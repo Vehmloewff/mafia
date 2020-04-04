@@ -1,5 +1,7 @@
 // @ts-ignore
 import { createModal } from './components/modal.svelte';
+// @ts-ignore
+import { createSnackbar } from './components/snackbar.svelte';
 import { self, users, error, owner, settings, stateRouter, currentSocket } from './store';
 import { get } from 'svelte/store';
 import { User } from '../game/users';
@@ -8,13 +10,13 @@ import { Settings } from '../game/interfaces';
 import { trial, trials } from './routes/app/game/round/store';
 import OwnerDefer from './components/owner-defer.svelte';
 
-export const sureExitGame = () => {
+export const sureExitGame = (state?: string, onClick?: () => void) => {
 	createModal({
 		title: `Are you sure you want to exit?`,
-		message: `You will not be able to join this game again.`,
+		message: `You will have to manually re-join.`,
 		primaryText: `Yes`,
-		state: `app.home`,
-		onOkClick: () => localStorage.removeItem(`game-in-progress`),
+		state: state !== undefined ? state : `app.home`,
+		onOkClick: onClick || (() => localStorage.removeItem(`game-in-progress`)),
 	});
 };
 
@@ -109,4 +111,54 @@ export const callNext = () => {
 	function next() {
 		$currentSocket.send('next');
 	}
+};
+
+export const exitGame = (isOver = false) => {
+	setOwner();
+
+	const $self = get(self);
+	const $stateRouter = get(stateRouter);
+
+	defer();
+
+	function defer() {
+		if (isOver === true) next();
+		else if ($self.isOwner) {
+			setTimeout(() => {
+				createModal({
+					title: `Defer your ownership`,
+					message: OwnerDefer,
+					onOkClick: () => next(),
+				});
+			}, 300);
+		} else next();
+	}
+
+	function next() {
+		const gameInProgress = localStorage.getItem('game-in-progress');
+		localStorage.removeItem('game-in-progress');
+		$stateRouter.go('app.home');
+
+		createSnackbar({
+			text: `Exited game`,
+			buttonText: `REJOIN`,
+			onButtonClick: () => {
+				$stateRouter.go('app.game', { id: gameInProgress });
+			},
+		});
+	}
+};
+
+export const closeGame = () => {
+	const $currentSocket = get(currentSocket);
+
+	createModal({
+		title: `Really close this game?`,
+		message: `This will delete the game and kick of all current players`,
+		onOkClick: () => {
+			localStorage.removeItem('game-in-progress');
+			$currentSocket.send(`owner-defer`);
+		},
+		state: `app.home`,
+	});
 };

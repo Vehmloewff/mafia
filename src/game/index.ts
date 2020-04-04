@@ -108,10 +108,12 @@ export default function createGame(onGameOver: () => void) {
 			user.isOwner = false;
 			return user;
 		});
-		users.update(to, user => {
-			user.isOwner = true;
-			return user;
-		});
+		if (to)
+			users.update(to, user => {
+				user.isOwner = true;
+				return user;
+			});
+		else onGameOver();
 
 		// Tell everyone what happened
 		messages.broadcastExclude(`owner-defer`, { from: id, to }, id);

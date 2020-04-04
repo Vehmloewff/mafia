@@ -2,9 +2,10 @@
 	import { writable } from 'svelte/store';
 
 	let modal = writable(null);
+	let callOnChange = () => {};
 
 	export const createModal = options => {
-		modal.set(options);
+		callOnChange(options);
 	};
 </script>
 
@@ -12,6 +13,7 @@
 	import Button from './button.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import { tick } from 'svelte';
 
 	function keyUp(e) {
 		if (!$modal) return;
@@ -29,6 +31,14 @@
 	let okDisabled;
 
 	let clientHeight;
+
+	callOnChange = options => {
+		$modal = null;
+		onOkClick = undefined;
+		okDisabled = undefined;
+		clientHeight = undefined;
+		tick().then(() => modal.set(options));
+	};
 </script>
 
 <style>

@@ -7,6 +7,8 @@ import defaultSettings from '../default-settings';
 
 // @ts-ignore
 import { createSnackbar } from './components/snackbar.svelte';
+// @ts-ignore
+import { createModal } from './components/modal.svelte';
 
 export type Listener = () => void;
 
@@ -38,6 +40,7 @@ export default function createSocket(gameId: string) {
 				clearTimeout(timeout);
 				resolve({
 					send,
+					destroy: () => socket.close(),
 				});
 
 				const message = JSON.parse(data.data);
@@ -74,6 +77,15 @@ export default function createSocket(gameId: string) {
 
 				// Owner defer
 				else if (message.key === 'owner-defer') {
+					if (!message.params.to)
+						createModal({
+							state: 'app.home',
+							primaryText: 'Ok',
+							preventCancel: true,
+							title: `Game closed`,
+							message: `${get(users).get(get(owner)).name} has closed this game.`,
+						});
+
 					users.update($users => {
 						const oldOwner = $users.get(message.params.from);
 						oldOwner.isOwner = false;

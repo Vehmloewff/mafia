@@ -8,6 +8,8 @@
 <script>
 	import { users, self } from '../../../store';
 	import UserChip from '../../../components/user-chip.svelte';
+	import { exitGame } from '../../../services';
+	import Button from '../../../components/button.svelte';
 
 	$: mafias = Array.from($users.values()).filter(user => user.role === 'mafia' && !user.isDead);
 </script>
@@ -39,5 +41,8 @@
 				<UserChip defaultFull={true} {id} />
 			</div>
 		{/each}
+	</div>
+	<div style="padding-top: 30px; padding-bottom: 30px;">
+		<Button on:click={() => exitGame(true)}>Exit Game</Button>
 	</div>
 </div>
