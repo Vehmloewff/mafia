@@ -6,11 +6,23 @@ export default function(games: Games, app: Polka) {
 		res.end(games.create());
 	});
 
-	app.get('/api/games/:id', (req, res) => {
-		const game = games.get(req.params.id);
-		const found = !!game && game.playable();
+	app.get('/api/game-playable', (req, res) => {
+		if (!req.query) {
+			res.statusCode = 400;
+			return res.end('invalid');
+		}
 
-		res.statusCode = found ? 200 : 404;
-		res.end(found ? `playable` : `started or invalid`);
+		const user = req.query.user as string;
+		const id = req.query.game as string;
+
+		if (!id) {
+			res.statusCode = 400;
+			return res.end('invalid');
+		}
+
+		const game = games.get(id);
+
+		if (!game) return res.end('invalid');
+		else return res.end(game.playable(user));
 	});
 }

@@ -85,8 +85,12 @@ export default function messageHandler(options: Options) {
 		});
 	}
 
-	function playable() {
-		return !gameDidStart;
+	function playable(clientId: string): 'ok' | 'invalid' | 'started' {
+		if (gameDidStart) {
+			return clients.get(clientId) ? 'started' : 'invalid';
+		} else {
+			return 'ok';
+		}
 	}
 
 	function onMessage(handler: ClientMessageListener) {
