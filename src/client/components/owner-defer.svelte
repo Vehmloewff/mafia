@@ -11,6 +11,7 @@
 			if (user.id === selection) user.isOwner = true;
 
 			$users.set(user.id, user);
+			$users = $users;
 		});
 
 		$currentSocket.send(`owner-defer`, selection);
