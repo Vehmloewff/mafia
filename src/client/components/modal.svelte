@@ -27,12 +27,13 @@
 
 	let onOkClick;
 	let okDisabled;
+
+	let clientHeight;
 </script>
 
 <style>
 	.modal-container {
 		position: fixed;
-		top: 30vh;
 		z-index: 11;
 		left: 0;
 		right: 0;
@@ -40,12 +41,20 @@
 	.modal {
 		margin: auto;
 		max-width: 300px;
+		max-height: 90vh;
 		color: var(--foreground-more);
 		background: var(--midground);
 		padding: 16px;
 		border-radius: 4px;
 		box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.2);
 	}
+
+	.component-container {
+		max-height: calc(100vh - calc(170px - 68px));
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
 	.footer {
 		text-align: right;
 		margin-top: 10px;
@@ -67,16 +76,18 @@
 <div on:keyup={keyUp}>
 	{#if $modal}
 		<div class="background" transition:fade />
-		<div class="modal-container">
+		<div class="modal-container" bind:clientHeight style="top: calc(50vh - calc({clientHeight}px / 2) - 20px)">
 			<div class="modal" transition:fly={{ y: -50 }}>
 				<h3>{$modal.title}</h3>
 				{#if typeof $modal.message === 'string'}
 					<p class="text">{$modal.message}</p>
 				{:else}
-					<svelte:component this={$modal.message} bind:onOkClick bind:okDisabled />
+					<div class="component-container">
+						<svelte:component this={$modal.message} bind:onOkClick bind:okDisabled />
+					</div>
 				{/if}
 				<div class="footer">
-					{#if $modal.preventCancel}
+					{#if !$modal.preventCancel}
 						<span style="float: left">
 							<Button
 								on:click={() => {

@@ -58,6 +58,30 @@ export default function createSocket(gameId: string) {
 					timeLeft.set(message.params);
 				}
 
+				// Owner defer
+				else if (message.key === 'owner-defer') {
+					const $self = get(self);
+
+					users.update($users => {
+						const oldOwner = $users.get(message.params.from);
+						oldOwner.isOwner = false;
+						$users.set(message.params.from, oldOwner);
+
+						const newOwner = $users.get(message.params.to);
+						newOwner.isOwner = true;
+						$users.set(message.params.to, newOwner);
+
+						if (message.params.to === $self.id) {
+							self.update($self => {
+								$self.isOwner = true;
+								return $self;
+							});
+						}
+
+						return $users;
+					});
+				}
+
 				firstMessage = false;
 
 				// Handle all other messages

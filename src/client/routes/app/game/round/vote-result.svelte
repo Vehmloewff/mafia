@@ -14,7 +14,7 @@
 	import Progress from '../../../../components/progress.svelte';
 	import { voteResult, trial } from './store';
 	import { self, stateRouter, currentSocket, messageListener, users } from '../../../../store';
-	import { nextListener } from '../../../../services';
+	import { nextListener, callNext } from '../../../../services';
 
 	export let id;
 	export let round;
@@ -42,7 +42,7 @@
 	}
 
 	function done() {
-		if ($self.isOwner) $currentSocket.send(`next`);
+		if ($self.isOwner) callNext();
 	}
 </script>
 

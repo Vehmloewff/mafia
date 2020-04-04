@@ -14,7 +14,7 @@
 	import UserChip from '../../../../components/user-chip.svelte';
 	import { narrative, eliminated, trial } from './store';
 	import { users, self, currentSocket, messageListener, stateRouter } from '../../../../store';
-	import { nextListener } from '../../../../services';
+	import { nextListener, callNext } from '../../../../services';
 
 	const arrestedTest = /^.+ what do you have to say for (yourself|yourselves)\?$/;
 
@@ -37,7 +37,7 @@
 	$messageListener = nextListener(id, round);
 
 	function next() {
-		if ($self.isOwner && $currentSocket) $currentSocket.send(`next`);
+		if ($self.isOwner && $currentSocket) callNext();
 	}
 </script>
 
