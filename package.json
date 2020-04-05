@@ -25,6 +25,7 @@
 	"scripts": {
 		"build": "tsc && rollup --environment=NODE_ENV:production -c",
 		"dev": "rollup --environment=NODE_ENV:development -cw",
+		"start": "node dist",
 		"clean": "rm -rf dist typings",
 		"lint": "prettier --write \"./**\"",
 		"lint:test": "prettier --check \"./**\"",
