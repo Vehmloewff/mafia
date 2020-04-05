@@ -1,7 +1,0 @@
-{
-	"short_name": "Mafia",
-	"name": "Mafia Game",
-	"icons": [],
-	"start_url": "/index.html",
-	"display": "standalone"
-}
