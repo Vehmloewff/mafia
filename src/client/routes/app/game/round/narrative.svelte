@@ -38,7 +38,10 @@
 </script>
 
 <style>
-
+	.personal-space {
+		display: inline-block;
+		padding: 16px;
+	}
 </style>
 
 <Page side={true}>
@@ -49,7 +52,9 @@
 		{/each}
 		<p class="center" style="padding-top: 40px">
 			{#each $eliminated as { id }}
-				<UserChip {id} defaultFull={false} />
+				<div class="personal-space">
+					<UserChip {id} defaultFull={false} />
+				</div>
 			{/each}
 		</p>
 		<div style="padding: 100px 0;" class="center">

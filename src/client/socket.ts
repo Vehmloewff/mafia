@@ -78,7 +78,7 @@ export default function createSocket(gameId: string) {
 				// Owner defer
 				else if (message.key === 'owner-defer') {
 					if (!message.params.to)
-						createModal({
+						return createModal({
 							state: 'app.home',
 							primaryText: 'Ok',
 							preventCancel: true,

@@ -12,6 +12,8 @@
 	import Button from '../../../components/button.svelte';
 
 	$: mafias = Array.from($users.values()).filter(user => user.role === 'mafia' && !user.isDead);
+
+	localStorage.removeItem('game-in-progress');
 </script>
 
 <style>
