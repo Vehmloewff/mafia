@@ -120,7 +120,7 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 	}
 
 	function autoSelect(id: string): string {
-		if (canVote.indexOf(id) !== -1) return 'innocent'; // Always prefer innocent over guilty
+		if (canVote.indexOf(id) !== -1) return Math.random() > 0.5 ? 'innocent' : 'guilty'; // Always prefer innocent over guilty
 		return chooseRandArrItem(settings.snorts);
 	}
 }
