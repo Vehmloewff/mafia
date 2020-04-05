@@ -1,7 +1,7 @@
 import { self, error, messageListener, users, timeLeft, settings, owner } from './store';
 import { get } from 'svelte/store';
 import { stringify } from 'query-string';
-import { User, Users } from '../game/users';
+import { User } from '../game/users';
 import { setOwner } from './services';
 import defaultSettings from '../default-settings';
 
@@ -22,7 +22,9 @@ export default function createSocket(gameId: string) {
 		name: $self.name,
 		gender: $self.gender,
 	};
-	const socket = new WebSocket(`ws://${location.host}/api/games/${gameId}?${stringify(toSend)}`);
+	const socket = new WebSocket(
+		`${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}/api/games/${gameId}?${stringify(toSend)}`
+	);
 
 	function send(key: string, params: any = null) {
 		socket.send(JSON.stringify({ key, params }));
