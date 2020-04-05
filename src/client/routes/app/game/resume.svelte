@@ -15,7 +15,7 @@
 	import Loader from '../../../components/loader.svelte';
 	import Button from '../../../components/button.svelte';
 	import Page from '../../../components/page.svelte';
-	import { sureExitGame } from '../../../services';
+	import { exitGame } from '../../../services';
 	import createSocket from '../../../socket';
 
 	let message = `Detecting game`;
@@ -62,7 +62,7 @@
 			</div>
 			{message}...
 			<div style="padding-top: 10px">
-				<Button on:click={sureExitGame}>Cancel</Button>
+				<Button on:click={exitGame}>Cancel</Button>
 			</div>
 		{/if}
 	</div>

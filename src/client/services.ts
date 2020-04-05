@@ -10,16 +10,6 @@ import { Settings } from '../game/interfaces';
 import { trial, trials } from './routes/app/game/round/store';
 import OwnerDefer from './components/owner-defer.svelte';
 
-export const sureExitGame = (state?: string, onClick?: () => void) => {
-	createModal({
-		title: `Are you sure you want to exit?`,
-		message: `You will have to manually re-join.`,
-		primaryText: `Yes`,
-		state: state !== undefined ? state : `app.home`,
-		onOkClick: onClick || (() => localStorage.removeItem(`game-in-progress`)),
-	});
-};
-
 export const setOwner = () => {
 	const $users = get(users);
 	const $self = get(self);
