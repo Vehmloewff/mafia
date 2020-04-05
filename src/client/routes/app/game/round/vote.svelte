@@ -33,7 +33,7 @@
 		}
 		if (key === 'vote') {
 			createSnackbar({
-				text: $trial.canVote ? `We voted "innocent" for you` : `Selected ${snorts[message]} for you`,
+				text: $trial.canVote ? `We voted "${message}" for you` : `Selected ${snorts[message].name} for you`,
 			});
 		}
 	};
