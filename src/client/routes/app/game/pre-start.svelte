@@ -11,6 +11,7 @@
 <script>
 	import Button from '../../../components/button.svelte';
 	import Page from '../../../components/page.svelte';
+	import Profile from '../../../components/profile.svelte';
 	import { users, self, owner, messageListener, currentSocket, stateRouter, settings as settingsStore } from '../../../store';
 	import { playersNeeded, setOwner, makeIdReadable, exitGame, closeGame } from '../../../services';
 	import { onMount } from 'svelte';
@@ -74,7 +75,8 @@
 		padding: 35px;
 	}
 	.users,
-	.message {
+	.message,
+	.profile {
 		float: left;
 		width: 50%;
 	}
@@ -98,7 +100,8 @@
 			height: 0px;
 		}
 		.users,
-		.message {
+		.message,
+		.profile {
 			width: 100%;
 		}
 	}

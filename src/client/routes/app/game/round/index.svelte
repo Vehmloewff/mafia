@@ -12,8 +12,10 @@
 <script>
 	import Page from '../../../../components/page.svelte';
 	import Navbar from '../../../../components/navbar.svelte';
+	import Profile from '../../../../components/profile.svelte';
 	import Socket from '../../../../components/socket.svelte';
 	import Button from '../../../../components/button.svelte';
+	import CitizensArrest from '../../../../components/citizens-arrest.svelte';
 	import UserChip from '../../../../components/user-chip.svelte';
 	import Icon from '../../../../components/icon.svelte';
 	import { timeLeft, users, self } from '../../../../store';
@@ -61,16 +63,10 @@
 	.drawer.out {
 		left: 0;
 	}
-	.drawer .header {
-		height: 150px;
-		text-align: center;
-		padding-top: 50px;
-		background: var(--background);
-		border-bottom: 1px solid var(--sharp);
-	}
 	.drawer .main {
 		height: calc(100vh - 201px);
 		text-align: center;
+		padding-top: 20px;
 		padding-bottom: 30px;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
@@ -83,6 +79,12 @@
 		bottom: 0;
 		z-index: 8;
 		background: rgba(0, 0, 0, 0.2);
+	}
+
+	.divider {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		border: 1px solid var(--highlight);
 	}
 
 	@media (min-width: 1100px) {
@@ -153,20 +155,21 @@
 	{#if ready}
 		<div class="drawer" class:out={openDrawer} transition:fly={{ x: -300 }}>
 			<div class="header">
-				<Icon icon={playersIcon} size={100} />
+				<Profile />
 			</div>
 			<div class="main">
+				<CitizensArrest />
+				<div class="divider" />
 				{#each Array.from($users.values()) as user}
 					<div class="line center container" style="padding-top: 16px;">
 						<UserChip id={user.id} />
 					</div>
 				{/each}
-				<div style="padding-top: 30px">
-					{#if $self.isOwner}
-						<Button on:click={closeGame}>Close Game</Button>
-					{/if}
-					<Button on:click={exitGame}>Exit Game</Button>
-				</div>
+				<div class="divider" />
+				{#if $self.isOwner}
+					<Button on:click={closeGame}>Close Game</Button>
+				{/if}
+				<Button on:click={exitGame}>Exit Game</Button>
 			</div>
 		</div>
 	{/if}
