@@ -64,6 +64,14 @@ export default function createRounds(messages: MessageHandler, users: Users, set
 		messages.send(`citizens-arrests-left`, by.citizensArrestsLeft, id);
 	});
 
+	messages.register(`get-all-users`, (_, user) => {
+		return messages.send(
+			`all-users`,
+			users.allUsers().map(id => users.getSafe(id, user)),
+			user
+		);
+	});
+
 	function onGameOver() {
 		messages.broadcast(
 			`game-over`,

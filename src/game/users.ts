@@ -41,12 +41,12 @@ export default function users() {
 		return users.get(id);
 	}
 
-	function getSafe(id: string): User {
+	function getSafe(id: string, self?: string): User {
 		const user = get(id);
 
 		return {
 			...user,
-			role: user.isDead ? user.role : null,
+			role: id === self ? user.role : user.isDead ? user.role : null,
 		};
 	}
 

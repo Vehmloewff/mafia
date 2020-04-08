@@ -65,11 +65,7 @@ stateRouter.on('routeNotFound', (route, paramaters) => {
 stateRouterStore.set(stateRouter);
 routerStore.set(router);
 
-const gameInProgress = localStorage.getItem(`game-in-progress`);
-if (gameInProgress) stateRouter.go(`app.game`, { id: gameInProgress }, { replace: true });
-else {
-	if (/game/.test(location.pathname)) stateRouter.go(`app.game`, { id: location.pathname.replace(/^.+game\/(\d+).*/, '$1') });
-}
+if (/game/.test(location.pathname)) stateRouter.go(`app.game`, { id: location.pathname.replace(/^.+game\/(\d+).*/, '$1') });
 
 // Evaluate the current route
 stateRouter.evaluateCurrentRoute(`app`);
