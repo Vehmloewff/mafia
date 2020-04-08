@@ -49,6 +49,9 @@ export default function createSocket(gameId: string) {
 
 				// Handle errors
 				if (message.key === 'error') {
+					if (message?.params?.code === 'INVALID_ARREST')
+						return createSnackbar('Well, what you wanted you got.  That person just died.');
+
 					console.log(message);
 
 					if (message.params.code === 'INVALID_GAME_ID') console.log('invalid game id');

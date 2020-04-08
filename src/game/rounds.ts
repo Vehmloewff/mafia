@@ -46,8 +46,10 @@ export default function createRounds(messages: MessageHandler, users: Users, set
 		const arresting = users.get(user);
 		const by = users.get(id);
 
+		console.log(arresting);
+
 		// Make sure that the arrested is alive and well
-		if (!arresting?.isDead)
+		if (arresting?.isDead)
 			return messages.send(`error`, { message: `The arrested must be alive and well`, code: `ARREST_INVALID` }, id);
 
 		// Make sure that the user has some citizens arrests left

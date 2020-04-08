@@ -1,6 +1,15 @@
 <script>
 	import { self } from '../store';
 	import Button from './button.svelte';
+	import { createModal } from './modal.svelte';
+	import WhoArrest from './who-arrest.svelte';
+
+	function openModal() {
+		createModal({
+			title: `Citizens Arrest`,
+			message: WhoArrest,
+		});
+	}
 </script>
 
 <style>
@@ -16,7 +25,7 @@
 	}
 </style>
 
-<Button disabled={!$self.citizensArrestsLeft}>
+<Button disabled={!$self.citizensArrestsLeft} on:click={openModal}>
 	Citizens Arrest
 	{#if $self.citizensArrestsLeft}
 		<div class="badge">{$self.citizensArrestsLeft}</div>
