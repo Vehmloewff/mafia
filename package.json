@@ -1,14 +1,14 @@
 {
-	"name": "todo",
+	"name": "mafia",
 	"version": "0.0.0",
-	"description": "TODO: Add description",
+	"description": "Play Mafia with a virtual narrator",
 	"keywords": [
-		"todo"
+		"mafia"
 	],
-	"homepage": "https://github.com/Vehmloewff/todo",
+	"homepage": "https://github.com/Vehmloewff/mafia",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Vehmloewff/todo"
+		"url": "https://github.com/Vehmloewff/mafia"
 	},
 	"license": "MIT",
 	"author": {

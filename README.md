@@ -1,67 +1,8 @@
-# rollup-typescript-template
+# Mafia
 
-## Startup
+Play Mafia with a virtual narrator.
 
-```sh
-npx degit Vehmloewff/rollup-typescript-template typescript-app-or-package
-cd typescript-app-or-package
-npm i
-```
-
-## Building
-
-```sh
-npm build
-# or
-npm build -- -w
-```
-
-## Running the tests
-
-```sh
-npm test
-# or
-npm test -- -w
-```
-
-## Linting
-
-```sh
-npm run lint
-# or
-npm run lint:test
-```
-
-_Delete this line and everything above it_
-
----
-
-# todo
-
-TODO: Add a description
-
-## Installation
-
-```sh
-npm i todo
-```
-
-## Usage
-
-```js
-const todo = require('todo');
-
-todo(options);
-```
-
-## API
-
-### todo(options: object) => void
-
-Valid options are:
-
--   `todoCreate: boolean` Marks the ne project as a `todo`. Deafult is `false`
--   `delay: number` The amount of time to delay the cone. Default is `0`
+You can see the game in action here: https://mafia.jiknoapps.com
 
 ## Contributing?
 
