@@ -13,7 +13,7 @@ export const users = writable<Map<string, User>>(new Map());
 
 // Self - sync it in storage
 const fromStorageString = localStorage.getItem('self');
-const fromStorage = typeof fromStorageString === 'string' ? JSON.parse(fromStorageString) : { id: foid(20), gender: `Male`, name: `` };
+const fromStorage = typeof fromStorageString === 'string' ? JSON.parse(fromStorageString) : { id: foid(20), gender: `male`, name: `` };
 export const self = writable<User>({
 	id: fromStorage.id,
 	name: fromStorage.name,
