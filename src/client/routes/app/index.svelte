@@ -9,8 +9,9 @@
 <script>
 	import { stateRouter, self } from '../../store';
 	import Modal from '../../components/modal.svelte';
-	const gameInProgress = localStorage.getItem(`game-in-progress`);
 	import Snackbar from '../../components/snackbar.svelte';
+
+	const gameInProgress = localStorage.getItem(`game-in-progress`);
 
 	if (gameInProgress) $stateRouter.go(`app.game`, { id: gameInProgress }, { replace: true });
 </script>
