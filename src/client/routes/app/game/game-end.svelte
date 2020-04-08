@@ -40,7 +40,7 @@
 	<div class="users">
 		{#each Array.from($users.values()) as { id }}
 			<div class="user-space">
-				<UserChip defaultFull={true} {id} />
+				<UserChip defaultFull={false} {id} />
 			</div>
 		{/each}
 	</div>

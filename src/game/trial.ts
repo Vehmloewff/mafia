@@ -58,17 +58,20 @@ export default function createTrial(messages: MessageHandler, users: Users, arre
 
 	function onTimerDone() {
 		// Auto select for the clients that did not do so themselves
-		users.aliveUsers().forEach(id => {
-			// Return if they have already voted
-			if (votes.has(id)) return;
+		users
+			.aliveUsers()
+			.filter(id => arrest.arresting !== id)
+			.forEach(id => {
+				// Return if they have already voted
+				if (votes.has(id)) return;
 
-			// Auto select
-			const selection = autoSelect(id);
-			votes.set(id, selection);
+				// Auto select
+				const selection = autoSelect(id);
+				votes.set(id, selection);
 
-			// Tell the client what happend
-			messages.send(`vote`, selection, id);
-		});
+				// Tell the client what happend
+				messages.send(`vote`, selection, id);
+			});
 
 		// Vote ballats
 		const innocent: string[] = [];
