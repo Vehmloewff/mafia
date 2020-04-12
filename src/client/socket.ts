@@ -120,22 +120,12 @@ export default function createSocket(gameId: string) {
 
 				setInterval(() => {
 					send(`ping`);
+					console.log('pinging');
 				}, 5000);
 			};
 		};
 		socket.onerror = err => {
-			// retry(gameId);
 			resolve();
 		};
-		socket.onclose = () => {
-			retry(gameId);
-		};
 	});
-}
-
-function retry(id: string) {
-	createSnackbar({ text: `Disconnected.  Retrying...`, time: 2000 });
-	setTimeout(() => {
-		createSnackbar(id);
-	}, 2000);
 }
