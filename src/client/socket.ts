@@ -117,11 +117,6 @@ export default function createSocket(gameId: string) {
 
 				// Handle all other messages
 				get(messageListener)(message.key, message.params);
-
-				setInterval(() => {
-					send(`ping`);
-					console.log('pinging');
-				}, 5000);
 			};
 		};
 		socket.onerror = err => {

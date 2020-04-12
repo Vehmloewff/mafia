@@ -71,9 +71,7 @@ if (/game/.test(location.pathname)) stateRouter.go(`app.game`, { id: location.pa
 // Evaluate the current route
 stateRouter.evaluateCurrentRoute(`app`);
 
-// // Make sure that the socket is good
-// setInterval(() => {
-// 	const socket = get(currentSocket);
-// 	console.log(socket && socket.isClosed());
-// 	if (socket && socket.isClosed()) showDisconnectedPage.set(true);
-// }, 1000);
+setInterval(() => {
+	const socket = get(currentSocket);
+	if (socket) socket.send(`ping`);
+}, 1000);
