@@ -40,6 +40,7 @@ function sendFile(res: Response, file: string) {
 			res.setHeader('Content-Length', stat.size);
 			res.setHeader('Content-Type', type + (charset ? '; charset=' + charset : ''));
 			fs.createReadStream(nodePath.resolve(`public`, file)).pipe(res);
+			console.log('hi');
 		}
 	});
 }
