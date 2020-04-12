@@ -119,6 +119,10 @@ export default function createGame(onGameOver: () => void) {
 		messages.broadcastExclude(`owner-defer`, { from: id, to }, id);
 	});
 
+	messages.register(`ping`, (_, id) => {
+		messages.send(`pong`, null, id);
+	});
+
 	function beamRoles(sender: string) {
 		const allUsers = users.aliveUsers();
 

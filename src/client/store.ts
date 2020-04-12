@@ -37,3 +37,5 @@ settings.subscribe($settings => {
 	const $self = get(self);
 	if (socket && $self.isOwner) socket.send(`set-settings`, $settings);
 });
+
+export const showDisconnectedPage = writable(false);

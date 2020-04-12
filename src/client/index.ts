@@ -4,7 +4,8 @@ import createRenderer from 'svelte-state-renderer';
 import createStateRouter from 'abstract-state-router';
 import NotFound from './components/not-found.svelte';
 import ErrorComponent from './components/error.svelte';
-import { stateRouter as stateRouterStore, router as routerStore, error } from './store';
+import { get } from 'svelte/store';
+import { stateRouter as stateRouterStore, router as routerStore, error, currentSocket, showDisconnectedPage } from './store';
 
 // @ts-ignore
 import sausage from 'sausage-router';
@@ -69,3 +70,10 @@ if (/game/.test(location.pathname)) stateRouter.go(`app.game`, { id: location.pa
 
 // Evaluate the current route
 stateRouter.evaluateCurrentRoute(`app`);
+
+// // Make sure that the socket is good
+// setInterval(() => {
+// 	const socket = get(currentSocket);
+// 	console.log(socket && socket.isClosed());
+// 	if (socket && socket.isClosed()) showDisconnectedPage.set(true);
+// }, 1000);

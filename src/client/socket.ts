@@ -32,10 +32,7 @@ export default function createSocket(gameId: string) {
 
 	return new Promise(resolve => {
 		socket.onopen = () => {
-			const timeout = setTimeout(
-				() => error.set({ message: `Did not recieve a message from the server within 5 seconds`, code: `NETWORK` }),
-				1000 * 5
-			);
+			const timeout = setTimeout(() => resolve(), 1000 * 5);
 
 			let firstMessage = true;
 			socket.onmessage = (data: any) => {
@@ -43,6 +40,10 @@ export default function createSocket(gameId: string) {
 				resolve({
 					send,
 					destroy: () => socket.close(),
+					isClosed: () =>
+						socket.readyState === socket.CLOSED ||
+						socket.readyState === socket.CLOSING ||
+						socket.readyState === socket.CONNECTING,
 				});
 
 				const message = JSON.parse(data.data);
@@ -116,11 +117,25 @@ export default function createSocket(gameId: string) {
 
 				// Handle all other messages
 				get(messageListener)(message.key, message.params);
+
+				setInterval(() => {
+					send(`ping`);
+				}, 5000);
 			};
 		};
 		socket.onerror = err => {
-			console.error(err);
+			// retry(gameId);
 			resolve();
 		};
+		socket.onclose = () => {
+			retry(gameId);
+		};
 	});
+}
+
+function retry(id: string) {
+	createSnackbar({ text: `Disconnected.  Retrying...`, time: 2000 });
+	setTimeout(() => {
+		createSnackbar(id);
+	}, 2000);
 }
