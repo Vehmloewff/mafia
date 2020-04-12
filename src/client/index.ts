@@ -74,4 +74,4 @@ stateRouter.evaluateCurrentRoute(`app`);
 setInterval(() => {
 	const socket = get(currentSocket);
 	if (socket) socket.send(`ping`);
-}, 1000);
+}, 5000);
