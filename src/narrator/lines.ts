@@ -1,4 +1,19 @@
-export const openers = [`At 11:59 and 59 seconds`, `Last night`, `During the dead of night`];
+export const citys = [
+	`Pizzaville`,
+	`New Dork`,
+	`Loston`,
+	`Nullsa`
+]
+
+export const openers = [
+	`At 11:59 and 59 seconds,`,
+	`Last night,`,
+	`During the dead of night,`,
+	`Last night, when it was so dark the even the owls were asleep,`,
+	`Last night was a cold and stormy night, thunder cracked, and lightning flashed as`,
+	`Last night, when all of  was asleep,`,
+	`At 11:30 PM, as  `
+];
 
 export const justHurtLines = [
 	`$NAME was taking a stroll in the park when suddenly, a hammer flew out of some bushes nearby and hit $HIM on the back of the head.  As consiousness began to fade, $NAME cried out for the doctor.  Sadly the doctors were not around, and $NAME is no more.`,

@@ -75,7 +75,7 @@ export default (options: NarratorOptions) => {
 	// Generate the story
 	let story = ``;
 
-	if (hurt.length || hurtAndHealed.length || healed.length) story += `${chooseRandArrItem(options.openers)}, `;
+	if (hurt.length || hurtAndHealed.length || healed.length) story += `${chooseRandArrItem(options.openers)} `;
 	if (hurt.length) story += `${hurt}  `;
 	if (hurtAndHealed.length) {
 		if (hurt.length) story += `\n\nAround the same time, ${hurtAndHealed}  `;
